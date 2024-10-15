@@ -1,0 +1,10 @@
+add
+sub
+or
+and
+xor
+bitshift
+bitshift (sign extend)
+
+mul (fixed point)
+
