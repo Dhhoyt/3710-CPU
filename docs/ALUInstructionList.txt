@@ -5,6 +5,13 @@ and
 xor
 bitshift
 bitshift (sign extend)
-
 mul (fixed point)
+
+
+ALU footprint
+
+module alu #(parameter WIDTH = 16)
+            (input      [WIDTH-1:0] a, b, 
+             input      [2:0]       alucont, 
+             output reg [WIDTH-1:0] result);
 
