@@ -15,3 +15,13 @@ module alu #(parameter WIDTH = 16)
              input      [2:0]       alucont, 
              output reg [WIDTH-1:0] result);
 
+
+
+parameter ALUADD             =  3'b000;
+parameter ALUSUB             =  3'b000;
+parameter ALUOR              =  3'b000;
+parameter ALUAND             =  3'b000;
+parameter ALUXOR             =  3'b000;
+parameter ALUSHIFT           =  3'b000;
+parameter ALUSHIFTSIGNEXTEND =  3'b000;
+parameter ALUMUL             =  3'b000;
