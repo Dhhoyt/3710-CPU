@@ -142,7 +142,7 @@ module alu (
                     temp = {1'b0, operand_a} - {1'b0, operand_b};
                     result = temp[15:0];
                     carry = temp[16];
-                    flag = overflow_detect;
+                    flag = ~overflow_detect;
                     zero = (result == 16'b0);
                 end
 
