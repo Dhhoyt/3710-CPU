@@ -61,7 +61,7 @@ module alu (
                 result = temp[15:0];
                 if (update_flags) begin
                     carry = temp[16];  // Borrow
-                    flag = overflow_detect;
+                    flag = ~overflow_detect;
                     zero = (result == 16'b0);
                 end
             end
