@@ -5,7 +5,7 @@ module alu (
     input wire [15:0] b,              // Second operand (Rsrc or immediate)
     input wire [3:0] op_code,         // Primary op code (bits 15-12 of instruction)
     input wire [3:0] ext_code,        // Extended op code (bits 7-4 of instruction)
-    input wire immediate_mode,         // 1 for immediate ops, 0 for register ops
+    input wire immediate_mode,        // 1 for immediate ops, 0 for register ops
     input wire carry_in,              // Previous carry flag for ADDC/SUBC
     input wire is_branch_op,          // 1 if doing branch address calculation
     input wire [15:0] pc,             // Program counter for branch calculation
