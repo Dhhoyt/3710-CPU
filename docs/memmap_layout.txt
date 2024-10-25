@@ -1,0 +1,11 @@
+0-63487:     Unampped Memory
+63488-63807: Distance Buffer 1
+63808-63999: Blank (Allignment)
+64000-64319: Texture  UV Buffer 1
+64320-64511: Blank (Allignment)
+64512-64831: Distance Buffer 2
+64832-65023: Blank (Allignment)
+65024-65343: Texture  UV Buffer 1
+65533:       Joystick X magnitude
+65534:       Joystick Y magnitude
+65535:       GPU Flags (Input buffer switch, output frame timing)
