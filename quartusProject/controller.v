@@ -74,7 +74,8 @@ module controller
     parameter DECODE = 3'b001;
     parameter EXECUTE_ADD = 3'b010;
     parameter EXECUTE_ADDI = 3'b011;
-    parameter WRITE = 3'b100;
+    parameter EXECUTE_SUB = 3'b100;
+    parameter WRITE = 3'b101;
 
     parameter ALU_A_PROGRAM_COUNTER = 2'b00;
     parameter ALU_A_SOURCE = 2'b01;
@@ -105,6 +106,7 @@ module controller
                                 begin
                                     case (instruction_operation_extra)
                                         OPERATION_EXTRA_ADD: next_state <= EXECUTE_ADD;
+                                        OPERATION_EXTRA_SUB: next_state <= EXECUTE_SUB;
                                         // TODO
                                     endcase
                                 end
@@ -112,6 +114,7 @@ module controller
                         endcase
                     end
                 EXECUTE_ADD: next_state <= WRITE;
+                EXECUTE_SUB: next_state <= WRITE;
                 EXECUTE_ADDI: next_state <= WRITE;
                 WRITE: next_state <= FETCH;
             endcase
@@ -152,6 +155,12 @@ module controller
                         alu_a_select <= ALU_A_IMMEDIATE_SIGN_EXTENDED;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= ADD;
+                    end
+                EXECUTE_SUB:
+                    begin
+                        alu_a_select <= ALU_A_SOURCE;
+                        alu_b_select <= ALU_B_DESTINATION;
+                        alu_operation <= SUBTRACT;
                     end
                 WRITE:
                     begin
