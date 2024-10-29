@@ -18,10 +18,12 @@ module datapath
      input [15:0] memory_read_data,
      output [15:0] memory_address);
 
-    parameter ALU_A_PROGRAM_COUNTER = 2'b00;
-    parameter ALU_A_SOURCE = 2'b01;
-    parameter ALU_A_IMMEDIATE_SIGN_EXTENDED = 2'b10;
-    parameter ALU_A_IMMEDIATE_ZERO_EXTENDED = 2'b11;
+    parameter ALU_A_PROGRAM_COUNTER = 3'b000;
+    parameter ALU_A_SOURCE = 3'b001;
+    parameter ALU_A_IMMEDIATE_SIGN_EXTENDED = 3'b010;
+    parameter ALU_A_IMMEDIATE_ZERO_EXTENDED = 3'b011;
+    parameter ALU_A_SHIFT_SOURCE = 3'b100;
+    parameter ALU_A_SHIFT_IMMEDIATE = 3'b101;
 
     parameter ALU_B_DESTINATION = 1'b0;
     parameter ALU_B_CONSTANT_ONE = 1'b1;
@@ -31,9 +33,10 @@ module datapath
     wire [15:0] program_counter, next_program_counter, 
                 alu_a, alu_b, alu_d, 
                 result, source, destination, register_write_data,
-                immediate, immediate_sign_extended, immediate_zero_extended,
+                immediate_sign_extended, immediate_zero_extended, immediate_upper,
                 status;
-    wire [3:0] register_address_destination, register_address_source, operation_extra;
+    wire [7:0] immediate;
+    wire [3:0] register_address_destination, register_address_source;
     // ALU flags
     wire negative, zero, flag, low, carry;
 
@@ -45,11 +48,11 @@ module datapath
     // Instruction decoding fields
     assign register_address_destination = instruction[11:8];
     assign register_address_source = instruction[3:0];
-    assign operation_extra = instruction[7:4];
 
     assign immediate = instruction[7:0];
     assign immediate_sign_extended = { {8{immediate[7]}}, immediate };
     assign immediate_zero_extended = { 8'h00, immediate };
+    assign immediate_upper = { immediate, 8'h00 };
 
     flop_enable_reset #(16) program_counter_register
         (clock, reset, program_counter_write_enable, next_program_counter, program_counter);
@@ -71,10 +74,10 @@ module datapath
            carry },
          status);
 
-    mux4 alu_a_mux(program_counter, source, immediate_sign_extended, immediate_zero_extended, 
+    mux4 alu_a_mux(program_counter, source, immediate_sign_extended, immediate_zero_extended,
                    alu_a_select, alu_a);
     mux2 alu_b_mux(destination, CONSTANT_ONE, alu_b_select, alu_b);
-    mux4 register_write_data_mux(result, source, immediate_zero_extended, immediate_zero_extended,
+    mux4 register_write_data_mux(result, source, immediate_zero_extended, immediate_upper,
                                  register_write_data_select, register_write_data);
     // TODO: Don't think we need this, it will always just be the destination
     // mux2(instr[REGBITS+15:16], instr[REGBITS+10:11], regdst, wa);
@@ -94,18 +97,12 @@ endmodule
 // Arithmetic and Logic Unit
 //
 // d <- o(a, b)
-//
-// Operations:
-// - ADD: Addition
 module alu
     (input [15:0] a, b,
-     input [1:0] o,
+     input [2:0] o,
      output reg [15:0] d,
-     output reg carry,
-     output reg low,
-     output reg flag,
-     output reg zero,
-     output reg negative
+     // Flags:
+     output reg carry, output reg low, output reg flag, output reg zero, output reg negative
 );
 
     parameter ADD = 3'b000;
@@ -114,6 +111,7 @@ module alu
     parameter AND = 3'b011;
     parameter OR = 3'b100;
     parameter XOR = 3'b101;
+    parameter SHIFT = 3'b110;
 
     // For carry/borrow detection
     reg [16:0] t;
@@ -128,6 +126,7 @@ module alu
             flag <= 0;
             zero <= 0; 
             negative <= 0;
+            t = 0;
 
             case (o)
                 ADD: 
@@ -167,6 +166,14 @@ module alu
                     begin
                         d <= a ^ b;
                     end
+                SHIFT:
+                    begin
+                        d <= a[0] ? b << 1 : b >> 1;
+                    end
+                default:
+                    begin
+                        d <= 0;
+                    end
             endcase
         end
 endmodule
@@ -193,7 +200,7 @@ module register_file
         if (write_enable) registers[write_address] <= write_data;
 
     // Register 0 is hardwired to 0
-    assign read_data1 = read_address1 ? registers[read_address1] : 0;
-    assign read_data2 = read_address2 ? registers[read_address2] : 0;
+    assign read_data1 = read_address1 ? registers[read_address1] : 16'b0;
+    assign read_data2 = read_address2 ? registers[read_address2] : 16'b0;
 endmodule
 

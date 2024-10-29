@@ -1,5 +1,4 @@
 // Controller
-// 3-stage pipeline: fetch, decode, execute
 //
 // Fetch: During a fetch, we must (1) write `read_data` from memory to
 // the instruction register, and (2) increment the program counter.
@@ -50,7 +49,7 @@ module controller
     parameter OPERATION_ADDI = 4'b0101;
     parameter OPERATION_ADDUI = 4'b0110; // Unimplemented
     parameter OPERATION_ADDCI = 4'b0111; // Unimplemented
-    parameter OPERATION_UNUSED1 = 4'b1000; // Unused
+    parameter OPERATION_LSH = 4'b1000;
     parameter OPERATION_SUBI = 4'b1001;
     parameter OPERATION_SUBCI = 4'b1010; // Unimplemented
     parameter OPERATION_CMPI = 4'b1011;
@@ -67,12 +66,13 @@ module controller
     parameter OPERATION_EXTRA_XOR = 4'b0011;
     parameter OPERATION_EXTRA_MOV = 4'b1101;
     parameter OPERATION_EXTRA_LSH = 4'b0100;
+    parameter OPERATION_EXTRA_LSHI_LEFT = 4'b0000;
+    parameter OPERATION_EXTRA_LSHI_TWO = 4'b0001;
     parameter OPERATION_EXTRA_LOAD = 4'b0000;
     parameter OPERATION_EXTRA_STOR = 4'b0100;
     parameter OPERATION_EXTRA_JCOND = 4'b1100;
     parameter OPERATION_EXTRA_JAL = 4'b1000;
 
-    // TODO: Make appropriate size
     parameter FETCH = 5'b00000;
     parameter DECODE = 5'b00001;
     parameter EXECUTE_ADD = 5'b00010;
@@ -89,6 +89,9 @@ module controller
     parameter EXECUTE_XORI = 5'b01110;
     parameter EXECUTE_MOV = 5'b01111;
     parameter EXECUTE_MOVI = 5'b10000;
+    parameter EXECUTE_LSH = 5'b10001;
+    parameter EXECUTE_LSHI = 5'b10010;
+    parameter EXECUTE_LUI = 5'b10011;
     parameter WRITE = 5'b00101;
 
     parameter ALU_A_PROGRAM_COUNTER = 2'b00;
@@ -102,6 +105,7 @@ module controller
     parameter REGISTER_WRITE_ALU_D = 2'b00;
     parameter REGISTER_WRITE_SOURCE = 2'b01;
     parameter REGISTER_WRITE_IMMEDIATE_ZERO_EXTENDED = 2'b10;
+    parameter REGISTER_WRITE_IMMEDIATE_UPPER = 2'b11;
 
     parameter ADD = 3'b000;
     parameter SUBTRACT = 3'b001;
@@ -109,8 +113,9 @@ module controller
     parameter AND = 3'b011;
     parameter OR = 3'b100;
     parameter XOR = 3'b101;
+    parameter SHIFT = 3'b110;
 
-    reg [2:0] state, next_state;
+    reg [4:0] state, next_state;
 
     always @(posedge clock)
         if (~reset) state <= FETCH;
@@ -134,7 +139,7 @@ module controller
                                         OPERATION_EXTRA_OR: next_state <= EXECUTE_OR;
                                         OPERATION_EXTRA_XOR: next_state <= EXECUTE_XOR;
                                         OPERATION_EXTRA_MOV: next_state <= EXECUTE_MOV;
-                                        // TODO
+                                        default: next_state <= FETCH;
                                     endcase
                                 end
                             OPERATION_ADDI: next_state <= EXECUTE_ADDI;
@@ -144,6 +149,16 @@ module controller
                             OPERATION_ORI: next_state <= EXECUTE_ORI;
                             OPERATION_XORI: next_state <= EXECUTE_XORI;
                             OPERATION_MOVI: next_state <= EXECUTE_MOVI;
+                            OPERATION_LSH:
+                                case (instruction_operation_extra)
+                                    OPERATION_EXTRA_LSH: next_state <= EXECUTE_LSH;
+                                    // TODO:
+                                    OPERATION_EXTRA_LSHI_LEFT: next_state <= EXECUTE_LSHI;
+                                    OPERATION_EXTRA_LSHI_TWO: next_state <= EXECUTE_LSHI;
+                                    default: next_state <= FETCH;
+                                endcase
+                            OPERATION_LUI: next_state <= EXECUTE_LUI;
+                            default: next_state <= FETCH;
                         endcase
                     end
                 EXECUTE_ADD: next_state <= WRITE;
@@ -161,7 +176,11 @@ module controller
                 EXECUTE_XORI: next_state <= WRITE;
                 EXECUTE_MOV: next_state <= FETCH;
                 EXECUTE_MOVI: next_state <= FETCH;
+                EXECUTE_LSH: next_state <= WRITE;
+                EXECUTE_LSHI: next_state <= WRITE;
+                EXECUTE_LUI: next_state <= FETCH;
                 WRITE: next_state <= FETCH;
+                default: next_state <= FETCH;
             endcase
         end
 
@@ -278,6 +297,25 @@ module controller
                     begin
                         register_write_enable <= 1;
                         register_write_data_select <= REGISTER_WRITE_IMMEDIATE_ZERO_EXTENDED;
+                    end
+                EXECUTE_LSH:
+                    begin
+                        // TODO: Modify to only accept lower 4 bits?
+                        // See comment in LSH spec
+                        alu_a_select <= ALU_A_SOURCE;
+                        alu_b_select <= ALU_B_DESTINATION;
+                        alu_operation <= SHIFT;
+                    end
+                EXECUTE_LSHI:
+                    begin
+                        alu_a_select <= ALU_A_IMMEDIATE_ZERO_EXTENDED;
+                        alu_b_select <= ALU_B_DESTINATION;
+                        alu_operation <= SHIFT;
+                    end
+                EXECUTE_LUI:
+                    begin
+                        register_write_enable <= 1;
+                        register_write_data_select <= REGISTER_WRITE_IMMEDIATE_UPPER;
                     end
                 WRITE:
                     begin
