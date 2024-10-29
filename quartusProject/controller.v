@@ -25,7 +25,7 @@ module controller
 
      output reg [1:0] alu_a_select, 
      output reg alu_b_select,
-     output reg [1:0] alu_operation,
+     output reg [2:0] alu_operation,
 
      output reg program_counter_write_enable,
 
@@ -81,6 +81,12 @@ module controller
     parameter EXECUTE_SUBI = 4'b0110;
     parameter EXECUTE_CMP = 4'b0111;
     parameter EXECUTE_CMPI = 4'b1000;
+    parameter EXECUTE_AND = 4'b1001;
+    parameter EXECUTE_ANDI = 4'b1010;
+    parameter EXECUTE_OR = 4'b1011;
+    parameter EXECUTE_ORI = 4'b1100;
+    parameter EXECUTE_XOR = 4'b1101;
+    parameter EXECUTE_XORI = 4'b1110;
 
     parameter ALU_A_PROGRAM_COUNTER = 2'b00;
     parameter ALU_A_SOURCE = 2'b01;
@@ -90,9 +96,12 @@ module controller
     parameter ALU_B_DESTINATION = 1'b0;
     parameter ALU_B_CONSTANT_ONE = 1'b1;
 
-    parameter ADD = 2'b00;
-    parameter SUBTRACT = 2'b01;
-    parameter COMPARE = 2'b10;
+    parameter ADD = 3'b000;
+    parameter SUBTRACT = 3'b001;
+    parameter COMPARE = 3'b010;
+    parameter AND = 3'b011;
+    parameter OR = 3'b100;
+    parameter XOR = 3'b101;
 
     reg [2:0] state, next_state;
 
@@ -114,12 +123,18 @@ module controller
                                         OPERATION_EXTRA_ADD: next_state <= EXECUTE_ADD;
                                         OPERATION_EXTRA_SUB: next_state <= EXECUTE_SUB;
                                         OPERATION_EXTRA_CMP: next_state <= EXECUTE_CMP;
+                                        OPERATION_EXTRA_AND: next_state <= EXECUTE_AND;
+                                        OPERATION_EXTRA_OR: next_state <= EXECUTE_OR;
+                                        OPERATION_EXTRA_XOR: next_state <= EXECUTE_XOR;
                                         // TODO
                                     endcase
                                 end
                             OPERATION_ADDI: next_state <= EXECUTE_ADDI;
                             OPERATION_SUBI: next_state <= EXECUTE_SUBI;
                             OPERATION_CMPI: next_state <= EXECUTE_CMPI;
+                            OPERATION_ANDI: next_state <= EXECUTE_ANDI;
+                            OPERATION_ORI: next_state <= EXECUTE_ORI;
+                            OPERATION_XORI: next_state <= EXECUTE_XORI;
                         endcase
                     end
                 EXECUTE_ADD: next_state <= WRITE;
@@ -129,6 +144,12 @@ module controller
                 // TODO: Does this work cleanly? Just not do anything after executing?
                 EXECUTE_CMP: next_state <= FETCH;
                 EXECUTE_CMPI: next_state <= FETCH;
+                EXECUTE_AND: next_state <= WRITE;
+                EXECUTE_ANDI: next_state <= WRITE;
+                EXECUTE_OR: next_state <= WRITE;
+                EXECUTE_ORI: next_state <= WRITE;
+                EXECUTE_XOR: next_state <= WRITE;
+                EXECUTE_XORI: next_state <= WRITE;
                 WRITE: next_state <= FETCH;
             endcase
         end
@@ -199,6 +220,42 @@ module controller
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= COMPARE;
                         status_write_enable <= 1;
+                    end
+                EXECUTE_AND:
+                    begin
+                        alu_a_select <= ALU_A_SOURCE;
+                        alu_b_select <= ALU_B_DESTINATION;
+                        alu_operation <= AND;
+                    end
+                EXECUTE_ANDI:
+                    begin
+                        alu_a_select <= ALU_A_IMMEDIATE_ZERO_EXTENDED;
+                        alu_b_select <= ALU_B_DESTINATION;
+                        alu_operation <= AND;
+                    end
+                EXECUTE_OR:
+                    begin
+                        alu_a_select <= ALU_A_SOURCE;
+                        alu_b_select <= ALU_B_DESTINATION;
+                        alu_operation <= OR;
+                    end
+                EXECUTE_ORI:
+                    begin
+                        alu_a_select <= ALU_A_IMMEDIATE_ZERO_EXTENDED;
+                        alu_b_select <= ALU_B_DESTINATION;
+                        alu_operation <= OR;
+                    end
+                EXECUTE_XOR:
+                    begin
+                        alu_a_select <= ALU_A_SOURCE;
+                        alu_b_select <= ALU_B_DESTINATION;
+                        alu_operation <= XOR;
+                    end
+                EXECUTE_XORI:
+                    begin
+                        alu_a_select <= ALU_A_IMMEDIATE_ZERO_EXTENDED;
+                        alu_b_select <= ALU_B_DESTINATION;
+                        alu_operation <= XOR;
                     end
                 WRITE:
                     begin

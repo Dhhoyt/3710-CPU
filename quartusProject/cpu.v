@@ -9,7 +9,7 @@ module cpu
 
     wire [1:0] alu_a_select;
     wire alu_b_select;
-    wire [1:0] alu_operation;
+    wire [2:0] alu_operation;
 
     wire program_counter_write_enable;
 

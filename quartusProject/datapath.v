@@ -3,7 +3,7 @@ module datapath
 
      input [1:0] alu_a_select,
      input alu_b_select,
-     input [1:0] alu_operation,
+     input [2:0] alu_operation,
 
      input program_counter_write_enable,
 
@@ -67,7 +67,7 @@ module datapath
            2'b0, // 0
            low, 
            1'b0, // T
-           carry }
+           carry },
          status);
 
     mux4 alu_a_mux(program_counter, source, immediate_sign_extended, immediate_zero_extended, 
@@ -76,7 +76,7 @@ module datapath
     // TODO: Don't think we need this, it will always just be the destination
     // mux2(instr[REGBITS+15:16], instr[REGBITS+10:11], regdst, wa);
 
-    alu alu1(alu_a, alu_b, alu_operation, alu_d
+    alu alu1(alu_a, alu_b, alu_operation, alu_d,
              carry, low, flag, zero, negative);
     register_file register_file1
     (clock, register_write_enable,
@@ -102,12 +102,15 @@ module alu
      output reg low,
      output reg flag,
      output reg zero,
-     output reg negative,
+     output reg negative
 );
 
-    parameter ADD = 2'b00;
-    parameter SUBTRACT = 2'b01;
-    parameter COMPARE = 2'b10;
+    parameter ADD = 3'b000;
+    parameter SUBTRACT = 3'b001;
+    parameter COMPARE = 3'b010;
+    parameter AND = 3'b011;
+    parameter OR = 3'b100;
+    parameter XOR = 3'b101;
 
     // For carry/borrow detection
     reg [16:0] t;
@@ -139,7 +142,7 @@ module alu
                         d = t[15:0];
                         carry <= t[16];
                         flag <= ~overflow_detect;
-                        zero <= (result == 16'b0);
+                        zero <= (d == 16'b0);
                     end
                 COMPARE:
                     begin
@@ -148,6 +151,18 @@ module alu
                         zero <= (a == b);
                         low <= (a < b);
                         negative <= ($signed(a) < $signed(b));
+                    end
+                AND:
+                    begin
+                        d <= a & b;
+                    end
+                OR:
+                    begin
+                        d <= a | b;
+                    end
+                XOR:
+                    begin
+                        d <= a ^ b;
                     end
             endcase
         end
