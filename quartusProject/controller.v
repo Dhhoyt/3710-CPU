@@ -72,13 +72,15 @@ module controller
     parameter OPERATION_EXTRA_JAL = 4'b1000;
 
     // TODO: Make appropriate size
-    parameter FETCH = 3'b000;
-    parameter DECODE = 3'b001;
-    parameter EXECUTE_ADD = 3'b010;
-    parameter EXECUTE_ADDI = 3'b011;
-    parameter EXECUTE_SUB = 3'b100;
-    parameter WRITE = 3'b101;
-    parameter EXECUTE_SUBI = 3'b110;
+    parameter FETCH = 4'b0000;
+    parameter DECODE = 4'b0001;
+    parameter EXECUTE_ADD = 4'b0010;
+    parameter EXECUTE_ADDI = 4'b0011;
+    parameter EXECUTE_SUB = 4'b0100;
+    parameter WRITE = 4'b0101;
+    parameter EXECUTE_SUBI = 4'b0110;
+    parameter EXECUTE_CMP = 4'b0111;
+    parameter EXECUTE_CMPI = 4'b1000;
 
     parameter ALU_A_PROGRAM_COUNTER = 2'b00;
     parameter ALU_A_SOURCE = 2'b01;
@@ -90,6 +92,7 @@ module controller
 
     parameter ADD = 2'b00;
     parameter SUBTRACT = 2'b01;
+    parameter COMPARE = 2'b10;
 
     reg [2:0] state, next_state;
 
@@ -110,17 +113,22 @@ module controller
                                     case (instruction_operation_extra)
                                         OPERATION_EXTRA_ADD: next_state <= EXECUTE_ADD;
                                         OPERATION_EXTRA_SUB: next_state <= EXECUTE_SUB;
+                                        OPERATION_EXTRA_CMP: next_state <= EXECUTE_CMP;
                                         // TODO
                                     endcase
                                 end
                             OPERATION_ADDI: next_state <= EXECUTE_ADDI;
                             OPERATION_SUBI: next_state <= EXECUTE_SUBI;
+                            OPERATION_CMPI: next_state <= EXECUTE_CMPI;
                         endcase
                     end
                 EXECUTE_ADD: next_state <= WRITE;
                 EXECUTE_SUB: next_state <= WRITE;
                 EXECUTE_ADDI: next_state <= WRITE;
                 EXECUTE_SUBI: next_state <= WRITE;
+                // TODO: Does this work cleanly? Just not do anything after executing?
+                EXECUTE_CMP: next_state <= FETCH;
+                EXECUTE_CMPI: next_state <= FETCH;
                 WRITE: next_state <= FETCH;
             endcase
         end
@@ -176,6 +184,20 @@ module controller
                         alu_a_select <= ALU_A_IMMEDIATE_SIGN_EXTENDED;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= SUBTRACT;
+                        status_write_enable <= 1;
+                    end
+                EXECUTE_CMP:
+                    begin
+                        alu_a_select <= ALU_A_SOURCE;
+                        alu_b_select <= ALU_B_DESTINATION;
+                        alu_operation <= COMPARE;
+                        status_write_enable <= 1;
+                    end
+                EXECUTE_CMPI:
+                    begin
+                        alu_a_select <= ALU_A_IMMEDIATE_SIGN_EXTENDED;
+                        alu_b_select <= ALU_B_DESTINATION;
+                        alu_operation <= COMPARE;
                         status_write_enable <= 1;
                     end
                 WRITE:

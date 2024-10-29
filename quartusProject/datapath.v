@@ -107,6 +107,7 @@ module alu
 
     parameter ADD = 2'b00;
     parameter SUBTRACT = 2'b01;
+    parameter COMPARE = 2'b10;
 
     // For carry/borrow detection
     reg [16:0] t;
@@ -143,7 +144,7 @@ module alu
                 COMPARE:
                     begin
                         t = ae - be;
-                        d = t[15:0]; // Not written back to register file
+                        d = t[15:0];
                         zero <= (a == b);
                         low <= (a < b);
                         negative <= ($signed(a) < $signed(b));
