@@ -16,6 +16,7 @@ module datapath
      input [1:0] register_write_data_select,
 
      input [15:0] memory_read_data,
+     input memory_address_select,
      output [15:0] memory_address);
 
     parameter ALU_A_PROGRAM_COUNTER = 3'b000;
@@ -40,8 +41,6 @@ module datapath
     // ALU flags
     wire negative, zero, flag, low, carry;
 
-    // TODO: Will want to mux with output from ALU
-    assign memory_address = program_counter;
     // TODO: Will want to mux with several other things
     assign next_program_counter = alu_d;
 
@@ -74,13 +73,15 @@ module datapath
            carry },
          status);
 
-    mux4 alu_a_mux(program_counter, source, immediate_sign_extended, immediate_zero_extended,
+    mux4 #(16) alu_a_mux(program_counter, source, immediate_sign_extended, immediate_zero_extended,
                    alu_a_select, alu_a);
-    mux2 alu_b_mux(destination, CONSTANT_ONE, alu_b_select, alu_b);
-    mux4 register_write_data_mux(result, source, immediate_zero_extended, immediate_upper,
+    mux2 #(16) alu_b_mux(destination, CONSTANT_ONE, alu_b_select, alu_b);
+    mux8 #(16) register_write_data_mux(result, source, 
+                                 immediate_zero_extended, immediate_upper, 
+                                 memory_read_data, memory_read_data, 
+                                 memory_read_data, memory_read_data, 
                                  register_write_data_select, register_write_data);
-    // TODO: Don't think we need this, it will always just be the destination
-    // mux2(instr[REGBITS+15:16], instr[REGBITS+10:11], regdst, wa);
+    mux2 #(16) memory_address_select_mux(program_counter, source, memory_address_select, memory_address);
 
     alu alu1(alu_a, alu_b, alu_operation, alu_d,
              carry, low, flag, zero, negative);

@@ -35,9 +35,10 @@ module controller
      output reg instruction_write_enable,
      
      output reg register_write_enable,
-     output reg [1:0] register_write_data_select,
+     output reg [2:0] register_write_data_select,
 
-     output reg memory_write_enable
+     output reg memory_write_enable,
+     output reg memory_address_select
      );
 
     parameter OPERATION_RTYPE = 4'b0000;
@@ -92,6 +93,7 @@ module controller
     parameter EXECUTE_LSH = 5'b10001;
     parameter EXECUTE_LSHI = 5'b10010;
     parameter EXECUTE_LUI = 5'b10011;
+    parameter EXECUTE_LOAD = 5'b10100;
     parameter WRITE = 5'b00101;
 
     parameter ALU_A_PROGRAM_COUNTER = 2'b00;
@@ -102,10 +104,14 @@ module controller
     parameter ALU_B_DESTINATION = 1'b0;
     parameter ALU_B_CONSTANT_ONE = 1'b1;
 
-    parameter REGISTER_WRITE_ALU_D = 2'b00;
-    parameter REGISTER_WRITE_SOURCE = 2'b01;
-    parameter REGISTER_WRITE_IMMEDIATE_ZERO_EXTENDED = 2'b10;
-    parameter REGISTER_WRITE_IMMEDIATE_UPPER = 2'b11;
+    parameter REGISTER_WRITE_ALU_D = 3'b000;
+    parameter REGISTER_WRITE_SOURCE = 3'b001;
+    parameter REGISTER_WRITE_IMMEDIATE_ZERO_EXTENDED = 3'b010;
+    parameter REGISTER_WRITE_IMMEDIATE_UPPER = 3'b011;
+    parameter REGISTER_WRITE_MEMORY_READ_DATA = 3'b100;
+
+    parameter MEMORY_ADDRESS_PROGRAM_COUNTER = 1'b0;
+    parameter MEMORY_ADDRESS_SOURCE = 1'b1;
 
     parameter ADD = 3'b000;
     parameter SUBTRACT = 3'b001;
