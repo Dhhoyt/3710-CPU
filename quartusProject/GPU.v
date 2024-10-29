@@ -15,7 +15,7 @@ reg [15:0] distances [319:0];
 
 initial begin
 	$display("Loading memory");
-	$readmemb("C:/Users/dhhoy/Documents/3710/GPU/distances.txt", distances);
+	$readmemb("C:/Users/dhhoy/3710-CPU/quartusProject/distances.txt", distances);
 	$display("done loading");
 end
 
