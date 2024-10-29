@@ -36,6 +36,7 @@ module controller
      output reg instruction_write_enable,
      
      output reg register_write_enable,
+     output reg [1:0] register_write_data_select,
 
      output reg memory_write_enable
      );
@@ -72,21 +73,23 @@ module controller
     parameter OPERATION_EXTRA_JAL = 4'b1000;
 
     // TODO: Make appropriate size
-    parameter FETCH = 4'b0000;
-    parameter DECODE = 4'b0001;
-    parameter EXECUTE_ADD = 4'b0010;
-    parameter EXECUTE_ADDI = 4'b0011;
-    parameter EXECUTE_SUB = 4'b0100;
-    parameter WRITE = 4'b0101;
-    parameter EXECUTE_SUBI = 4'b0110;
-    parameter EXECUTE_CMP = 4'b0111;
-    parameter EXECUTE_CMPI = 4'b1000;
-    parameter EXECUTE_AND = 4'b1001;
-    parameter EXECUTE_ANDI = 4'b1010;
-    parameter EXECUTE_OR = 4'b1011;
-    parameter EXECUTE_ORI = 4'b1100;
-    parameter EXECUTE_XOR = 4'b1101;
-    parameter EXECUTE_XORI = 4'b1110;
+    parameter FETCH = 5'b00000;
+    parameter DECODE = 5'b00001;
+    parameter EXECUTE_ADD = 5'b00010;
+    parameter EXECUTE_ADDI = 5'b00011;
+    parameter EXECUTE_SUB = 5'b00100;
+    parameter EXECUTE_SUBI = 5'b00110;
+    parameter EXECUTE_CMP = 5'b00111;
+    parameter EXECUTE_CMPI = 5'b01000;
+    parameter EXECUTE_AND = 5'b01001;
+    parameter EXECUTE_ANDI = 5'b01010;
+    parameter EXECUTE_OR = 5'b01011;
+    parameter EXECUTE_ORI = 5'b01100;
+    parameter EXECUTE_XOR = 5'b01101;
+    parameter EXECUTE_XORI = 5'b01110;
+    parameter EXECUTE_MOV = 5'b01111;
+    parameter EXECUTE_MOVI = 5'b10000;
+    parameter WRITE = 5'b00101;
 
     parameter ALU_A_PROGRAM_COUNTER = 2'b00;
     parameter ALU_A_SOURCE = 2'b01;
@@ -95,6 +98,10 @@ module controller
 
     parameter ALU_B_DESTINATION = 1'b0;
     parameter ALU_B_CONSTANT_ONE = 1'b1;
+
+    parameter REGISTER_WRITE_ALU_D = 2'b00;
+    parameter REGISTER_WRITE_SOURCE = 2'b01;
+    parameter REGISTER_WRITE_IMMEDIATE_ZERO_EXTENDED = 2'b10;
 
     parameter ADD = 3'b000;
     parameter SUBTRACT = 3'b001;
@@ -126,6 +133,7 @@ module controller
                                         OPERATION_EXTRA_AND: next_state <= EXECUTE_AND;
                                         OPERATION_EXTRA_OR: next_state <= EXECUTE_OR;
                                         OPERATION_EXTRA_XOR: next_state <= EXECUTE_XOR;
+                                        OPERATION_EXTRA_MOV: next_state <= EXECUTE_MOV;
                                         // TODO
                                     endcase
                                 end
@@ -135,6 +143,7 @@ module controller
                             OPERATION_ANDI: next_state <= EXECUTE_ANDI;
                             OPERATION_ORI: next_state <= EXECUTE_ORI;
                             OPERATION_XORI: next_state <= EXECUTE_XORI;
+                            OPERATION_MOVI: next_state <= EXECUTE_MOVI;
                         endcase
                     end
                 EXECUTE_ADD: next_state <= WRITE;
@@ -150,6 +159,8 @@ module controller
                 EXECUTE_ORI: next_state <= WRITE;
                 EXECUTE_XOR: next_state <= WRITE;
                 EXECUTE_XORI: next_state <= WRITE;
+                EXECUTE_MOV: next_state <= FETCH;
+                EXECUTE_MOVI: next_state <= FETCH;
                 WRITE: next_state <= FETCH;
             endcase
         end
@@ -162,6 +173,7 @@ module controller
             status_write_enable <= 0;
             program_counter_write_enable <= 0;
             register_write_enable <= 0;
+            register_write_data_select <= REGISTER_WRITE_ALU_D;
             memory_write_enable <= 0;
             alu_a_select <= 0;
             alu_b_select <= 0;
@@ -256,6 +268,16 @@ module controller
                         alu_a_select <= ALU_A_IMMEDIATE_ZERO_EXTENDED;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= XOR;
+                    end
+                EXECUTE_MOV:
+                    begin
+                        register_write_enable <= 1;
+                        register_write_data_select <= REGISTER_WRITE_SOURCE;
+                    end
+                EXECUTE_MOVI:
+                    begin
+                        register_write_enable <= 1;
+                        register_write_data_select <= REGISTER_WRITE_IMMEDIATE_ZERO_EXTENDED;
                     end
                 WRITE:
                     begin

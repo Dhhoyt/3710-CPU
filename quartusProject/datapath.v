@@ -13,6 +13,7 @@ module datapath
      output [15:0] instruction,
 
      input register_write_enable,
+     input [1:0] register_write_data_select,
 
      input [15:0] memory_read_data,
      output [15:0] memory_address);
@@ -29,7 +30,7 @@ module datapath
 
     wire [15:0] program_counter, next_program_counter, 
                 alu_a, alu_b, alu_d, 
-                result, source, destination, 
+                result, source, destination, register_write_data,
                 immediate, immediate_sign_extended, immediate_zero_extended,
                 status;
     wire [3:0] register_address_destination, register_address_source, operation_extra;
@@ -73,6 +74,8 @@ module datapath
     mux4 alu_a_mux(program_counter, source, immediate_sign_extended, immediate_zero_extended, 
                    alu_a_select, alu_a);
     mux2 alu_b_mux(destination, CONSTANT_ONE, alu_b_select, alu_b);
+    mux4 register_write_data_mux(result, source, immediate_zero_extended, immediate_zero_extended,
+                                 register_write_data_select, register_write_data);
     // TODO: Don't think we need this, it will always just be the destination
     // mux2(instr[REGBITS+15:16], instr[REGBITS+10:11], regdst, wa);
 
@@ -84,7 +87,7 @@ module datapath
      register_address_destination,
      // TODO: Will it ever change? See above commented out mux2
      register_address_destination,
-     result, 
+     register_write_data, 
      source, destination);
 endmodule
 
