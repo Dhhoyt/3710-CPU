@@ -23,7 +23,7 @@ module controller
     (input clock, reset,
 
      output reg [1:0] alu_a_select, 
-     output reg alu_b_select,
+     output reg [1:0] alu_b_select,
      output reg [2:0] alu_operation,
 
      output reg program_counter_write_enable,
@@ -54,7 +54,7 @@ module controller
     parameter OPERATION_SUBI = 4'b1001;
     parameter OPERATION_SUBCI = 4'b1010; // Unimplemented
     parameter OPERATION_CMPI = 4'b1011;
-    parameter OPERATION_DISP = 4'b1100;
+    parameter OPERATION_BCOND = 4'b1100;
     parameter OPERATION_MOVI = 4'b1101;
     parameter OPERATION_MULI = 4'b1110; // Unimplemented
     parameter OPERATION_LUI = 4'b1111;
@@ -94,6 +94,8 @@ module controller
     parameter EXECUTE_LSHI = 5'b10010;
     parameter EXECUTE_LUI = 5'b10011;
     parameter EXECUTE_LOAD = 5'b10100;
+    parameter EXECUTE_STOR = 5'b10100;
+    parameter EXECUTE_BCOND = 5'b10100;
     parameter WRITE = 5'b00101;
 
     parameter ALU_A_PROGRAM_COUNTER = 2'b00;
@@ -101,8 +103,9 @@ module controller
     parameter ALU_A_IMMEDIATE_SIGN_EXTENDED = 2'b10;
     parameter ALU_A_IMMEDIATE_ZERO_EXTENDED = 2'b11;
 
-    parameter ALU_B_DESTINATION = 1'b0;
-    parameter ALU_B_CONSTANT_ONE = 1'b1;
+    parameter ALU_B_DESTINATION = 2'b00;
+    parameter ALU_B_CONSTANT_ONE = 2'b01;
+    parameter ALU_B_IMMEDIATE_SIGN_EXTENDED_COND = 2'b10;
 
     parameter REGISTER_WRITE_ALU_D = 3'b000;
     parameter REGISTER_WRITE_SOURCE = 3'b001;
@@ -164,6 +167,13 @@ module controller
                                     default: next_state <= FETCH;
                                 endcase
                             OPERATION_LUI: next_state <= EXECUTE_LUI;
+                            OPERATION_MEMORY:
+                                case (instruction_operation_extra)
+                                    OPERATION_EXTRA_LOAD: next_state <= EXECUTE_LOAD;
+                                    OPERATION_EXTRA_STOR: next_state <= EXECUTE_STOR;
+                                    default: next_state <= FETCH;
+                                endcase
+                            OPERATION_BCOND: next_state <= EXECUTE_BCOND;
                             default: next_state <= FETCH;
                         endcase
                     end
@@ -185,6 +195,9 @@ module controller
                 EXECUTE_LSH: next_state <= WRITE;
                 EXECUTE_LSHI: next_state <= WRITE;
                 EXECUTE_LUI: next_state <= FETCH;
+                EXECUTE_LOAD: next_state <= FETCH;
+                EXECUTE_STOR: next_state <= FETCH;
+                EXECUTE_BCOND: next_state <= FETCH;
                 WRITE: next_state <= FETCH;
                 default: next_state <= FETCH;
             endcase
@@ -200,6 +213,7 @@ module controller
             register_write_enable <= 0;
             register_write_data_select <= REGISTER_WRITE_ALU_D;
             memory_write_enable <= 0;
+            memory_address_select <= MEMORY_ADDRESS_PROGRAM_COUNTER;
             alu_a_select <= 0;
             alu_b_select <= 0;
             alu_operation <= 0;
@@ -322,6 +336,25 @@ module controller
                     begin
                         register_write_enable <= 1;
                         register_write_data_select <= REGISTER_WRITE_IMMEDIATE_UPPER;
+                    end
+                EXECUTE_LOAD:
+                    begin
+                        // TODO: Might not work?
+                        register_write_enable <= 1;
+                        register_write_data_select <= REGISTER_WRITE_MEMORY_READ_DATA;
+                        memory_read_select <= MEMORY_ADDRESS_SOURCE;
+                    end
+                EXECUTE_STOR:
+                    begin
+                        memory_read_select <= MEMORY_ADDRESS_SOURCE;
+                        memory_write_enable <= 1;
+                    end
+                EXECUTE_BCOND:
+                    begin
+                        alu_a_select <= ALU_A_PROGRAM_COUNTER;
+                        alu_b_select <= ALU_B_IMMEDIATE_SIGN_EXTENDED_COND;
+                        alu_operation <= ADD;
+                        program_counter_write_enable <= 1;
                     end
                 WRITE:
                     begin

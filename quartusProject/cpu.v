@@ -8,7 +8,7 @@ module cpu
 
 
     wire [1:0] alu_a_select;
-    wire alu_b_select;
+    wire [1:0] alu_b_select;
     wire [2:0] alu_operation;
 
     wire program_counter_write_enable;
@@ -38,5 +38,5 @@ module cpu
          status_write_enable,
          instruction_write_enable, instruction,
          register_write_enable, register_write_data_select,
-         memory_read_data, memory_address_select, memory_address);
+         memory_read_data, memory_address_select, memory_address, memory_write_data);
 endmodule
