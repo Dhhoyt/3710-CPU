@@ -7,6 +7,8 @@ module datapath
 
      input program_counter_write_enable,
 
+     input status_write_enable,
+
      input instruction_write_enable,
      output [15:0] instruction,
 
@@ -28,8 +30,11 @@ module datapath
     wire [15:0] program_counter, next_program_counter, 
                 alu_a, alu_b, alu_d, 
                 result, source, destination, 
-                immediate, immediate_sign_extended, immediate_zero_extended;
+                immediate, immediate_sign_extended, immediate_zero_extended,
+                status;
     wire [3:0] register_address_destination, register_address_source, operation_extra;
+    // ALU flags
+    wire negative, zero, flag, low, carry;
 
     // TODO: Will want to mux with output from ALU
     assign memory_address = program_counter;
@@ -52,6 +57,18 @@ module datapath
     // TODO: Do we need this?
     flop_reset #(16) alu_result_register
         (clock, reset, alu_d, result);
+    flop_enable_reset #(16) status_register
+        (clock, reset, status_write_enable, 
+         { 4'b0, // Reserved
+           4'b0, // I, P, E, 0
+           negative,
+           zero,
+           flag,
+           2'b0, // 0
+           low, 
+           1'b0, // T
+           carry }
+         status);
 
     mux4 alu_a_mux(program_counter, source, immediate_sign_extended, immediate_zero_extended, 
                    alu_a_select, alu_a);
@@ -59,7 +76,8 @@ module datapath
     // TODO: Don't think we need this, it will always just be the destination
     // mux2(instr[REGBITS+15:16], instr[REGBITS+10:11], regdst, wa);
 
-    alu alu1(alu_a, alu_b, alu_operation, alu_d);
+    alu alu1(alu_a, alu_b, alu_operation, alu_d
+             carry, low, flag, zero, negative);
     register_file register_file1
     (clock, register_write_enable,
      register_address_source,
@@ -79,16 +97,57 @@ endmodule
 module alu
     (input [15:0] a, b,
      input [1:0] o,
-     output reg [15:0] d);
+     output reg [15:0] d,
+     output reg carry,
+     output reg low,
+     output reg flag,
+     output reg zero,
+     output reg negative,
+);
 
     parameter ADD = 2'b00;
     parameter SUBTRACT = 2'b01;
 
+    // For carry/borrow detection
+    reg [16:0] t;
+    wire [16:0] ae = {1'b0, a};
+    wire [16:0] be = {1'b0, b};
+    wire overflow_detect = (a[15] == b[15]) && (d[15] != a[15]);
+
     always @(*)
         begin
+            carry <= 0; 
+            low <= 0; 
+            flag <= 0;
+            zero <= 0; 
+            negative <= 0;
+
             case (o)
-                ADD: d <= a + b;
-                SUBTRACT: d <= a + (~b) + 1;
+                ADD: 
+                    begin
+                        t = ae + be;
+                        d = t[15:0];
+                        // TODO: Mixing <= and =?
+                        carry <= t[16];
+                        flag <= overflow_detect;
+                        zero <= (d == 16'b0);
+                    end
+                SUBTRACT: 
+                    begin
+                        t = ae - be;
+                        d = t[15:0];
+                        carry <= t[16];
+                        flag <= ~overflow_detect;
+                        zero <= (result == 16'b0);
+                    end
+                COMPARE:
+                    begin
+                        t = ae - be;
+                        d = t[15:0]; // Not written back to register file
+                        zero <= (a == b);
+                        low <= (a < b);
+                        negative <= ($signed(a) < $signed(b));
+                    end
             endcase
         end
 endmodule

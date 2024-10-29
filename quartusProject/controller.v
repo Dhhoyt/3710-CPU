@@ -29,6 +29,8 @@ module controller
 
      output reg program_counter_write_enable,
 
+     output reg status_write_enable,
+
      input [3:0] instruction_operation,
      input [3:0] instruction_operation_extra,
      output reg instruction_write_enable,
@@ -128,6 +130,7 @@ module controller
         begin
             // Defaults:
             instruction_write_enable <= 0;
+            status_write_enable <= 0;
             program_counter_write_enable <= 0;
             register_write_enable <= 0;
             memory_write_enable <= 0;
@@ -152,24 +155,28 @@ module controller
                         alu_a_select <= ALU_A_SOURCE;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= ADD;
+                        status_write_enable <= 1;
                     end
                 EXECUTE_ADDI:
                     begin
                         alu_a_select <= ALU_A_IMMEDIATE_SIGN_EXTENDED;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= ADD;
+                        status_write_enable <= 1;
                     end
                 EXECUTE_SUB:
                     begin
                         alu_a_select <= ALU_A_SOURCE;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= SUBTRACT;
+                        status_write_enable <= 1;
                     end
                 EXECUTE_SUBI:
                     begin
                         alu_a_select <= ALU_A_IMMEDIATE_SIGN_EXTENDED;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= SUBTRACT;
+                        status_write_enable <= 1;
                     end
                 WRITE:
                     begin
