@@ -6,6 +6,7 @@ module datapath
      input [2:0] alu_operation,
 
      input program_counter_write_enable,
+     input program_counter_select,
 
      input status_write_enable,
 
@@ -13,12 +14,17 @@ module datapath
      output [15:0] instruction,
 
      input register_write_enable,
-     input [1:0] register_write_data_select,
+     input [2:0] register_write_data_select,
 
-     input [15:0] memory_read_data,
-     input memory_address_select,
-     output [15:0] memory_address,
-     output [15:0] memory_write_data);
+     input [15:0] data_read_data,
+     input data_address_select,
+     output [15:0] data_address,
+     output [15:0] data_write_data,
+
+     input [15:0] instruction_read_data,
+     input instruction_address_select,
+     output [15:0] instruction_address
+);
 
     parameter ALU_A_PROGRAM_COUNTER = 3'b000;
     parameter ALU_A_SOURCE = 3'b001;
@@ -53,21 +59,21 @@ module datapath
 
     localparam CONSTANT_ONE =  16'b1;
 
-    wire [15:0] program_counter, next_program_counter, 
+    wire [15:0] program_counter, program_counter_next, 
                 alu_a, alu_b, alu_d, 
-                result, source, destination, register_write_data,
-                immediate_sign_extended, immediate_zero_extended, immediate_upper, immediate_sign_extended_condition,
+                source, destination, register_write_data,
+                immediate_sign_extended, immediate_zero_extended, 
+                immediate_upper, immediate_sign_extended_condition,
+                source_condition,
                 status;
     wire [7:0] immediate;
     wire [3:0] register_address_destination, register_address_source;
     // ALU flags
     wire negative, zero, flag, low, carry;
-    wire condition;
+    reg condition;
 
-    // TODO: Will want to mux with several other things
-    assign next_program_counter = alu_d;
     // TODO:
-    assign memory_write_data = destination;
+    assign data_write_data = destination;
 
     // Instruction decoding fields
     assign register_address_destination = instruction[11:8];
@@ -101,11 +107,9 @@ module datapath
     assign source_condition = condition ? source : 16'b0;
 
     flop_enable_reset #(16) program_counter_register
-        (clock, reset, program_counter_write_enable, next_program_counter, program_counter);
+        (clock, reset, program_counter_write_enable, program_counter_next, program_counter);
     flop_enable_reset #(16) instruction_register
-        (clock, reset, instruction_write_enable, memory_read_data, instruction);
-    flop_reset #(16) alu_result_register
-        (clock, reset, alu_d, result);
+        (clock, reset, instruction_write_enable, instruction_read_data, instruction);
     flop_enable_reset #(16) status_register
         (clock, reset, status_write_enable, 
          { 4'b0, // Reserved
@@ -119,16 +123,26 @@ module datapath
            carry },
          status);
 
+    mux2 #(16) program_counter_mux(program_counter + 1, alu_d, 
+                                   program_counter_select, program_counter_next);
     mux4 #(16) alu_a_mux(program_counter, source, immediate_sign_extended, immediate_zero_extended,
                    alu_a_select, alu_a);
     mux4 #(16) alu_b_mux(destination, CONSTANT_ONE, immediate_sign_extended_condition, source_condition,
                          alu_b_select, alu_b);
-    mux8 #(16) register_write_data_mux(result, source, 
+    // TODO: Need all this?
+    mux8 #(16) register_write_data_mux(alu_d, source, 
                                  immediate_zero_extended, immediate_upper, 
-                                 memory_read_data, memory_read_data, 
-                                 memory_read_data, memory_read_data, 
+                                 data_read_data, data_read_data, 
+                                 data_read_data, data_read_data, 
                                  register_write_data_select, register_write_data);
-    mux2 #(16) memory_address_select_mux(program_counter, source, memory_address_select, memory_address);
+    mux2 #(16) instruction_address_select_mux(program_counter, 
+                                              program_counter, 
+                                              instruction_address_select, 
+                                              instruction_address);
+    mux2 #(16) data_address_select_mux(program_counter, 
+                                       source, 
+                                       data_address_select, 
+                                       data_address);
 
     alu alu1(alu_a, alu_b, alu_operation, alu_d,
              carry, low, flag, zero, negative);

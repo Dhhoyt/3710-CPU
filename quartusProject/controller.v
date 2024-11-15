@@ -1,24 +1,6 @@
 // Controller
 //
-// Fetch: During a fetch, we must (1) write `read_data` from memory to
-// the instruction register, and (2) increment the program counter.
-//
-// 1. Writing the instruction register involves setting `address` to
-// the contents of the program counter (TODO), and bringing
-// `instruction_write_enable` high.
-//
-// 2. To increment the program counter, we set select the program
-// counter and a constant one signal for the `a` and `b` inputs to the
-// ALU, respectively, and we set the ALU operation to addition. To
-// make sure the result is written back to the program counter at the
-// end of the cycle, we bring `program_counter_write_enable` high.
-//
-//
-// TODO: Update as this gets more complicated
-// Decode: Decoding consists of (1) setting `next_state` appropriately
-// based on the operation code and (2) directing the register file to
-// read the register addresses contained in the source and destination
-// fields of the instruction.
+// TODO:
 module controller 
     (input clock, reset,
 
@@ -27,6 +9,8 @@ module controller
      output reg [2:0] alu_operation,
 
      output reg program_counter_write_enable,
+     // TODO: How many do we need?
+     output reg program_counter_select,
 
      output reg status_write_enable,
 
@@ -37,8 +21,11 @@ module controller
      output reg register_write_enable,
      output reg [2:0] register_write_data_select,
 
-     output reg memory_write_enable,
-     output reg memory_address_select
+     output reg data_write_enable,
+     output reg data_address_select,
+
+     // TODO
+     output reg instruction_address_select
      );
 
     parameter OPERATION_RTYPE = 4'b0000;
@@ -74,29 +61,29 @@ module controller
     parameter OPERATION_EXTRA_JCOND = 4'b1100;
     parameter OPERATION_EXTRA_JAL = 4'b1000;
 
-    parameter FETCH = 5'b00000;
-    parameter DECODE = 5'b00001;
-    parameter EXECUTE_ADD = 5'b00010;
-    parameter EXECUTE_ADDI = 5'b00011;
-    parameter EXECUTE_SUB = 5'b00100;
-    parameter EXECUTE_SUBI = 5'b00110;
-    parameter EXECUTE_CMP = 5'b00111;
-    parameter EXECUTE_CMPI = 5'b01000;
-    parameter EXECUTE_AND = 5'b01001;
-    parameter EXECUTE_ANDI = 5'b01010;
-    parameter EXECUTE_OR = 5'b01011;
-    parameter EXECUTE_ORI = 5'b01100;
-    parameter EXECUTE_XOR = 5'b01101;
-    parameter EXECUTE_XORI = 5'b01110;
-    parameter EXECUTE_MOV = 5'b01111;
-    parameter EXECUTE_MOVI = 5'b10000;
-    parameter EXECUTE_LSH = 5'b10001;
-    parameter EXECUTE_LSHI = 5'b10010;
-    parameter EXECUTE_LUI = 5'b10011;
-    parameter EXECUTE_LOAD = 5'b10100;
-    parameter EXECUTE_STOR = 5'b10100;
-    parameter EXECUTE_BCOND = 5'b10100;
-    parameter WRITE = 5'b00101;
+    parameter FETCH         = 5'd0;
+    parameter DECODE        = 5'd1;
+    parameter EXECUTE_ADD   = 5'd2;
+    parameter EXECUTE_ADDI  = 5'd3;
+    parameter EXECUTE_SUB   = 5'd4;
+    parameter EXECUTE_SUBI  = 5'd5;
+    parameter EXECUTE_CMP   = 5'd6;
+    parameter EXECUTE_CMPI  = 5'd7;
+    parameter EXECUTE_AND   = 5'd8;
+    parameter EXECUTE_ANDI  = 5'd9;
+    parameter EXECUTE_OR    = 5'd10;
+    parameter EXECUTE_ORI   = 5'd11;
+    parameter EXECUTE_XOR   = 5'd12;
+    parameter EXECUTE_XORI  = 5'd13;
+    parameter EXECUTE_MOV   = 5'd14;
+    parameter EXECUTE_MOVI  = 5'd15;
+    parameter EXECUTE_LSH   = 5'd16;
+    parameter EXECUTE_LSHI  = 5'd17;
+    parameter EXECUTE_LUI   = 5'd18;
+    parameter EXECUTE_LOAD  = 5'd19;
+    parameter EXECUTE_STOR  = 5'd20;
+    parameter EXECUTE_BCOND = 5'd21;
+    parameter EXECUTE_NOTHING = 5'd31;
 
     parameter ALU_A_PROGRAM_COUNTER = 2'b00;
     parameter ALU_A_SOURCE = 2'b01;
@@ -111,10 +98,16 @@ module controller
     parameter REGISTER_WRITE_SOURCE = 3'b001;
     parameter REGISTER_WRITE_IMMEDIATE_ZERO_EXTENDED = 3'b010;
     parameter REGISTER_WRITE_IMMEDIATE_UPPER = 3'b011;
-    parameter REGISTER_WRITE_MEMORY_READ_DATA = 3'b100;
+    parameter REGISTER_WRITE_DATA_READ_DATA = 3'b100;
 
-    parameter MEMORY_ADDRESS_PROGRAM_COUNTER = 1'b0;
-    parameter MEMORY_ADDRESS_SOURCE = 1'b1;
+    parameter INSTRUCTION_ADDRESS_PROGRAM_COUNTER = 1'b0;
+    parameter INSTRUCTION_ADDRESS_SOURCE = 1'b1;
+
+    parameter DATA_ADDRESS_PROGRAM_COUNTER = 1'b0;
+    parameter DATA_ADDRESS_SOURCE = 1'b1;
+
+    parameter PROGRAM_COUNTER_INCREMENT = 1'b0;
+    parameter PROGRAM_COUNTER_ALU_D = 1'b1;
 
     parameter ADD = 3'b000;
     parameter SUBTRACT = 3'b001;
@@ -124,125 +117,139 @@ module controller
     parameter XOR = 3'b101;
     parameter SHIFT = 3'b110;
 
-    reg [4:0] state, next_state;
+    reg [4:0] state, state_next;
 
     always @(posedge clock)
         if (~reset) state <= FETCH;
-        else state <= next_state;
+        else state <= state_next;
 
     // TODO: Next state logic
     always @(*)
         begin
             case (state)
-                FETCH: next_state <= DECODE;
+                FETCH: state_next <= DECODE;
                 DECODE:
                     begin
                         case (instruction_operation)
                             OPERATION_RTYPE:
                                 begin
                                     case (instruction_operation_extra)
-                                        OPERATION_EXTRA_ADD: next_state <= EXECUTE_ADD;
-                                        OPERATION_EXTRA_SUB: next_state <= EXECUTE_SUB;
-                                        OPERATION_EXTRA_CMP: next_state <= EXECUTE_CMP;
-                                        OPERATION_EXTRA_AND: next_state <= EXECUTE_AND;
-                                        OPERATION_EXTRA_OR: next_state <= EXECUTE_OR;
-                                        OPERATION_EXTRA_XOR: next_state <= EXECUTE_XOR;
-                                        OPERATION_EXTRA_MOV: next_state <= EXECUTE_MOV;
-                                        default: next_state <= FETCH;
+                                        OPERATION_EXTRA_ADD: state_next <= EXECUTE_ADD;
+                                        OPERATION_EXTRA_SUB: state_next <= EXECUTE_SUB;
+                                        OPERATION_EXTRA_CMP: state_next <= EXECUTE_CMP;
+                                        OPERATION_EXTRA_AND: state_next <= EXECUTE_AND;
+                                        OPERATION_EXTRA_OR: state_next <= EXECUTE_OR;
+                                        OPERATION_EXTRA_XOR: state_next <= EXECUTE_XOR;
+                                        OPERATION_EXTRA_MOV: state_next <= EXECUTE_MOV;
+                                        default: state_next <= FETCH;
                                     endcase
                                 end
-                            OPERATION_ADDI: next_state <= EXECUTE_ADDI;
-                            OPERATION_SUBI: next_state <= EXECUTE_SUBI;
-                            OPERATION_CMPI: next_state <= EXECUTE_CMPI;
-                            OPERATION_ANDI: next_state <= EXECUTE_ANDI;
-                            OPERATION_ORI: next_state <= EXECUTE_ORI;
-                            OPERATION_XORI: next_state <= EXECUTE_XORI;
-                            OPERATION_MOVI: next_state <= EXECUTE_MOVI;
+                            OPERATION_ADDI: state_next <= EXECUTE_ADDI;
+                            OPERATION_SUBI: state_next <= EXECUTE_SUBI;
+                            OPERATION_CMPI: state_next <= EXECUTE_CMPI;
+                            OPERATION_ANDI: state_next <= EXECUTE_ANDI;
+                            OPERATION_ORI: state_next <= EXECUTE_ORI;
+                            OPERATION_XORI: state_next <= EXECUTE_XORI;
+                            OPERATION_MOVI: state_next <= EXECUTE_MOVI;
                             OPERATION_LSH:
                                 case (instruction_operation_extra)
-                                    OPERATION_EXTRA_LSH: next_state <= EXECUTE_LSH;
+                                    OPERATION_EXTRA_LSH: state_next <= EXECUTE_LSH;
                                     // TODO:
-                                    OPERATION_EXTRA_LSHI_LEFT: next_state <= EXECUTE_LSHI;
-                                    OPERATION_EXTRA_LSHI_TWO: next_state <= EXECUTE_LSHI;
-                                    default: next_state <= FETCH;
+                                    OPERATION_EXTRA_LSHI_LEFT: state_next <= EXECUTE_LSHI;
+                                    OPERATION_EXTRA_LSHI_TWO: state_next <= EXECUTE_LSHI;
+                                    default: state_next <= FETCH;
                                 endcase
-                            OPERATION_LUI: next_state <= EXECUTE_LUI;
+                            OPERATION_LUI: state_next <= EXECUTE_LUI;
                             OPERATION_MEMORY:
                                 case (instruction_operation_extra)
-                                    OPERATION_EXTRA_LOAD: next_state <= EXECUTE_LOAD;
-                                    OPERATION_EXTRA_STOR: next_state <= EXECUTE_STOR;
-                                    default: next_state <= FETCH;
+                                    OPERATION_EXTRA_LOAD: state_next <= EXECUTE_LOAD;
+                                    OPERATION_EXTRA_STOR: state_next <= EXECUTE_STOR;
+                                    default: state_next <= FETCH;
                                 endcase
-                            OPERATION_BCOND: next_state <= EXECUTE_BCOND;
-                            default: next_state <= FETCH;
+                            OPERATION_BCOND: state_next <= EXECUTE_BCOND;
+                            default: state_next <= FETCH;
                         endcase
                     end
-                EXECUTE_ADD: next_state <= WRITE;
-                EXECUTE_SUB: next_state <= WRITE;
-                EXECUTE_ADDI: next_state <= WRITE;
-                EXECUTE_SUBI: next_state <= WRITE;
-                // TODO: Does this work cleanly? Just not do anything after executing?
-                EXECUTE_CMP: next_state <= FETCH;
-                EXECUTE_CMPI: next_state <= FETCH;
-                EXECUTE_AND: next_state <= WRITE;
-                EXECUTE_ANDI: next_state <= WRITE;
-                EXECUTE_OR: next_state <= WRITE;
-                EXECUTE_ORI: next_state <= WRITE;
-                EXECUTE_XOR: next_state <= WRITE;
-                EXECUTE_XORI: next_state <= WRITE;
-                EXECUTE_MOV: next_state <= FETCH;
-                EXECUTE_MOVI: next_state <= FETCH;
-                EXECUTE_LSH: next_state <= WRITE;
-                EXECUTE_LSHI: next_state <= WRITE;
-                EXECUTE_LUI: next_state <= FETCH;
-                EXECUTE_LOAD: next_state <= FETCH;
-                EXECUTE_STOR: next_state <= FETCH;
-                EXECUTE_BCOND: next_state <= FETCH;
-                WRITE: next_state <= FETCH;
-                default: next_state <= FETCH;
+                EXECUTE_ADD: state_next <= EXECUTE_NOTHING;
+                EXECUTE_SUB: state_next <= FETCH;
+                EXECUTE_ADDI: state_next <= EXECUTE_NOTHING;
+                EXECUTE_SUBI: state_next <= FETCH;
+                EXECUTE_CMP: state_next <= FETCH;
+                EXECUTE_CMPI: state_next <= EXECUTE_NOTHING;
+                EXECUTE_AND: state_next <= FETCH;
+                EXECUTE_ANDI: state_next <= FETCH;
+                EXECUTE_OR: state_next <= FETCH;
+                EXECUTE_ORI: state_next <= FETCH;
+                EXECUTE_XOR: state_next <= FETCH;
+                EXECUTE_XORI: state_next <= FETCH;
+                EXECUTE_MOV: state_next <= FETCH;
+                EXECUTE_MOVI: state_next <= EXECUTE_NOTHING;
+                EXECUTE_LSH: state_next <= FETCH;
+                EXECUTE_LSHI: state_next <= FETCH;
+                EXECUTE_LUI: state_next <= FETCH;
+                EXECUTE_LOAD: state_next <= EXECUTE_NOTHING;
+                EXECUTE_STOR: state_next <= FETCH;
+                EXECUTE_BCOND: state_next <= EXECUTE_NOTHING;
+                EXECUTE_NOTHING: state_next <= FETCH;
+                default: state_next <= FETCH;
             endcase
         end
 
     // TODO: Output combinational logic
     always @(*)
         begin
-            // Defaults:
-            instruction_write_enable <= 0;
-            status_write_enable <= 0;
-            program_counter_write_enable <= 0;
-            register_write_enable <= 0;
-            register_write_data_select <= REGISTER_WRITE_ALU_D;
-            memory_write_enable <= 0;
-            memory_address_select <= MEMORY_ADDRESS_PROGRAM_COUNTER;
             alu_a_select <= 0;
             alu_b_select <= 0;
             alu_operation <= 0;
+
+            // TODO?
+            program_counter_write_enable <= 1;
+            // Should just happen as a part of mux b input selection
+            program_counter_select <= PROGRAM_COUNTER_INCREMENT;
+
+            status_write_enable <= 0;
+
+            instruction_write_enable <= 0;
+
+            register_write_enable <= 0;
+            register_write_data_select <= REGISTER_WRITE_ALU_D;
+
+            instruction_address_select <= INSTRUCTION_ADDRESS_PROGRAM_COUNTER;
+
+            data_write_enable <= 0;
+            data_address_select <= DATA_ADDRESS_PROGRAM_COUNTER;
 
             case (state)
                 FETCH:
                     begin
                         instruction_write_enable <= 1;
-                        program_counter_write_enable <= 1;
-                        alu_a_select <= ALU_A_PROGRAM_COUNTER;
-                        alu_b_select <= ALU_B_CONSTANT_ONE;
-                        alu_operation <= ADD;
+                        program_counter_write_enable <= 0;
                     end
                 DECODE:
                     begin
+                        program_counter_write_enable <= 0;
                     end
                 EXECUTE_ADD:
                     begin
                         alu_a_select <= ALU_A_SOURCE;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= ADD;
-                        status_write_enable <= 1;
+
+                        register_write_enable <= 1;
+                        register_write_data_select <= REGISTER_WRITE_ALU_D;
+                        // TODO: Why does status write occur? Probably in writeback
+                        // status_write_enable <= 1;
                     end
                 EXECUTE_ADDI:
                     begin
                         alu_a_select <= ALU_A_IMMEDIATE_SIGN_EXTENDED;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= ADD;
-                        status_write_enable <= 1;
+
+                        register_write_enable <= 1;
+                        register_write_data_select <= REGISTER_WRITE_ALU_D;
+                        // TODO:
+                        // status_write_enable <= 1;
                     end
                 EXECUTE_SUB:
                     begin
@@ -341,13 +348,13 @@ module controller
                     begin
                         // TODO: Might not work?
                         register_write_enable <= 1;
-                        register_write_data_select <= REGISTER_WRITE_MEMORY_READ_DATA;
-                        memory_read_select <= MEMORY_ADDRESS_SOURCE;
+                        register_write_data_select <= REGISTER_WRITE_DATA_READ_DATA;
+                        data_address_select <= DATA_ADDRESS_SOURCE;
                     end
                 EXECUTE_STOR:
                     begin
-                        memory_read_select <= MEMORY_ADDRESS_SOURCE;
-                        memory_write_enable <= 1;
+                        data_address_select <= DATA_ADDRESS_SOURCE;
+                        data_write_enable <= 1;
                     end
                 EXECUTE_BCOND:
                     begin
@@ -355,10 +362,11 @@ module controller
                         alu_b_select <= ALU_B_IMMEDIATE_SIGN_EXTENDED_COND;
                         alu_operation <= ADD;
                         program_counter_write_enable <= 1;
+                        program_counter_select <= PROGRAM_COUNTER_ALU_D;
                     end
-                WRITE:
+                EXECUTE_NOTHING:
                     begin
-                        register_write_enable <= 1;
+                        program_counter_write_enable <= 0;
                     end
             endcase
         end
