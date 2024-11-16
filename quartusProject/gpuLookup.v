@@ -2,7 +2,8 @@ module gpuLookup #(parameter TEXTURE_SIZE = 64, parameter SCREEN_HEIGHT = 16'b11
 	input wire [15:0] distance,
 	input wire [9:0] screen_y,
 	output wire [$clog2(TEXTURE_SIZE):0] uv_y,
-	output wire inside_wall
+	output wire inside_wall,
+	output wire above_wall
 );
 
 wire [15:0] screen_wall_height = (SCREEN_HEIGHT * 256)/distance;
@@ -14,6 +15,7 @@ parameter screen_half_height = SCREEN_HEIGHT / 2;
 wire [15:0] wall_top_y = screen_half_height - (screen_wall_height / 2); // Q8.8 format wire
 wire [15:0] wall_bottom_y = screen_half_height + (screen_wall_height / 2); // Q 8.8 format wire
 
+assign above_wall = (screen_y << 8) <= wall_top_y;
 assign inside_wall = (screen_y << 8) > wall_top_y && (screen_y << 8) < wall_bottom_y;
 
 wire [15:0] dist_below_top = (screen_y << 8) - wall_top_y; // shift by 8 to convert to Q8.8
