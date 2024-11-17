@@ -1,0 +1,17 @@
+start:
+  movi 1 1
+  movi 2 0
+  movi 3 0
+loop:
+  cmpi 2 5
+  bcond end EQ
+  stor 2 1
+  addi 2 1
+  addi 1 1
+  jcond loop UC
+end:
+  movi 4 4
+  movi 3 4
+  cmpi 3 5
+  scond 5 EQ
+  jcond start UC

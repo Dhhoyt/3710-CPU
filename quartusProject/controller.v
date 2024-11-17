@@ -9,8 +9,7 @@ module controller
      output reg [2:0] alu_operation,
 
      output reg program_counter_write_enable,
-     // TODO: How many do we need?
-     output reg program_counter_select,
+     output reg [1:0] program_counter_select,
 
      output reg status_write_enable,
 
@@ -22,10 +21,7 @@ module controller
      output reg [2:0] register_write_data_select,
 
      output reg data_write_enable,
-     output reg data_address_select,
-
-     // TODO
-     output reg instruction_address_select
+     output reg data_address_select
      );
 
     parameter OPERATION_RTYPE = 4'b0000;
@@ -83,7 +79,10 @@ module controller
     parameter EXECUTE_LOAD  = 5'd19;
     parameter EXECUTE_STOR  = 5'd20;
     parameter EXECUTE_BCOND = 5'd21;
-    parameter EXECUTE_NOTHING = 5'd31;
+    parameter EXECUTE_JCOND = 5'd22;
+    parameter EXECUTE_JAL = 5'd23;
+    parameter EXECUTE_WRITE_LOAD = 5'd30;
+    parameter EXECUTE_WRITE = 5'd31;
 
     parameter ALU_A_PROGRAM_COUNTER = 2'b00;
     parameter ALU_A_SOURCE = 2'b01;
@@ -99,6 +98,7 @@ module controller
     parameter REGISTER_WRITE_IMMEDIATE_ZERO_EXTENDED = 3'b010;
     parameter REGISTER_WRITE_IMMEDIATE_UPPER = 3'b011;
     parameter REGISTER_WRITE_DATA_READ_DATA = 3'b100;
+    parameter REGISTER_WRITE_PROGRAM_COUNTER_NEXT = 3'b101;
 
     parameter INSTRUCTION_ADDRESS_PROGRAM_COUNTER = 1'b0;
     parameter INSTRUCTION_ADDRESS_SOURCE = 1'b1;
@@ -106,8 +106,10 @@ module controller
     parameter DATA_ADDRESS_PROGRAM_COUNTER = 1'b0;
     parameter DATA_ADDRESS_SOURCE = 1'b1;
 
-    parameter PROGRAM_COUNTER_INCREMENT = 1'b0;
-    parameter PROGRAM_COUNTER_ALU_D = 1'b1;
+    parameter PROGRAM_COUNTER_INCREMENT = 2'b00;
+    parameter PROGRAM_COUNTER_ALU_D = 2'b01;
+    parameter PROGRAM_COUNTER_CONDITION = 2'b10;
+    parameter PROGRAM_COUNTER_SOURCE = 2'b11;
 
     parameter ADD = 3'b000;
     parameter SUBTRACT = 3'b001;
@@ -164,33 +166,37 @@ module controller
                                 case (instruction_operation_extra)
                                     OPERATION_EXTRA_LOAD: state_next <= EXECUTE_LOAD;
                                     OPERATION_EXTRA_STOR: state_next <= EXECUTE_STOR;
+                                    OPERATION_EXTRA_JCOND: state_next <= EXECUTE_JCOND;
+                                    OPERATION_EXTRA_JAL: state_next <= EXECUTE_JAL;
                                     default: state_next <= FETCH;
                                 endcase
                             OPERATION_BCOND: state_next <= EXECUTE_BCOND;
                             default: state_next <= FETCH;
                         endcase
                     end
-                EXECUTE_ADD: state_next <= EXECUTE_NOTHING;
-                EXECUTE_SUB: state_next <= FETCH;
-                EXECUTE_ADDI: state_next <= EXECUTE_NOTHING;
-                EXECUTE_SUBI: state_next <= FETCH;
-                EXECUTE_CMP: state_next <= FETCH;
-                EXECUTE_CMPI: state_next <= EXECUTE_NOTHING;
-                EXECUTE_AND: state_next <= FETCH;
-                EXECUTE_ANDI: state_next <= FETCH;
-                EXECUTE_OR: state_next <= FETCH;
-                EXECUTE_ORI: state_next <= FETCH;
-                EXECUTE_XOR: state_next <= FETCH;
-                EXECUTE_XORI: state_next <= FETCH;
-                EXECUTE_MOV: state_next <= FETCH;
-                EXECUTE_MOVI: state_next <= EXECUTE_NOTHING;
-                EXECUTE_LSH: state_next <= FETCH;
-                EXECUTE_LSHI: state_next <= FETCH;
-                EXECUTE_LUI: state_next <= FETCH;
-                EXECUTE_LOAD: state_next <= EXECUTE_NOTHING;
-                EXECUTE_STOR: state_next <= FETCH;
-                EXECUTE_BCOND: state_next <= EXECUTE_NOTHING;
-                EXECUTE_NOTHING: state_next <= FETCH;
+                EXECUTE_ADD: state_next <= EXECUTE_WRITE;
+                EXECUTE_SUB: state_next <= EXECUTE_WRITE;
+                EXECUTE_ADDI: state_next <= EXECUTE_WRITE;
+                EXECUTE_SUBI: state_next <= EXECUTE_WRITE;
+                EXECUTE_CMP: state_next <= EXECUTE_WRITE;
+                EXECUTE_CMPI: state_next <= EXECUTE_WRITE;
+                EXECUTE_AND: state_next <= EXECUTE_WRITE;
+                EXECUTE_ANDI: state_next <= EXECUTE_WRITE;
+                EXECUTE_OR: state_next <= EXECUTE_WRITE;
+                EXECUTE_ORI: state_next <= EXECUTE_WRITE;
+                EXECUTE_XOR: state_next <= EXECUTE_WRITE;
+                EXECUTE_XORI: state_next <= EXECUTE_WRITE;
+                EXECUTE_MOV: state_next <= EXECUTE_WRITE;
+                EXECUTE_MOVI: state_next <= EXECUTE_WRITE;
+                EXECUTE_LSH: state_next <= EXECUTE_WRITE;
+                EXECUTE_LSHI: state_next <= EXECUTE_WRITE;
+                EXECUTE_LUI: state_next <= EXECUTE_WRITE;
+                EXECUTE_LOAD: state_next <= EXECUTE_WRITE_LOAD;
+                EXECUTE_STOR: state_next <= EXECUTE_WRITE;
+                EXECUTE_BCOND: state_next <= EXECUTE_WRITE;
+                EXECUTE_JCOND: state_next <= EXECUTE_WRITE;
+                EXECUTE_JAL: state_next <= EXECUTE_WRITE;
+                EXECUTE_WRITE: state_next <= FETCH;
                 default: state_next <= FETCH;
             endcase
         end
@@ -202,9 +208,10 @@ module controller
             alu_b_select <= 0;
             alu_operation <= 0;
 
-            // TODO?
+            // Because most of these are execute stages (where we
+            // write to the program counter), you have to set when to
+            // /not/ write to the program counter
             program_counter_write_enable <= 1;
-            // Should just happen as a part of mux b input selection
             program_counter_select <= PROGRAM_COUNTER_INCREMENT;
 
             status_write_enable <= 0;
@@ -213,8 +220,6 @@ module controller
 
             register_write_enable <= 0;
             register_write_data_select <= REGISTER_WRITE_ALU_D;
-
-            instruction_address_select <= INSTRUCTION_ADDRESS_PROGRAM_COUNTER;
 
             data_write_enable <= 0;
             data_address_select <= DATA_ADDRESS_PROGRAM_COUNTER;
@@ -346,9 +351,6 @@ module controller
                     end
                 EXECUTE_LOAD:
                     begin
-                        // TODO: Might not work?
-                        register_write_enable <= 1;
-                        register_write_data_select <= REGISTER_WRITE_DATA_READ_DATA;
                         data_address_select <= DATA_ADDRESS_SOURCE;
                     end
                 EXECUTE_STOR:
@@ -361,11 +363,29 @@ module controller
                         alu_a_select <= ALU_A_PROGRAM_COUNTER;
                         alu_b_select <= ALU_B_IMMEDIATE_SIGN_EXTENDED_COND;
                         alu_operation <= ADD;
-                        program_counter_write_enable <= 1;
                         program_counter_select <= PROGRAM_COUNTER_ALU_D;
                     end
-                EXECUTE_NOTHING:
+                EXECUTE_JCOND:
                     begin
+                        program_counter_select <= PROGRAM_COUNTER_CONDITION;
+                    end
+                EXECUTE_JAL:
+                    begin
+                        program_counter_select <= PROGRAM_COUNTER_SOURCE;
+
+                        register_write_enable <= 1;
+                        // No this needs to be the current program value value
+                        register_write_data_select <= REGISTER_WRITE_PROGRAM_COUNTER_NEXT;
+                    end
+                EXECUTE_WRITE:
+                    begin
+                        program_counter_write_enable <= 0;
+                    end
+                EXECUTE_WRITE_LOAD:
+                    begin
+                        register_write_enable <= 1;
+                        register_write_data_select <= REGISTER_WRITE_DATA_READ_DATA;
+
                         program_counter_write_enable <= 0;
                     end
             endcase

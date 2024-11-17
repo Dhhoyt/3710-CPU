@@ -6,26 +6,29 @@ import re
 
 LABEL_PATTERN = re.compile(r"(\w+):")
 
-INSTRUCTION_COUNT = 2**16 - 1
+INSTRUCTION_COUNT = 2**16
 
-RTYPE_OPERATION_CODE = 0b0000
-ADDI_OPERATION_CODE = 0b0101
-MOVI_OPERATION_CODE = 0b1101
-CMPI_OPERATION_CODE = 0b1011
-BCOND_OPERATION_CODE = 0b1100
-MEMORY_OPERATION_CODE = 0b0100
-SCOND_OPERATION_CODE = 0b0100
-JCOND_OPERATION_CODE = 0b0100
+OPERATION_RTYPE = 0b0000
+OPERATION_ADDI = 0b0101
+OPERATION_MOVI = 0b1101
+OPERATION_CMPI = 0b1011
+OPERATION_BCOND = 0b1100
+OPERATION_MEMORY = 0b0100
+OPERATION_SCOND = 0b0100
+OPERATION_JCOND = 0b0100
+OPERATION_JAL = 0b0100
 
-ADD_OPERATION_CODE_EXTRA = 0b0101
-LOAD_OPERATION_CODE_EXTRA = 0b0000
-STOR_OPERATION_CODE_EXTRA = 0b0100
-SCOND_OPERATION_CODE_EXTRA = 0b1101
-JCOND_OPERATION_CODE_EXTRA = 0b1100
+EXTRA_ADD = 0b0101
+EXTRA_LOAD = 0b0000
+EXTRA_STOR = 0b0100
+EXTRA_SCOND = 0b1101
+EXTRA_JCOND = 0b1100
+EXTRA_JAL = 0b1000
+EXTRA_MOV = 0b1101
 
-OPERATION_CODE_SHIFT = 12
+OPERATION_SHIFT = 12
 DESTINATION_SHIFT = 8
-OPERATION_CODE_EXTRA_SHIFT = 4
+EXTRA_SHIFT = 4
 
 CONDITIONS = {
     "EQ": 0b0000,
@@ -36,50 +39,68 @@ CONDITIONS = {
 def encode(i, l, j):
     match i[0]:
         case "add":
-            return rtype(i, ADD_OPERATION_CODE_EXTRA)
+            return rtype(i, EXTRA_ADD)
         case "addi":
-            return itype(i, ADDI_OPERATION_CODE)
+            return itype(i, OPERATION_ADDI, l)
         case "movi":
-            return itype(i, MOVI_OPERATION_CODE)
+            return itype(i, OPERATION_MOVI, l)
         case "cmpi":
-            return itype(i, CMPI_OPERATION_CODE)
-        case "bcond":
-            d = int.from_bytes((l[i[1]] - j).to_bytes(1, signed=True), signed=False)
-            return (BCOND_OPERATION_CODE << OPERATION_CODE_SHIFT) \
-                | (CONDITIONS[i[2]] << DESTINATION_SHIFT) \
-                | d
+            return itype(i, OPERATION_CMPI, l)
+        case "mov":
+            return rtype(i, EXTRA_MOV)
         case "stor":
-            return (MEMORY_OPERATION_CODE << OPERATION_CODE_SHIFT) \
+            # stor address source
+            # memory[registers[address]] <- registers[source]
+            return (OPERATION_MEMORY << OPERATION_SHIFT) \
                 | (int(i[2]) << DESTINATION_SHIFT) \
-                | (STOR_OPERATION_CODE_EXTRA << OPERATION_CODE_EXTRA_SHIFT) \
+                | (EXTRA_STOR << EXTRA_SHIFT) \
                 | int(i[1])
         case "load":
-            return (MEMORY_OPERATION_CODE << OPERATION_CODE_SHIFT) \
+            # load destination address
+            # registers[destination] <- memory[registers[address]]
+            return (OPERATION_MEMORY << OPERATION_SHIFT) \
                 | (int(i[1]) << DESTINATION_SHIFT) \
-                | (LOAD_OPERATION_CODE_EXTRA << OPERATION_CODE_EXTRA_SHIFT) \
+                | (EXTRA_LOAD << EXTRA_SHIFT) \
                 | int(i[2])
+        case "bcond":
+            d = int.from_bytes((l[i[1]] - j).to_bytes(1, signed=True), signed=False)
+            return (OPERATION_BCOND << OPERATION_SHIFT) \
+                | (CONDITIONS[i[2]] << DESTINATION_SHIFT) \
+                | d
         case "scond":
-            return (SCOND_OPERATION_CODE << OPERATION_CODE_SHIFT) \
+            return (OPERATION_SCOND << OPERATION_SHIFT) \
                 | (int(i[1]) << DESTINATION_SHIFT) \
-                | (SCOND_OPERATION_CODE_EXTRA << OPERATION_CODE_EXTRA_SHIFT) \
+                | (EXTRA_SCOND << EXTRA_SHIFT) \
                 | CONDITIONS[i[2]]
         case "jcond":
-            t = l[i[1]]
-            return (JCOND_OPERATION_CODE << OPERATION_CODE_SHIFT) \
+            return (OPERATION_JCOND << OPERATION_SHIFT) \
                 | (CONDITIONS[i[2]] << DESTINATION_SHIFT) \
-                | (JCOND_OPERATION_CODE_EXTRA << OPERATION_CODE_EXTRA_SHIFT) \
-                | t
+                | (EXTRA_JCOND << EXTRA_SHIFT) \
+                | int(i[1])
+        case "jal":
+            return (OPERATION_JAL << OPERATION_SHIFT) \
+                | (int(i[1]) << DESTINATION_SHIFT) \
+                | (EXTRA_JAL << EXTRA_SHIFT) \
+                | int(i[2])
+        case _:
+            print(f"Unimplemented: {i}")
+            raise ValueError()
 
 def rtype(instruction, operation_code_extra: int):
-    return (RTYPE_OPERATION_CODE << OPERATION_CODE_SHIFT) \
+    return (OPERATION_RTYPE << OPERATION_SHIFT) \
         | (int(instruction[1]) << DESTINATION_SHIFT) \
-        | (operation_code_extra << OPERATION_CODE_EXTRA_SHIFT) \
+        | (operation_code_extra << EXTRA_SHIFT) \
         | int(instruction[2])
 
-def itype(instruction, operation_code: int):
-    return (operation_code << OPERATION_CODE_SHIFT) \
+def itype(instruction, operation_code: int, labels):
+    try:
+        j = int(instruction[2])
+        immediate = int.from_bytes(j.to_bytes(1, signed=True), signed=False) if j <= 127 else j
+    except:
+        immediate = labels[instruction[2]]
+    return (operation_code << OPERATION_SHIFT) \
         | (int(instruction[1]) << DESTINATION_SHIFT) \
-        | int(instruction[2])
+        | immediate
 
 def parse(s: str):
     lines = s.splitlines()
@@ -93,7 +114,7 @@ def parse(s: str):
             # instructions, this labels the next one, which will be at
             # the `len(instructions)`-th index
             labels[n] = len(instructions)
-        elif l.isspace():
+        elif not l or l.isspace() or l.startswith("#"):
             continue
         else:
             operator, *operands = l.split()

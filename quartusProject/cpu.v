@@ -15,7 +15,7 @@ module cpu
     wire [2:0] alu_operation;
 
     wire program_counter_write_enable;
-    wire program_counter_select;
+    wire [1:0] program_counter_select;
 
     wire status_write_enable;
 
@@ -27,8 +27,6 @@ module cpu
 
     wire data_address_select;
 
-    wire instruction_address_select;
-
     controller controller1
         (clock, reset,
          alu_a_select, alu_b_select, alu_operation,
@@ -36,8 +34,7 @@ module cpu
          status_write_enable,
          instruction[15:12], instruction[7:4], instruction_write_enable,
          register_write_enable, register_write_data_select,
-         data_write_enable, data_address_select,
-         instruction_address_select);
+         data_write_enable, data_address_select);
     datapath datapath1
         (clock, reset,
          alu_a_select, alu_b_select, alu_operation,
@@ -46,5 +43,5 @@ module cpu
          instruction_write_enable, instruction,
          register_write_enable, register_write_data_select,
          data_read_data, data_address_select, data_address, data_write_data,
-         instruction_read_data, instruction_address_select, instruction_address);
+         instruction_read_data, instruction_address);
 endmodule
