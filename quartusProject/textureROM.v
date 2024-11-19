@@ -12,7 +12,7 @@ module textureROM
 	reg [7:0] rom[4095:0];
 	
 	initial begin
-		$readmemb("texture.dat", rom);
+		$readmemb("data_files/texture.dat", rom);
 	end
 
 	// Initialize the ROM with $readmemb.  Put the memory contents

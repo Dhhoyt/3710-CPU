@@ -47,8 +47,8 @@ def ray_cast_to_nearest_intersection(segments, position, angle):
     
     return nearest_distance, segment_distance - int(segment_distance)
 
-walls = [(0, 2, 3, 2), (3, 2, 3, 4), (5, 0, 5, 5), (0, 5, 5, 5)]
-player_pos = (4, 1)
+walls = [(1,0,1,1),(1,0,0,1),(0,1,0,4),(0,4,1,4),(1,4,1,5),(1,5,3,5),(3,5,3,4),(3,4,4,4),(4,4,4,1),(4,1,3,1),(3,1,3,0)]
+player_pos = (2, 0)
 
 fov = 103  # Field of view in degrees
 heading = 90  # Player's heading in degrees
@@ -69,7 +69,7 @@ for i in range(num_columns):
     print(f"Column {i}: Angle {angle:.2f}, Distance {distance}, uv {uv}")
     distances += "{:016b}".format(int(distance * 256)) + "\n"
     uvs += "{:06b}".format(uv) + "\n"
-with open("distances.dat", 'w') as file:
+with open("distances2.dat", 'w') as file:
     file.write(distances)
-with open("uvs.dat", 'w') as file:
+with open("uvs2.dat", 'w') as file:
     file.write(uvs)
