@@ -7,7 +7,7 @@ jpoint_instrs = {}
 macros : dict[str,str] = {}
 
 RAM_START = 8192
-FILE_LENGTH = 16384
+FILE_LENGTH = 16384 
 
 r_type_insts =   {'ADD',  'ADDU',  'ADDC',  'MUL',  'SUB',  'SUBC',  'CMP',  'AND',  'OR',  'XOR',  'MOV'}
 i_type_insts =   {'ADDI', 'ADDUI', 'ADDCI', 'MULI', 'SUBI', 'SUBCI', 'CMPI', 'ANDI', 'ORI', 'XORI', 'MOVI', 'LUI'}
@@ -164,11 +164,6 @@ def replaceMacros(parts: list[str]):
 
 # casey wolfe added some code here to define multi line macros
 # use ~ to denote more lines
-''' example
-`define foo 
-~ MOVI $10 %r1
-~ MOVI $0 %r2
-'''
 def precompile(filename):
     f = open(filename, 'r')
     df = open('defined.mc', 'w')
@@ -214,7 +209,7 @@ def precompile(filename):
             for i, reg in enumerate(reglist):
                 if reg != '':
                     df.write(f'MOV {reg} {parameter_regs[i]}\n')
-            df.write(f'MOVI {label} %rA\n')
+            df.write(f'MOVI {label} %rA\n') # I think this is wrong? should %rA be two registers?
             df.write(f'LUI {label} %rA\n')
             df.write(f'JAL %rA %rA\n')
         elif len(parts) > 0 and parts[0] == 'MOVW':

@@ -1,0 +1,49 @@
+
+*** multiline macros ***
+are denoted with a ~ before subsequent lines
+a newline between macros is enough to separate them I think?
+
+example:
+
+`define foo 
+~ MOVI $10 %r1
+~ MOVI $0 %r2
+
+
+
+
+*** calling convention ***
+registers %r0 to %r3 are temp
+registers %r4 to %r7 are preserved by the function
+registers %r8 to %rD  (not %rA) are temp and args for the function
+registers %rE to %rF are preserved 
+	(is one of these a stack pointer?)
+
+%rA is the linked register
+
+parameter_regs = ['%r8', '%r9', '%rB', '%rC', '%rD']
+
+returns sit in the parameter_regs
+
+
+
+*** RAM preload ***
+note, change the two constants at the beginning of the python file
+RAM_START = 8192
+FILE_LENGTH = 16384 
+set these to be the number of lines in the file, and the start point for the RAM preload values
+
+start ram section with 
+@
+DECIMAL
+
+Then list numbers 
+
+example:
+@ #preloaded ram values
+DECIMAL
+0
+1
+2
+#etc
+
