@@ -20,8 +20,8 @@ module controller
      output reg register_write_enable,
      output reg [2:0] register_write_data_select,
 
-     output reg data_write_enable,
-     output reg data_address_select
+     output reg memory_write_enable,
+     output reg memory_address_select
      );
 
     parameter OPERATION_RTYPE = 4'b0000;
@@ -100,11 +100,8 @@ module controller
     parameter REGISTER_WRITE_DATA_READ_DATA = 3'b100;
     parameter REGISTER_WRITE_PROGRAM_COUNTER_NEXT = 3'b101;
 
-    parameter INSTRUCTION_ADDRESS_PROGRAM_COUNTER = 1'b0;
-    parameter INSTRUCTION_ADDRESS_SOURCE = 1'b1;
-
-    parameter DATA_ADDRESS_PROGRAM_COUNTER = 1'b0;
-    parameter DATA_ADDRESS_SOURCE = 1'b1;
+    parameter MEMORY_ADDRESS_PROGRAM_COUNTER = 1'b0;
+    parameter MEMORY_ADDRESS_SOURCE = 1'b1;
 
     parameter PROGRAM_COUNTER_INCREMENT = 2'b00;
     parameter PROGRAM_COUNTER_ALU_D = 2'b01;
@@ -197,6 +194,7 @@ module controller
                 EXECUTE_JCOND: state_next <= EXECUTE_WRITE;
                 EXECUTE_JAL: state_next <= EXECUTE_WRITE;
                 EXECUTE_WRITE: state_next <= FETCH;
+                EXECUTE_WRITE_LOAD: state_next <= FETCH;
                 default: state_next <= FETCH;
             endcase
         end
@@ -221,8 +219,8 @@ module controller
             register_write_enable <= 0;
             register_write_data_select <= REGISTER_WRITE_ALU_D;
 
-            data_write_enable <= 0;
-            data_address_select <= DATA_ADDRESS_PROGRAM_COUNTER;
+            memory_write_enable <= 0;
+            memory_address_select <= MEMORY_ADDRESS_PROGRAM_COUNTER;
 
             case (state)
                 FETCH:
@@ -242,8 +240,7 @@ module controller
 
                         register_write_enable <= 1;
                         register_write_data_select <= REGISTER_WRITE_ALU_D;
-                        // TODO: Why does status write occur? Probably in writeback
-                        // status_write_enable <= 1;
+                        status_write_enable <= 1;
                     end
                 EXECUTE_ADDI:
                     begin
@@ -253,8 +250,7 @@ module controller
 
                         register_write_enable <= 1;
                         register_write_data_select <= REGISTER_WRITE_ALU_D;
-                        // TODO:
-                        // status_write_enable <= 1;
+                        status_write_enable <= 1;
                     end
                 EXECUTE_SUB:
                     begin
@@ -351,18 +347,19 @@ module controller
                     end
                 EXECUTE_LOAD:
                     begin
-                        data_address_select <= DATA_ADDRESS_SOURCE;
+                        memory_address_select <= MEMORY_ADDRESS_SOURCE;
                     end
                 EXECUTE_STOR:
                     begin
-                        data_address_select <= DATA_ADDRESS_SOURCE;
-                        data_write_enable <= 1;
+                        memory_address_select <= MEMORY_ADDRESS_SOURCE;
+                        memory_write_enable <= 1;
                     end
                 EXECUTE_BCOND:
                     begin
                         alu_a_select <= ALU_A_PROGRAM_COUNTER;
                         alu_b_select <= ALU_B_IMMEDIATE_SIGN_EXTENDED_COND;
                         alu_operation <= ADD;
+
                         program_counter_select <= PROGRAM_COUNTER_ALU_D;
                     end
                 EXECUTE_JCOND:
@@ -374,7 +371,6 @@ module controller
                         program_counter_select <= PROGRAM_COUNTER_SOURCE;
 
                         register_write_enable <= 1;
-                        // No this needs to be the current program value value
                         register_write_data_select <= REGISTER_WRITE_PROGRAM_COUNTER_NEXT;
                     end
                 EXECUTE_WRITE:

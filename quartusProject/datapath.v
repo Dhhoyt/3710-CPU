@@ -16,14 +16,10 @@ module datapath
      input register_write_enable,
      input [2:0] register_write_data_select,
 
-     input [15:0] data_read_data,
-     input data_address_select,
-     output [15:0] data_address,
-     output [15:0] data_write_data,
-
-     input [15:0] instruction_read_data,
-     output [15:0] instruction_address
-);
+     input [15:0] memory_read_data,
+     input memory_address_select,
+     output [15:0] memory_address,
+     output [15:0] memory_write_data);
 
     parameter ALU_A_PROGRAM_COUNTER = 3'b000;
     parameter ALU_A_SOURCE = 3'b001;
@@ -58,7 +54,8 @@ module datapath
 
     localparam CONSTANT_ONE =  16'b1;
 
-    wire [15:0] program_counter, program_counter_next, 
+    wire [15:0] program_counter;
+    wire [15:0] program_counter_next, 
                 alu_a, alu_b, alu_d, 
                 source, destination, register_write_data,
                 status;
@@ -103,7 +100,7 @@ module datapath
     flop_enable_reset #(16) program_counter_register
         (clock, reset, program_counter_write_enable, program_counter_next, program_counter);
     flop_enable_reset #(16) instruction_register
-        (clock, reset, instruction_write_enable, instruction_read_data, instruction);
+        (clock, reset, instruction_write_enable, memory_read_data, instruction);
     flop_enable_reset #(16) status_register
         (clock, reset, status_write_enable, 
          { 4'b0, // Reserved
@@ -120,25 +117,22 @@ module datapath
     mux4 #(16) program_counter_mux(program_counter_increment, alu_d, 
                                    program_counter_condition, program_counter_condition,
                                    program_counter_select, program_counter_next);
+    // TODO: Cleanup?
     mux4 #(16) alu_a_mux(program_counter, source, immediate_sign_extended, immediate_zero_extended,
                    alu_a_select, alu_a);
-    // TODO: Do we need CONSTANT_ONE anymore? What does source_condition get used for?
     mux4 #(16) alu_b_mux(destination, CONSTANT_ONE, immediate_sign_extended_condition, source_condition,
                          alu_b_select, alu_b);
-    // TODO: Need all this?
     mux8 #(16) register_write_data_mux(alu_d, source, 
                                        immediate_zero_extended, immediate_upper, 
-                                       data_read_data, program_counter_increment, 
-                                       data_read_data, data_read_data, 
+                                       memory_read_data, program_counter_increment, 
+                                       memory_read_data, memory_read_data, 
                                        register_write_data_select, register_write_data);
-    mux2 #(16) data_address_select_mux(program_counter, 
+    mux2 #(16) memory_address_select_mux(program_counter, 
                                        source, 
-                                       data_address_select, 
-                                       data_address);
+                                       memory_address_select, 
+                                       memory_address);
 
-    // TODO:
-    assign data_write_data = destination;
-    assign instruction_address = program_counter;
+    assign memory_write_data = destination;
 
     alu alu1(alu_a, alu_b, alu_operation, alu_d,
              carry, low, flag, zero, negative);

@@ -1,13 +1,10 @@
 module cpu
     (input clock, reset,
 
-     input [15:0] data_read_data,
-     output data_write_enable,
-     output [15:0] data_address,
-     output [15:0] data_write_data,
-
-     input [15:0] instruction_read_data,
-     output [15:0] instruction_address
+     input [15:0] memory_read_data,
+     output memory_write_enable,
+     output [15:0] memory_address,
+     output [15:0] memory_write_data
 );
 
     wire [1:0] alu_a_select;
@@ -25,7 +22,7 @@ module cpu
     wire register_write_enable;
     wire [2:0] register_write_data_select;
 
-    wire data_address_select;
+    wire memory_address_select;
 
     controller controller1
         (clock, reset,
@@ -34,7 +31,7 @@ module cpu
          status_write_enable,
          instruction[15:12], instruction[7:4], instruction_write_enable,
          register_write_enable, register_write_data_select,
-         data_write_enable, data_address_select);
+         memory_write_enable, memory_address_select);
     datapath datapath1
         (clock, reset,
          alu_a_select, alu_b_select, alu_operation,
@@ -42,6 +39,5 @@ module cpu
          status_write_enable,
          instruction_write_enable, instruction,
          register_write_enable, register_write_data_select,
-         data_read_data, data_address_select, data_address, data_write_data,
-         instruction_read_data, instruction_address);
+         memory_read_data, memory_address_select, memory_address, memory_write_data);
 endmodule
