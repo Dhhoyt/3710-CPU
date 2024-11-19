@@ -162,23 +162,47 @@ def replaceMacros(parts: list[str]):
             toreturn.append(s)
     return toreturn
 
+# casey wolfe added some code here to define multi line macros
+# use ~ to denote more lines
+''' example
+`define foo 
+~ MOVI $10 %r1
+~ MOVI $0 %r2
+'''
 def precompile(filename):
     f = open(filename, 'r')
     df = open('defined.mc', 'w')
 
+    inMacro = False
+    macroName = ''
     # Find all macro definitions
-    for x in f:
+    for i, x in enumerate(f):
         line = x.split('#')[0]
         parts = line.split()
 
+        if inMacro:
+            if len(parts) > 0 and parts[0]=='~':
+                macros[macroName] = macros[macroName] + '\n' + ' '.join([x for x in parts[1:]])
+            else:
+                inMacro = False
+                macroName = ''
+        
         if len(parts) > 0 and parts[0]=='`define':
-            macros[parts[1]] = parts[2]
+            inMacro = True
+            macroName = parts[1]
+            macros[macroName] = ' '.join([str(x) for x in parts[2:]]) # added whole line here
+        
+
+
     
     print(f'Macros found: {macros}')
 
     f.seek(0)
 
     for line in f:
+        if line[0] == '~':
+            continue
+
         parts = replaceMacros(line.split())
         if len(parts) > 0 and parts[0] == 'CALL':
             if len(parts) < 2:
