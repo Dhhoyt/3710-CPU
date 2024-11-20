@@ -1,5 +1,5 @@
 Analysis & Synthesis report for GPU
-Wed Nov 20 12:08:45 2024
+Wed Nov 20 16:29:04 2024
 Quartus Prime Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
 
 
@@ -33,14 +33,15 @@ Quartus Prime Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
  25. Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|alu:alu1
  26. Parameter Settings for Inferred Entity Instance: data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0
  27. altsyncram Parameter Settings by Entity Instance
- 28. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux"
- 29. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|mux4:alu_b_mux"
- 30. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register"
- 31. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1"
- 32. Post-Synthesis Netlist Statistics for Top Partition
- 33. Elapsed Time Per Partition
- 34. Analysis & Synthesis Messages
- 35. Analysis & Synthesis Suppressed Messages
+ 28. Port Connectivity Checks: "data_memory_mapped1:data_memory"
+ 29. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux"
+ 30. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|mux4:alu_b_mux"
+ 31. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register"
+ 32. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1"
+ 33. Post-Synthesis Netlist Statistics for Top Partition
+ 34. Elapsed Time Per Partition
+ 35. Analysis & Synthesis Messages
+ 36. Analysis & Synthesis Suppressed Messages
 
 
 
@@ -67,14 +68,14 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +---------------------------------+------------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Wed Nov 20 12:08:45 2024          ;
+; Analysis & Synthesis Status     ; Successful - Wed Nov 20 16:29:04 2024          ;
 ; Quartus Prime Version           ; 23.1std.1 Build 993 05/14/2024 SC Lite Edition ;
 ; Revision Name                   ; GPU                                            ;
 ; Top-level Entity Name           ; system_mapped1                                 ;
 ; Family                          ; Cyclone V                                      ;
 ; Logic utilization (in ALMs)     ; N/A                                            ;
-; Total registers                 ; 353                                            ;
-; Total pins                      ; 34                                             ;
+; Total registers                 ; 337                                            ;
+; Total pins                      ; 28                                             ;
 ; Total virtual pins              ; 0                                              ;
 ; Total block memory bits         ; 1,048,576                                      ;
 ; Total DSP Blocks                ; 0                                              ;
@@ -230,27 +231,27 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------+-------------+
 ; Resource                                    ; Usage       ;
 +---------------------------------------------+-------------+
-; Estimate of Logic utilization (ALMs needed) ; 492         ;
+; Estimate of Logic utilization (ALMs needed) ; 500         ;
 ;                                             ;             ;
-; Combinational ALUT usage for logic          ; 607         ;
-;     -- 7 input functions                    ; 2           ;
-;     -- 6 input functions                    ; 345         ;
-;     -- 5 input functions                    ; 101         ;
-;     -- 4 input functions                    ; 52          ;
-;     -- <=3 input functions                  ; 107         ;
+; Combinational ALUT usage for logic          ; 614         ;
+;     -- 7 input functions                    ; 3           ;
+;     -- 6 input functions                    ; 355         ;
+;     -- 5 input functions                    ; 118         ;
+;     -- 4 input functions                    ; 44          ;
+;     -- <=3 input functions                  ; 94          ;
 ;                                             ;             ;
-; Dedicated logic registers                   ; 353         ;
+; Dedicated logic registers                   ; 337         ;
 ;                                             ;             ;
-; I/O pins                                    ; 34          ;
+; I/O pins                                    ; 28          ;
 ; Total MLAB memory bits                      ; 0           ;
 ; Total block memory bits                     ; 1048576     ;
 ;                                             ;             ;
 ; Total DSP Blocks                            ; 0           ;
 ;                                             ;             ;
 ; Maximum fan-out node                        ; clock~input ;
-; Maximum fan-out                             ; 481         ;
-; Total fan-out                               ; 6380        ;
-; Average fan-out                             ; 5.52        ;
+; Maximum fan-out                             ; 465         ;
+; Total fan-out                               ; 6388        ;
+; Average fan-out                             ; 5.63        ;
 +---------------------------------------------+-------------+
 
 
@@ -259,26 +260,26 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
 ; Compilation Hierarchy Node                            ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                       ; Entity Name         ; Library Name ;
 +-------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
-; |system_mapped1                                       ; 607 (0)             ; 353 (0)                   ; 1048576           ; 0          ; 34   ; 0            ; |system_mapped1                                                                                                                           ; system_mapped1      ; work         ;
-;    |cpu:cpu1|                                         ; 532 (0)             ; 318 (0)                   ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1                                                                                                                  ; cpu                 ; work         ;
-;       |controller:controller1|                        ; 55 (55)             ; 25 (25)                   ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|controller:controller1                                                                                           ; controller          ; work         ;
-;       |datapath:datapath1|                            ; 477 (21)            ; 293 (0)                   ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1                                                                                               ; datapath            ; work         ;
-;          |alu:alu1|                                   ; 100 (100)           ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|alu:alu1                                                                                      ; alu                 ; work         ;
+; |system_mapped1                                       ; 614 (0)             ; 337 (0)                   ; 1048576           ; 0          ; 28   ; 0            ; |system_mapped1                                                                                                                           ; system_mapped1      ; work         ;
+;    |cpu:cpu1|                                         ; 537 (0)             ; 318 (0)                   ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1                                                                                                                  ; cpu                 ; work         ;
+;       |controller:controller1|                        ; 56 (56)             ; 25 (25)                   ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|controller:controller1                                                                                           ; controller          ; work         ;
+;       |datapath:datapath1|                            ; 481 (21)            ; 293 (0)                   ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1                                                                                               ; datapath            ; work         ;
+;          |alu:alu1|                                   ; 103 (103)           ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|alu:alu1                                                                                      ; alu                 ; work         ;
 ;          |flop_enable_reset:instruction_register|     ; 1 (1)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register                                                        ; flop_enable_reset   ; work         ;
 ;          |flop_enable_reset:program_counter_register| ; 35 (35)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:program_counter_register                                                    ; flop_enable_reset   ; work         ;
 ;          |flop_enable_reset:status_register|          ; 24 (24)             ; 5 (5)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register                                                             ; flop_enable_reset   ; work         ;
 ;          |mux2:memory_address_select_mux|             ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux2:memory_address_select_mux                                                                ; mux2                ; work         ;
 ;          |mux4:alu_a_mux|                             ; 18 (18)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:alu_a_mux                                                                                ; mux4                ; work         ;
 ;          |mux4:alu_b_mux|                             ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:alu_b_mux                                                                                ; mux4                ; work         ;
-;          |mux8:register_write_data_mux|               ; 52 (52)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux                                                                  ; mux8                ; work         ;
+;          |mux8:register_write_data_mux|               ; 53 (53)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux                                                                  ; mux8                ; work         ;
 ;          |register_file:register_file1|               ; 194 (194)           ; 256 (256)                 ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|register_file:register_file1                                                                  ; register_file       ; work         ;
-;    |data_memory_mapped1:data_memory|                  ; 75 (11)             ; 35 (32)                   ; 1048576           ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory                                                                                           ; data_memory_mapped1 ; work         ;
-;       |memory:memory1|                                ; 64 (0)              ; 3 (0)                     ; 1048576           ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory|memory:memory1                                                                            ; memory              ; work         ;
-;          |altsyncram:ram_rtl_0|                       ; 64 (0)              ; 3 (0)                     ; 1048576           ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0                                                       ; altsyncram          ; work         ;
-;             |altsyncram_5ve1:auto_generated|          ; 64 (0)              ; 3 (3)                     ; 1048576           ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0|altsyncram_5ve1:auto_generated                        ; altsyncram_5ve1     ; work         ;
+;    |data_memory_mapped1:data_memory|                  ; 77 (30)             ; 19 (16)                   ; 1048576           ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory                                                                                           ; data_memory_mapped1 ; work         ;
+;       |memory:memory1|                                ; 47 (0)              ; 3 (0)                     ; 1048576           ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory|memory:memory1                                                                            ; memory              ; work         ;
+;          |altsyncram:ram_rtl_0|                       ; 47 (0)              ; 3 (0)                     ; 1048576           ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0                                                       ; altsyncram          ; work         ;
+;             |altsyncram_5ve1:auto_generated|          ; 47 (0)              ; 3 (3)                     ; 1048576           ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0|altsyncram_5ve1:auto_generated                        ; altsyncram_5ve1     ; work         ;
 ;                |decode_61a:rden_decode|               ; 7 (7)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0|altsyncram_5ve1:auto_generated|decode_61a:rden_decode ; decode_61a          ; work         ;
-;                |decode_dla:decode3|                   ; 9 (9)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0|altsyncram_5ve1:auto_generated|decode_dla:decode3     ; decode_dla          ; work         ;
-;                |mux_chb:mux2|                         ; 48 (48)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0|altsyncram_5ve1:auto_generated|mux_chb:mux2           ; mux_chb             ; work         ;
+;                |decode_dla:decode3|                   ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0|altsyncram_5ve1:auto_generated|decode_dla:decode3     ; decode_dla          ; work         ;
+;                |mux_chb:mux2|                         ; 32 (32)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0|altsyncram_5ve1:auto_generated|mux_chb:mux2           ; mux_chb             ; work         ;
 +-------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -345,9 +346,9 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 353   ;
+; Total registers                              ; 337   ;
 ; Number of registers using Synchronous Clear  ; 33    ;
-; Number of registers using Synchronous Load   ; 16    ;
+; Number of registers using Synchronous Load   ; 0     ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
 ; Number of registers using Clock Enable       ; 308   ;
@@ -369,20 +370,20 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                                  ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------------------------------------------+
-; 3:1                ; 16 bits   ; 32 LEs        ; 0 LEs                ; 32 LEs                 ; Yes        ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[3]     ;
+; 3:1                ; 16 bits   ; 32 LEs        ; 0 LEs                ; 32 LEs                 ; Yes        ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[14]    ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register|q[7]          ;
-; 6:1                ; 16 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:program_counter_register|q[1] ;
+; 6:1                ; 16 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:program_counter_register|q[8] ;
 ; 10:1               ; 2 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register|q[0]          ;
 ; 3:1                ; 9 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|controller:controller1|state                                       ;
-; 3:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:alu_b_mux|Mux11                            ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:alu_a_mux|Mux2                             ;
-; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:alu_a_mux|Mux12                            ;
+; 3:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:alu_b_mux|Mux14                            ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:alu_a_mux|Mux1                             ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:alu_a_mux|Mux14                            ;
 ; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|controller:controller1|state                                       ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|controller:controller1|state                                       ;
 ; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|controller:controller1|state                                       ;
 ; 8:1                ; 8 bits    ; 40 LEs        ; 32 LEs               ; 8 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux|Mux0               ;
 ; 8:1                ; 8 bits    ; 40 LEs        ; 32 LEs               ; 8 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux|Mux14              ;
-; 9:1                ; 14 bits   ; 84 LEs        ; 70 LEs               ; 14 LEs                 ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|alu:alu1|Mux11                                  ;
+; 9:1                ; 14 bits   ; 84 LEs        ; 70 LEs               ; 14 LEs                 ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|alu:alu1|Mux7                                   ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------------------------------------------+
 
 
@@ -699,6 +700,15 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------------------------------------------+---------------------------------------------------------------------+
 
 
++-------------------------------------------------------------+
+; Port Connectivity Checks: "data_memory_mapped1:data_memory" ;
++------------------+-------+----------+-----------------------+
+; Port             ; Type  ; Severity ; Details               ;
++------------------+-------+----------+-----------------------+
+; switches[15..10] ; Input ; Info     ; Stuck at GND          ;
++------------------+-------+----------+-----------------------+
+
+
 +--------------------------------------------------------------------------------------+
 ; Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux" ;
 +----------+-------+----------+--------------------------------------------------------+
@@ -747,30 +757,29 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; arriav_ff             ; 353                         ;
+; arriav_ff             ; 337                         ;
 ;     ENA               ; 276                         ;
 ;     ENA SCLR          ; 32                          ;
 ;     SCLR              ; 1                           ;
-;     SLD               ; 16                          ;
 ;     plain             ; 28                          ;
-; arriav_lcell_comb     ; 607                         ;
+; arriav_lcell_comb     ; 614                         ;
 ;     arith             ; 51                          ;
 ;         0 data inputs ; 3                           ;
 ;         1 data inputs ; 16                          ;
 ;         5 data inputs ; 32                          ;
-;     extend            ; 2                           ;
-;         7 data inputs ; 2                           ;
-;     normal            ; 554                         ;
-;         2 data inputs ; 50                          ;
-;         3 data inputs ; 38                          ;
-;         4 data inputs ; 52                          ;
-;         5 data inputs ; 69                          ;
-;         6 data inputs ; 345                         ;
-; boundary_port         ; 34                          ;
+;     extend            ; 3                           ;
+;         7 data inputs ; 3                           ;
+;     normal            ; 560                         ;
+;         2 data inputs ; 53                          ;
+;         3 data inputs ; 22                          ;
+;         4 data inputs ; 44                          ;
+;         5 data inputs ; 86                          ;
+;         6 data inputs ; 355                         ;
+; boundary_port         ; 28                          ;
 ; stratixv_ram_block    ; 128                         ;
 ;                       ;                             ;
-; Max LUT depth         ; 7.50                        ;
-; Average LUT depth     ; 5.32                        ;
+; Max LUT depth         ; 7.60                        ;
+; Average LUT depth     ; 5.69                        ;
 +-----------------------+-----------------------------+
 
 
@@ -779,7 +788,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:02     ;
+; Top            ; 00:00:01     ;
 +----------------+--------------+
 
 
@@ -789,7 +798,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
-    Info: Processing started: Wed Nov 20 12:07:09 2024
+    Info: Processing started: Wed Nov 20 16:27:26 2024
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off GPU -c GPU
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
@@ -885,16 +894,16 @@ Info (17049): 5 registers lost all their fanouts during netlist optimizations.
 Info (144001): Generated suppressed messages file C:/Users/dhhoy/3710-CPU/quartusProject/GPU.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 1060 device resources after synthesis - the final resource count might be different
-    Info (21058): Implemented 18 input pins
+Info (21057): Implemented 1059 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 12 input pins
     Info (21059): Implemented 16 output pins
-    Info (21061): Implemented 898 logic cells
+    Info (21061): Implemented 903 logic cells
     Info (21064): Implemented 128 RAM segments
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 2 warnings
-    Info: Peak virtual memory: 4968 megabytes
-    Info: Processing ended: Wed Nov 20 12:08:45 2024
-    Info: Elapsed time: 00:01:36
-    Info: Total CPU time (on all processors): 00:01:46
+    Info: Peak virtual memory: 4976 megabytes
+    Info: Processing ended: Wed Nov 20 16:29:04 2024
+    Info: Elapsed time: 00:01:38
+    Info: Total CPU time (on all processors): 00:01:47
 
 
 +------------------------------------------+

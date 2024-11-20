@@ -10,14 +10,16 @@ module test3;
 	  );
 	  
     initial begin
-		 switches = 16'b0000000000000101;
+		 switches = 16'b0000000000000111;
 		 clock = 1'b0;
-        forever #5 clock = ~clock;
+       forever #5 clock = ~clock;
     end
 
     initial begin
         reset = 1'b0;
         #22;
         reset = 1'b1;
+		  #8222;
+		  switches = 16'b0000000000000101;
    end
 endmodule

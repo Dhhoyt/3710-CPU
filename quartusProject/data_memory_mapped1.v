@@ -13,7 +13,7 @@ module data_memory_mapped1
 
     memory memory1(clock, write_data, address, write_enable_condition, read_data);
 
-    always @(negedge clock) begin
+    always @(*) begin
         read_data_condition <= condition ? switches : read_data;
     end
 
