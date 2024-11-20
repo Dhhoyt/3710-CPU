@@ -5,8 +5,4 @@ incremental_db/
 output_files/
 simulation/
 *.qws
-*.qpf
-*.qsf
-*_description.txt
-*.data
 *.org
