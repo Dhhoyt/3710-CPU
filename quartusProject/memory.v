@@ -7,11 +7,11 @@ module memory
 
     reg [15:0] ram[2**16-1:0];
     initial begin
-        $readmemh("/home/jackson/repositories/3710-CPU/quartusProject/instruction_ram.data", ram);
+        $readmemh("C:/Users/dhhoy/3710-CPU/quartusProject/instruction_ram.data", ram);
     end
 
     // Port A
-    always @(posedge clock)
+    always @(negedge clock)
         begin
             if (write_enable_a)
                 begin

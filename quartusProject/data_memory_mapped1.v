@@ -13,12 +13,12 @@ module data_memory_mapped1
 
     memory memory1(clock, write_data, address, write_enable_condition, read_data);
 
-    always @(posedge clock) begin
+    always @(negedge clock) begin
         read_data_condition <= condition ? switches : read_data;
     end
 
-    always @(posedge clock) begin
-        if (condition) begin
+    always @(negedge clock) begin
+        if (write_enable && condition) begin
             leds <= write_data;
         end
     end

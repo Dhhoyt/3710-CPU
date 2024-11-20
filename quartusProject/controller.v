@@ -188,13 +188,12 @@ module controller
                 EXECUTE_LSH: state_next <= EXECUTE_WRITE;
                 EXECUTE_LSHI: state_next <= EXECUTE_WRITE;
                 EXECUTE_LUI: state_next <= EXECUTE_WRITE;
-                EXECUTE_LOAD: state_next <= EXECUTE_WRITE_LOAD;
+                EXECUTE_LOAD: state_next <= FETCH;
                 EXECUTE_STOR: state_next <= EXECUTE_WRITE;
                 EXECUTE_BCOND: state_next <= EXECUTE_WRITE;
                 EXECUTE_JCOND: state_next <= EXECUTE_WRITE;
                 EXECUTE_JAL: state_next <= EXECUTE_WRITE;
                 EXECUTE_WRITE: state_next <= FETCH;
-                EXECUTE_WRITE_LOAD: state_next <= FETCH;
                 default: state_next <= FETCH;
             endcase
         end
@@ -348,6 +347,9 @@ module controller
                 EXECUTE_LOAD:
                     begin
                         memory_address_select <= MEMORY_ADDRESS_SOURCE;
+								register_write_data_select <= REGISTER_WRITE_DATA_READ_DATA;
+								register_write_enable <= 1;
+
                     end
                 EXECUTE_STOR:
                     begin
@@ -359,7 +361,6 @@ module controller
                         alu_a_select <= ALU_A_PROGRAM_COUNTER;
                         alu_b_select <= ALU_B_IMMEDIATE_SIGN_EXTENDED_COND;
                         alu_operation <= ADD;
-
                         program_counter_select <= PROGRAM_COUNTER_ALU_D;
                     end
                 EXECUTE_JCOND:
@@ -375,13 +376,6 @@ module controller
                     end
                 EXECUTE_WRITE:
                     begin
-                        program_counter_write_enable <= 0;
-                    end
-                EXECUTE_WRITE_LOAD:
-                    begin
-                        register_write_enable <= 1;
-                        register_write_data_select <= REGISTER_WRITE_DATA_READ_DATA;
-
                         program_counter_write_enable <= 0;
                     end
             endcase
