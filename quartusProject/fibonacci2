@@ -1,0 +1,39 @@
+  movi 2 0
+  movi 12 fibonacci
+  movi 10 255
+loop1:
+  cmpi 3 24
+  bcond loop2 EQ
+  jal 5 12
+  stor 10 10
+  movi 6 64
+  add 6 3
+  stor 6 4
+  addi 3 1
+  bcond loop1 UC
+loop2:
+  movi 6 64
+  load 1 10
+  add 6 1
+  load 2 6
+  stor 10 2
+
+fibonacci:
+  cmpi 3 0
+  bcond case1 NE
+  movi 4 0
+  jcond 5 UC
+case1:
+  cmpi 3 0
+  bcond else NE
+  movi 4 1
+  jcond 5 UC
+else:
+  movi 6 64
+  add 6 3
+  addi 6 -2
+  load 7 6
+  addi 6 1
+  load 4 6
+  add 4 7
+  jcond 5 UC
