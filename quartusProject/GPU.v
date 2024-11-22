@@ -1,23 +1,20 @@
 module GPU(
     input wire clk,
     input wire clr,
+	 input wire [15:0] distance,
+	 input wire [15:0] texture,
+	 input wire active_buffer,
     output wire h_sync,
     output wire v_sync,
     output wire [7:0] red,
     output wire [7:0] green,
     output wire [7:0] blue,
+	 output wire reading_buffer,
+	 output wire [8:0] reading_index, // enough to address 320 addresses
 	 output wire vga_clock,
 	 output wire vga_sync,
 	 output wire vga_blank
 );
-
-reg [15:0] distances [319:0];
-
-initial begin
-	$display("Loading memory");
-	$readmemb("C:/Users/dhhoy/Documents/3710/GPU/distances.txt", distances);
-	$display("done loading");
-end
 
 parameter LOOKAHEAD_COUNT = 8;
 
@@ -42,60 +39,83 @@ wire [9:0] row;
 wire [9:0] real_row = row/2;
 wire [9:0] column_internal;
 
-wire [9:0] lookahead_column = (column_internal - h_front_porch_width)/2 + LOOKAHEAD_COUNT;
+reg active_buffer_internal;
+
+assign reading_index = (column_internal - h_front_porch_width)/2 + LOOKAHEAD_COUNT;
 reg [15:0] active_distances[LOOKAHEAD_COUNT - 1:0];
-wire [7:0] texture_uv_ys[LOOKAHEAD_COUNT - 1:0];	
+wire [5:0] texture_uv_ys[LOOKAHEAD_COUNT - 1:0];
+reg [5:0] texture_uv_xs[LOOKAHEAD_COUNT - 1:0];	
 wire inside_wall[LOOKAHEAD_COUNT - 1:0];
+wire above_wall[LOOKAHEAD_COUNT - 1:0];
 
 wire above_column;
 wire row_clr = ~above_column && clr;
 
 reg active_inside_wall;
-reg [7:0] active_uv_y;
+reg active_above_wall;
+reg [5:0] active_uv_x;
+reg [5:0] active_uv_y;
 
-gpuLookup l0(.distance(active_distances[0]), .screen_y(real_row), .inside_wall(inside_wall[0]), .uv_y(texture_uv_ys[0]));
-gpuLookup l1(.distance(active_distances[1]), .screen_y(real_row), .inside_wall(inside_wall[1]), .uv_y(texture_uv_ys[1]));
-gpuLookup l2(.distance(active_distances[2]), .screen_y(real_row), .inside_wall(inside_wall[2]), .uv_y(texture_uv_ys[2]));
-gpuLookup l3(.distance(active_distances[3]), .screen_y(real_row), .inside_wall(inside_wall[3]), .uv_y(texture_uv_ys[3]));
-gpuLookup l4(.distance(active_distances[4]), .screen_y(real_row), .inside_wall(inside_wall[4]), .uv_y(texture_uv_ys[4]));
-gpuLookup l5(.distance(active_distances[5]), .screen_y(real_row), .inside_wall(inside_wall[5]), .uv_y(texture_uv_ys[5]));
-gpuLookup l6(.distance(active_distances[6]), .screen_y(real_row), .inside_wall(inside_wall[6]), .uv_y(texture_uv_ys[6]));
-gpuLookup l7(.distance(active_distances[7]), .screen_y(real_row), .inside_wall(inside_wall[7]), .uv_y(texture_uv_ys[7]));
+gpuLookup l0(.distance(active_distances[0]), .screen_y(real_row), .above_wall(above_wall[0]), .inside_wall(inside_wall[0]), .uv_y(texture_uv_ys[0]));
+gpuLookup l1(.distance(active_distances[1]), .screen_y(real_row), .above_wall(above_wall[1]), .inside_wall(inside_wall[1]), .uv_y(texture_uv_ys[1]));
+gpuLookup l2(.distance(active_distances[2]), .screen_y(real_row), .above_wall(above_wall[2]), .inside_wall(inside_wall[2]), .uv_y(texture_uv_ys[2]));
+gpuLookup l3(.distance(active_distances[3]), .screen_y(real_row), .above_wall(above_wall[3]), .inside_wall(inside_wall[3]), .uv_y(texture_uv_ys[3]));
+gpuLookup l4(.distance(active_distances[4]), .screen_y(real_row), .above_wall(above_wall[4]), .inside_wall(inside_wall[4]), .uv_y(texture_uv_ys[4]));
+gpuLookup l5(.distance(active_distances[5]), .screen_y(real_row), .above_wall(above_wall[5]), .inside_wall(inside_wall[5]), .uv_y(texture_uv_ys[5]));
+gpuLookup l6(.distance(active_distances[6]), .screen_y(real_row), .above_wall(above_wall[6]), .inside_wall(inside_wall[6]), .uv_y(texture_uv_ys[6]));
+gpuLookup l7(.distance(active_distances[7]), .screen_y(real_row), .above_wall(above_wall[7]), .inside_wall(inside_wall[7]), .uv_y(texture_uv_ys[7]));
 
+wire [7:0] color;
 
-assign red   = active_inside_wall ? 8'b00000000 : 8'b11111111;
-assign green = active_inside_wall ? {active_uv_y, 2'b00} : 8'b00000000;
-assign blue = 8'b00000000;
+textureROM texture_lookup(
+	.x(active_uv_x),
+	.y(active_uv_y),
+	.q(color)
+);
+
+assign red = active_inside_wall ? color[7:5] << 5 : (active_above_wall ? 64: 128);
+assign green = active_inside_wall ? color[4:2] << 5 : (active_above_wall ? 64: 128);
+assign blue = active_inside_wall ? color[1:0] << 6 : (active_above_wall ? 64: 128);
 
 always @ (posedge clk) begin
 	if (pixel_clk) begin
+	   if (~v_sync)
+			active_buffer_internal = active_buffer;
 		if (~row_clr)
 			state <= LOOKAHEAD_1;	
 		else begin
 			case (state)
 				LOOKAHEAD_1: begin
-									active_distances[0] <= distances[lookahead_column];
+									active_distances[0] <= distance;
+									texture_uv_xs[0] = texture[5:0];
 								 end
 				LOOKAHEAD_2: begin
-									active_distances[1] <= distances[lookahead_column];
+									active_distances[1] <= distance;
+									texture_uv_xs[1] = texture[5:0];
 								 end
 				LOOKAHEAD_3: begin
-									active_distances[2] <= distances[lookahead_column];
+									active_distances[2] <= distance;
+									texture_uv_xs[2] = texture[5:0];
 								 end
 				LOOKAHEAD_4: begin
-									active_distances[3] <= distances[lookahead_column];
+									active_distances[3] <= distance;
+									texture_uv_xs[3] = texture[5:0];
 								 end
 				LOOKAHEAD_5: begin
-									active_distances[4] <= distances[lookahead_column];
+									active_distances[4] <= distance;
+									texture_uv_xs[4] = texture[5:0];
 								 end
 				LOOKAHEAD_6: begin
-									active_distances[5] <= distances[lookahead_column];
+									active_distances[5] <= distance;
+									texture_uv_xs[5] = texture[5:0];
 								 end
 				LOOKAHEAD_7: begin
-									active_distances[6] <= distances[lookahead_column];
+									active_distances[6] <= distance;
+									texture_uv_xs[6] = texture[5:0];
 								 end
 				LOOKAHEAD_8: begin
-									active_distances[7] <= distances[lookahead_column];
+									active_distances[7] <= distance;
+									texture_uv_xs[7] = texture[5:0];
 								 end
 			endcase
 			state <= next_state;
@@ -108,42 +128,58 @@ always @ (*) begin
 		LOOKAHEAD_1: begin
 							next_state = LOOKAHEAD_2;
 							active_inside_wall = inside_wall[0];
+							active_above_wall = above_wall[0];
 							active_uv_y = texture_uv_ys[0];
+							active_uv_x = texture_uv_xs[0];
 						 end
 		LOOKAHEAD_2: begin
 							next_state = LOOKAHEAD_3;
 							active_inside_wall = inside_wall[1];
+							active_above_wall = above_wall[1];
 							active_uv_y = texture_uv_ys[1];
+							active_uv_x = texture_uv_xs[1];
 						 end
 		LOOKAHEAD_3: begin
 							next_state = LOOKAHEAD_4;
 							active_inside_wall = inside_wall[2];
+							active_above_wall = above_wall[2];
 							active_uv_y = texture_uv_ys[2];
+							active_uv_x = texture_uv_xs[2];
 						 end
 		LOOKAHEAD_4: begin
 							next_state = LOOKAHEAD_5;
 							active_inside_wall = inside_wall[3];
+							active_above_wall = above_wall[3];
 							active_uv_y = texture_uv_ys[3];
+							active_uv_x = texture_uv_xs[3];
 						 end
 		LOOKAHEAD_5: begin
 							next_state = LOOKAHEAD_6;
 							active_inside_wall = inside_wall[4];
+							active_above_wall = above_wall[4];
 							active_uv_y = texture_uv_ys[4];
+							active_uv_x = texture_uv_xs[4];
 						 end
 		LOOKAHEAD_6: begin
 							next_state = LOOKAHEAD_7;
 							active_inside_wall = inside_wall[5];
+							active_above_wall = above_wall[5];
 							active_uv_y = texture_uv_ys[5];
+							active_uv_x = texture_uv_xs[5];
 						 end
 		LOOKAHEAD_7: begin
 							next_state = LOOKAHEAD_8;
 							active_inside_wall = inside_wall[6];
+							active_above_wall = above_wall[6];
 							active_uv_y = texture_uv_ys[6];
+							active_uv_x = texture_uv_xs[6];
 						 end
 		LOOKAHEAD_8: begin
 							next_state = LOOKAHEAD_1;
 							active_inside_wall = inside_wall[7];
+							active_above_wall = above_wall[7];
 							active_uv_y = texture_uv_ys[7];
+							active_uv_x = texture_uv_xs[7];
 						 end				 
 		default: begin
 						next_state = LOOKAHEAD_1;

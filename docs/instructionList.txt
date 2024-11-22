@@ -1,4 +1,6 @@
-add
-addi
-subB
+lodp x, y    ; loads the players x and y
+lodr x, y    ; loads the position of the ray (The second point. The ray starts at the players location, travels to the ray point, then continues on)
+lodw p       ; takes in a pointer to the memory address where the wall struct is stored
+cos  a       ; takes a = cos(a)
+sin  a       ; takes a = sin(a)
 
