@@ -1,0 +1,5 @@
+  movi 1 255
+start:
+  load 2 1
+  stor 1 2
+  bcond start UC

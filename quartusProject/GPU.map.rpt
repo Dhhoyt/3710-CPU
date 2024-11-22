@@ -1,0 +1,914 @@
+Analysis & Synthesis report for GPU
+Wed Nov 20 16:29:04 2024
+Quartus Prime Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Parallel Compilation
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. Analysis & Synthesis RAM Summary
+  9. State Machine - |system_mapped1|cpu:cpu1|controller:controller1|state
+ 10. Registers Removed During Synthesis
+ 11. General Register Statistics
+ 12. Registers Packed Into Inferred Megafunctions
+ 13. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 14. Source assignments for data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0|altsyncram_5ve1:auto_generated
+ 15. Parameter Settings for User Entity Instance: cpu:cpu1|controller:controller1
+ 16. Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1
+ 17. Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|flop_enable_reset:program_counter_register
+ 18. Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register
+ 19. Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register
+ 20. Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|mux4:program_counter_mux
+ 21. Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|mux4:alu_a_mux
+ 22. Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|mux4:alu_b_mux
+ 23. Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux
+ 24. Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|mux2:memory_address_select_mux
+ 25. Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|alu:alu1
+ 26. Parameter Settings for Inferred Entity Instance: data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0
+ 27. altsyncram Parameter Settings by Entity Instance
+ 28. Port Connectivity Checks: "data_memory_mapped1:data_memory"
+ 29. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux"
+ 30. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|mux4:alu_b_mux"
+ 31. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register"
+ 32. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1"
+ 33. Post-Synthesis Netlist Statistics for Top Partition
+ 34. Elapsed Time Per Partition
+ 35. Analysis & Synthesis Messages
+ 36. Analysis & Synthesis Suppressed Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2024  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and any partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details, at
+https://fpgasoftware.intel.com/eula.
+
+
+
++----------------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                     ;
++---------------------------------+------------------------------------------------+
+; Analysis & Synthesis Status     ; Successful - Wed Nov 20 16:29:04 2024          ;
+; Quartus Prime Version           ; 23.1std.1 Build 993 05/14/2024 SC Lite Edition ;
+; Revision Name                   ; GPU                                            ;
+; Top-level Entity Name           ; system_mapped1                                 ;
+; Family                          ; Cyclone V                                      ;
+; Logic utilization (in ALMs)     ; N/A                                            ;
+; Total registers                 ; 337                                            ;
+; Total pins                      ; 28                                             ;
+; Total virtual pins              ; 0                                              ;
+; Total block memory bits         ; 1,048,576                                      ;
+; Total DSP Blocks                ; 0                                              ;
+; Total HSSI RX PCSs              ; 0                                              ;
+; Total HSSI PMA RX Deserializers ; 0                                              ;
+; Total HSSI TX PCSs              ; 0                                              ;
+; Total HSSI PMA TX Serializers   ; 0                                              ;
+; Total PLLs                      ; 0                                              ;
+; Total DLLs                      ; 0                                              ;
++---------------------------------+------------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                                             ;
++---------------------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                                          ; Setting            ; Default Value      ;
++---------------------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                                          ; 5CSEMA5F31C6       ;                    ;
+; Top-level entity name                                                           ; system_mapped1     ; GPU                ;
+; Family name                                                                     ; Cyclone V          ; Cyclone V          ;
+; Use smart compilation                                                           ; Off                ; Off                ;
+; Enable parallel Assembler and Timing Analyzer during compilation                ; On                 ; On                 ;
+; Enable compact report table                                                     ; Off                ; Off                ;
+; Restructure Multiplexers                                                        ; Auto               ; Auto               ;
+; MLAB Add Timing Constraints For Mixed-Port Feed-Through Mode Setting Don't Care ; Off                ; Off                ;
+; Create Debugging Nodes for IP Cores                                             ; Off                ; Off                ;
+; Preserve fewer node names                                                       ; On                 ; On                 ;
+; Intel FPGA IP Evaluation Mode                                                   ; Enable             ; Enable             ;
+; Verilog Version                                                                 ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                                    ; VHDL_1993          ; VHDL_1993          ;
+; State Machine Processing                                                        ; Auto               ; Auto               ;
+; Safe State Machine                                                              ; Off                ; Off                ;
+; Extract Verilog State Machines                                                  ; On                 ; On                 ;
+; Extract VHDL State Machines                                                     ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                               ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                                      ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                                  ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                                         ; On                 ; On                 ;
+; Infer RAMs from Raw Logic                                                       ; On                 ; On                 ;
+; Parallel Synthesis                                                              ; On                 ; On                 ;
+; DSP Block Balancing                                                             ; Auto               ; Auto               ;
+; NOT Gate Push-Back                                                              ; On                 ; On                 ;
+; Power-Up Don't Care                                                             ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                                    ; Off                ; Off                ;
+; Remove Duplicate Registers                                                      ; On                 ; On                 ;
+; Ignore CARRY Buffers                                                            ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                                          ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                                           ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                                       ; Off                ; Off                ;
+; Ignore LCELL Buffers                                                            ; Off                ; Off                ;
+; Ignore SOFT Buffers                                                             ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                                  ; Off                ; Off                ;
+; Optimization Technique                                                          ; Balanced           ; Balanced           ;
+; Carry Chain Length                                                              ; 70                 ; 70                 ;
+; Auto Carry Chains                                                               ; On                 ; On                 ;
+; Auto Open-Drain Pins                                                            ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                                           ; Off                ; Off                ;
+; Auto ROM Replacement                                                            ; On                 ; On                 ;
+; Auto RAM Replacement                                                            ; On                 ; On                 ;
+; Auto DSP Block Replacement                                                      ; On                 ; On                 ;
+; Auto Shift Register Replacement                                                 ; Auto               ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                                 ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                                   ; On                 ; On                 ;
+; Strict RAM Replacement                                                          ; Off                ; Off                ;
+; Allow Synchronous Control Signals                                               ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                                          ; Off                ; Off                ;
+; Auto Resource Sharing                                                           ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                                              ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                                              ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                                   ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing                             ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives                               ; Off                ; Off                ;
+; Timing-Driven Synthesis                                                         ; On                 ; On                 ;
+; Report Parameter Settings                                                       ; On                 ; On                 ;
+; Report Source Assignments                                                       ; On                 ; On                 ;
+; Report Connectivity Checks                                                      ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                                              ; Off                ; Off                ;
+; Synchronization Register Chain Length                                           ; 3                  ; 3                  ;
+; Power Optimization During Synthesis                                             ; Normal compilation ; Normal compilation ;
+; HDL message level                                                               ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                                 ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report                        ; 5000               ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report                              ; 5000               ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report                       ; 100                ; 100                ;
+; Clock MUX Protection                                                            ; On                 ; On                 ;
+; Auto Gated Clock Conversion                                                     ; Off                ; Off                ;
+; Block Design Naming                                                             ; Auto               ; Auto               ;
+; SDC constraint protection                                                       ; Off                ; Off                ;
+; Synthesis Effort                                                                ; Auto               ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal                    ; On                 ; On                 ;
+; Pre-Mapping Resynthesis Optimization                                            ; Off                ; Off                ;
+; Analysis & Synthesis Message Level                                              ; Medium             ; Medium             ;
+; Disable Register Merging Across Hierarchies                                     ; Auto               ; Auto               ;
+; Resource Aware Inference For Block RAM                                          ; On                 ; On                 ;
+; Automatic Parallel Synthesis                                                    ; On                 ; On                 ;
+; Partial Reconfiguration Bitstream ID                                            ; Off                ; Off                ;
++---------------------------------------------------------------------------------+--------------------+--------------------+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 12          ;
+; Maximum allowed            ; 6           ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 6           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
+;     Processor 2            ;   0.0%      ;
+;     Processor 3            ;   0.0%      ;
+;     Processor 4            ;   0.0%      ;
+;     Processor 5            ;   0.0%      ;
+;     Processor 6            ;   0.0%      ;
++----------------------------+-------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                                    ;
++-------------------------------------+-----------------+-------------------------------------------------------+---------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path    ; Used in Netlist ; File Type                                             ; File Name with Absolute Path                                                    ; Library ;
++-------------------------------------+-----------------+-------------------------------------------------------+---------------------------------------------------------------------------------+---------+
+; utilities.v                         ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v                              ;         ;
+; system_mapped1.v                    ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/system_mapped1.v                         ;         ;
+; memory.v                            ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/memory.v                                 ;         ;
+; data_memory_mapped1.v               ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/data_memory_mapped1.v                    ;         ;
+; datapath.v                          ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v                               ;         ;
+; cpu.v                               ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/cpu.v                                    ;         ;
+; controller.v                        ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/controller.v                             ;         ;
+; instruction_ram.data                ; yes             ; Auto-Found Unspecified File                           ; C:/Users/dhhoy/3710-CPU/quartusProject/instruction_ram.data                     ;         ;
+; altsyncram.tdf                      ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altsyncram.tdf        ;         ;
+; stratix_ram_block.inc               ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/stratix_ram_block.inc ;         ;
+; lpm_mux.inc                         ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/lpm_mux.inc           ;         ;
+; lpm_decode.inc                      ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/lpm_decode.inc        ;         ;
+; aglobal231.inc                      ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/aglobal231.inc        ;         ;
+; a_rdenreg.inc                       ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/a_rdenreg.inc         ;         ;
+; altrom.inc                          ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altrom.inc            ;         ;
+; altram.inc                          ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altram.inc            ;         ;
+; altdpram.inc                        ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altdpram.inc          ;         ;
+; db/altsyncram_5ve1.tdf              ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/altsyncram_5ve1.tdf                   ;         ;
+; db/GPU.ram0_memory_e411fb78.hdl.mif ; yes             ; Auto-Generated Auto-Found Memory Initialization File  ; C:/Users/dhhoy/3710-CPU/quartusProject/db/GPU.ram0_memory_e411fb78.hdl.mif      ;         ;
+; db/decode_dla.tdf                   ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/decode_dla.tdf                        ;         ;
+; db/decode_61a.tdf                   ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/decode_61a.tdf                        ;         ;
+; db/mux_chb.tdf                      ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/mux_chb.tdf                           ;         ;
++-------------------------------------+-----------------+-------------------------------------------------------+---------------------------------------------------------------------------------+---------+
+
+
++-----------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary               ;
++---------------------------------------------+-------------+
+; Resource                                    ; Usage       ;
++---------------------------------------------+-------------+
+; Estimate of Logic utilization (ALMs needed) ; 500         ;
+;                                             ;             ;
+; Combinational ALUT usage for logic          ; 614         ;
+;     -- 7 input functions                    ; 3           ;
+;     -- 6 input functions                    ; 355         ;
+;     -- 5 input functions                    ; 118         ;
+;     -- 4 input functions                    ; 44          ;
+;     -- <=3 input functions                  ; 94          ;
+;                                             ;             ;
+; Dedicated logic registers                   ; 337         ;
+;                                             ;             ;
+; I/O pins                                    ; 28          ;
+; Total MLAB memory bits                      ; 0           ;
+; Total block memory bits                     ; 1048576     ;
+;                                             ;             ;
+; Total DSP Blocks                            ; 0           ;
+;                                             ;             ;
+; Maximum fan-out node                        ; clock~input ;
+; Maximum fan-out                             ; 465         ;
+; Total fan-out                               ; 6388        ;
+; Average fan-out                             ; 5.63        ;
++---------------------------------------------+-------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                                                                             ;
++-------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
+; Compilation Hierarchy Node                            ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                       ; Entity Name         ; Library Name ;
++-------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
+; |system_mapped1                                       ; 614 (0)             ; 337 (0)                   ; 1048576           ; 0          ; 28   ; 0            ; |system_mapped1                                                                                                                           ; system_mapped1      ; work         ;
+;    |cpu:cpu1|                                         ; 537 (0)             ; 318 (0)                   ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1                                                                                                                  ; cpu                 ; work         ;
+;       |controller:controller1|                        ; 56 (56)             ; 25 (25)                   ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|controller:controller1                                                                                           ; controller          ; work         ;
+;       |datapath:datapath1|                            ; 481 (21)            ; 293 (0)                   ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1                                                                                               ; datapath            ; work         ;
+;          |alu:alu1|                                   ; 103 (103)           ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|alu:alu1                                                                                      ; alu                 ; work         ;
+;          |flop_enable_reset:instruction_register|     ; 1 (1)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register                                                        ; flop_enable_reset   ; work         ;
+;          |flop_enable_reset:program_counter_register| ; 35 (35)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:program_counter_register                                                    ; flop_enable_reset   ; work         ;
+;          |flop_enable_reset:status_register|          ; 24 (24)             ; 5 (5)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register                                                             ; flop_enable_reset   ; work         ;
+;          |mux2:memory_address_select_mux|             ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux2:memory_address_select_mux                                                                ; mux2                ; work         ;
+;          |mux4:alu_a_mux|                             ; 18 (18)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:alu_a_mux                                                                                ; mux4                ; work         ;
+;          |mux4:alu_b_mux|                             ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:alu_b_mux                                                                                ; mux4                ; work         ;
+;          |mux8:register_write_data_mux|               ; 53 (53)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux                                                                  ; mux8                ; work         ;
+;          |register_file:register_file1|               ; 194 (194)           ; 256 (256)                 ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|register_file:register_file1                                                                  ; register_file       ; work         ;
+;    |data_memory_mapped1:data_memory|                  ; 77 (30)             ; 19 (16)                   ; 1048576           ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory                                                                                           ; data_memory_mapped1 ; work         ;
+;       |memory:memory1|                                ; 47 (0)              ; 3 (0)                     ; 1048576           ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory|memory:memory1                                                                            ; memory              ; work         ;
+;          |altsyncram:ram_rtl_0|                       ; 47 (0)              ; 3 (0)                     ; 1048576           ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0                                                       ; altsyncram          ; work         ;
+;             |altsyncram_5ve1:auto_generated|          ; 47 (0)              ; 3 (3)                     ; 1048576           ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0|altsyncram_5ve1:auto_generated                        ; altsyncram_5ve1     ; work         ;
+;                |decode_61a:rden_decode|               ; 7 (7)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0|altsyncram_5ve1:auto_generated|decode_61a:rden_decode ; decode_61a          ; work         ;
+;                |decode_dla:decode3|                   ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0|altsyncram_5ve1:auto_generated|decode_dla:decode3     ; decode_dla          ; work         ;
+;                |mux_chb:mux2|                         ; 32 (32)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0|altsyncram_5ve1:auto_generated|mux_chb:mux2           ; mux_chb             ; work         ;
++-------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis RAM Summary                                                                                                                                                                                                               ;
++---------------------------------------------------------------------------------------------------------------+------+-------------+--------------+--------------+--------------+--------------+---------+-------------------------------------+
+; Name                                                                                                          ; Type ; Mode        ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size    ; MIF                                 ;
++---------------------------------------------------------------------------------------------------------------+------+-------------+--------------+--------------+--------------+--------------+---------+-------------------------------------+
+; data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0|altsyncram_5ve1:auto_generated|ALTSYNCRAM ; AUTO ; Single Port ; 65536        ; 16           ; --           ; --           ; 1048576 ; db/GPU.ram0_memory_e411fb78.hdl.mif ;
++---------------------------------------------------------------------------------------------------------------+------+-------------+--------------+--------------+--------------+--------------+---------+-------------------------------------+
+
+
+Encoding Type:  One-Hot
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |system_mapped1|cpu:cpu1|controller:controller1|state                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ;
++---------------------+---------------------+-------------------+---------------------+---------------------+--------------------+--------------------+-------------------+--------------------+-------------------+--------------------+-------------------+--------------------+-------------------+-------------------+------------------+--------------------+-------------------+--------------------+-------------------+--------------------+-------------------+--------------------+-------------------+--------------+-------------+
+; Name                ; state.EXECUTE_WRITE ; state.EXECUTE_JAL ; state.EXECUTE_JCOND ; state.EXECUTE_BCOND ; state.EXECUTE_STOR ; state.EXECUTE_LOAD ; state.EXECUTE_LUI ; state.EXECUTE_LSHI ; state.EXECUTE_LSH ; state.EXECUTE_MOVI ; state.EXECUTE_MOV ; state.EXECUTE_XORI ; state.EXECUTE_XOR ; state.EXECUTE_ORI ; state.EXECUTE_OR ; state.EXECUTE_ANDI ; state.EXECUTE_AND ; state.EXECUTE_CMPI ; state.EXECUTE_CMP ; state.EXECUTE_SUBI ; state.EXECUTE_SUB ; state.EXECUTE_ADDI ; state.EXECUTE_ADD ; state.DECODE ; state.FETCH ;
++---------------------+---------------------+-------------------+---------------------+---------------------+--------------------+--------------------+-------------------+--------------------+-------------------+--------------------+-------------------+--------------------+-------------------+-------------------+------------------+--------------------+-------------------+--------------------+-------------------+--------------------+-------------------+--------------------+-------------------+--------------+-------------+
+; state.FETCH         ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 0           ;
+; state.DECODE        ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 1            ; 1           ;
+; state.EXECUTE_ADD   ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 1                 ; 0            ; 1           ;
+; state.EXECUTE_ADDI  ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 1                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_SUB   ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 1                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_SUBI  ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 1                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_CMP   ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 1                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_CMPI  ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 1                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_AND   ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 1                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_ANDI  ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 1                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_OR    ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 1                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_ORI   ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 1                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_XOR   ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 1                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_XORI  ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 1                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_MOV   ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 1                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_MOVI  ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 1                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_LSH   ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 1                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_LSHI  ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 1                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_LUI   ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 1                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_LOAD  ; 0                   ; 0                 ; 0                   ; 0                   ; 0                  ; 1                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_STOR  ; 0                   ; 0                 ; 0                   ; 0                   ; 1                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_BCOND ; 0                   ; 0                 ; 0                   ; 1                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_JCOND ; 0                   ; 0                 ; 1                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_JAL   ; 0                   ; 1                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
+; state.EXECUTE_WRITE ; 1                   ; 0                 ; 0                   ; 0                   ; 0                  ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                 ; 0                ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0                  ; 0                 ; 0            ; 1           ;
++---------------------+---------------------+-------------------+---------------------+---------------------+--------------------+--------------------+-------------------+--------------------+-------------------+--------------------+-------------------+--------------------+-------------------+-------------------+------------------+--------------------+-------------------+--------------------+-------------------+--------------------+-------------------+--------------------+-------------------+--------------+-------------+
+
+
++--------------------------------------------------------------+
+; Registers Removed During Synthesis                           ;
++-----------------------------------------+--------------------+
+; Register name                           ; Reason for Removal ;
++-----------------------------------------+--------------------+
+; cpu:cpu1|controller:controller1|state~2 ; Lost fanout        ;
+; cpu:cpu1|controller:controller1|state~3 ; Lost fanout        ;
+; cpu:cpu1|controller:controller1|state~4 ; Lost fanout        ;
+; cpu:cpu1|controller:controller1|state~5 ; Lost fanout        ;
+; cpu:cpu1|controller:controller1|state~6 ; Lost fanout        ;
+; Total Number of Removed Registers = 5   ;                    ;
++-----------------------------------------+--------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 337   ;
+; Number of registers using Synchronous Clear  ; 33    ;
+; Number of registers using Synchronous Load   ; 0     ;
+; Number of registers using Asynchronous Clear ; 0     ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 308   ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------+
+; Registers Packed Into Inferred Megafunctions                                                                                        ;
++-------------------------------------------------------------------+----------------------------------------------------------+------+
+; Register Name                                                     ; Megafunction                                             ; Type ;
++-------------------------------------------------------------------+----------------------------------------------------------+------+
+; data_memory_mapped1:data_memory|memory:memory1|read_data_a[0..15] ; data_memory_mapped1:data_memory|memory:memory1|ram_rtl_0 ; RAM  ;
++-------------------------------------------------------------------+----------------------------------------------------------+------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                                            ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                                  ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------------------------------------------+
+; 3:1                ; 16 bits   ; 32 LEs        ; 0 LEs                ; 32 LEs                 ; Yes        ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[14]    ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register|q[7]          ;
+; 6:1                ; 16 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:program_counter_register|q[8] ;
+; 10:1               ; 2 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register|q[0]          ;
+; 3:1                ; 9 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|controller:controller1|state                                       ;
+; 3:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:alu_b_mux|Mux14                            ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:alu_a_mux|Mux1                             ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:alu_a_mux|Mux14                            ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|controller:controller1|state                                       ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|controller:controller1|state                                       ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|controller:controller1|state                                       ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 32 LEs               ; 8 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux|Mux0               ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 32 LEs               ; 8 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux|Mux14              ;
+; 9:1                ; 14 bits   ; 84 LEs        ; 70 LEs               ; 14 LEs                 ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|alu:alu1|Mux7                                   ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------+
+; Source assignments for data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0|altsyncram_5ve1:auto_generated ;
++---------------------------------+--------------------+------+-------------------------------------------------------------+
+; Assignment                      ; Value              ; From ; To                                                          ;
++---------------------------------+--------------------+------+-------------------------------------------------------------+
+; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                                           ;
++---------------------------------+--------------------+------+-------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu1|controller:controller1 ;
++----------------------------------------+-------+-----------------------------+
+; Parameter Name                         ; Value ; Type                        ;
++----------------------------------------+-------+-----------------------------+
+; OPERATION_RTYPE                        ; 0000  ; Unsigned Binary             ;
+; OPERATION_ANDI                         ; 0001  ; Unsigned Binary             ;
+; OPERATION_ORI                          ; 0010  ; Unsigned Binary             ;
+; OPERATION_XORI                         ; 0011  ; Unsigned Binary             ;
+; OPERATION_MEMORY                       ; 0100  ; Unsigned Binary             ;
+; OPERATION_ADDI                         ; 0101  ; Unsigned Binary             ;
+; OPERATION_ADDUI                        ; 0110  ; Unsigned Binary             ;
+; OPERATION_ADDCI                        ; 0111  ; Unsigned Binary             ;
+; OPERATION_LSH                          ; 1000  ; Unsigned Binary             ;
+; OPERATION_SUBI                         ; 1001  ; Unsigned Binary             ;
+; OPERATION_SUBCI                        ; 1010  ; Unsigned Binary             ;
+; OPERATION_CMPI                         ; 1011  ; Unsigned Binary             ;
+; OPERATION_BCOND                        ; 1100  ; Unsigned Binary             ;
+; OPERATION_MOVI                         ; 1101  ; Unsigned Binary             ;
+; OPERATION_MULI                         ; 1110  ; Unsigned Binary             ;
+; OPERATION_LUI                          ; 1111  ; Unsigned Binary             ;
+; OPERATION_EXTRA_ADD                    ; 0101  ; Unsigned Binary             ;
+; OPERATION_EXTRA_SUB                    ; 1001  ; Unsigned Binary             ;
+; OPERATION_EXTRA_CMP                    ; 1011  ; Unsigned Binary             ;
+; OPERATION_EXTRA_AND                    ; 0001  ; Unsigned Binary             ;
+; OPERATION_EXTRA_OR                     ; 0010  ; Unsigned Binary             ;
+; OPERATION_EXTRA_XOR                    ; 0011  ; Unsigned Binary             ;
+; OPERATION_EXTRA_MOV                    ; 1101  ; Unsigned Binary             ;
+; OPERATION_EXTRA_LSH                    ; 0100  ; Unsigned Binary             ;
+; OPERATION_EXTRA_LSHI_LEFT              ; 0000  ; Unsigned Binary             ;
+; OPERATION_EXTRA_LSHI_TWO               ; 0001  ; Unsigned Binary             ;
+; OPERATION_EXTRA_LOAD                   ; 0000  ; Unsigned Binary             ;
+; OPERATION_EXTRA_STOR                   ; 0100  ; Unsigned Binary             ;
+; OPERATION_EXTRA_JCOND                  ; 1100  ; Unsigned Binary             ;
+; OPERATION_EXTRA_JAL                    ; 1000  ; Unsigned Binary             ;
+; FETCH                                  ; 00000 ; Unsigned Binary             ;
+; DECODE                                 ; 00001 ; Unsigned Binary             ;
+; EXECUTE_ADD                            ; 00010 ; Unsigned Binary             ;
+; EXECUTE_ADDI                           ; 00011 ; Unsigned Binary             ;
+; EXECUTE_SUB                            ; 00100 ; Unsigned Binary             ;
+; EXECUTE_SUBI                           ; 00101 ; Unsigned Binary             ;
+; EXECUTE_CMP                            ; 00110 ; Unsigned Binary             ;
+; EXECUTE_CMPI                           ; 00111 ; Unsigned Binary             ;
+; EXECUTE_AND                            ; 01000 ; Unsigned Binary             ;
+; EXECUTE_ANDI                           ; 01001 ; Unsigned Binary             ;
+; EXECUTE_OR                             ; 01010 ; Unsigned Binary             ;
+; EXECUTE_ORI                            ; 01011 ; Unsigned Binary             ;
+; EXECUTE_XOR                            ; 01100 ; Unsigned Binary             ;
+; EXECUTE_XORI                           ; 01101 ; Unsigned Binary             ;
+; EXECUTE_MOV                            ; 01110 ; Unsigned Binary             ;
+; EXECUTE_MOVI                           ; 01111 ; Unsigned Binary             ;
+; EXECUTE_LSH                            ; 10000 ; Unsigned Binary             ;
+; EXECUTE_LSHI                           ; 10001 ; Unsigned Binary             ;
+; EXECUTE_LUI                            ; 10010 ; Unsigned Binary             ;
+; EXECUTE_LOAD                           ; 10011 ; Unsigned Binary             ;
+; EXECUTE_STOR                           ; 10100 ; Unsigned Binary             ;
+; EXECUTE_BCOND                          ; 10101 ; Unsigned Binary             ;
+; EXECUTE_JCOND                          ; 10110 ; Unsigned Binary             ;
+; EXECUTE_JAL                            ; 10111 ; Unsigned Binary             ;
+; EXECUTE_WRITE_LOAD                     ; 11110 ; Unsigned Binary             ;
+; EXECUTE_WRITE                          ; 11111 ; Unsigned Binary             ;
+; ALU_A_PROGRAM_COUNTER                  ; 00    ; Unsigned Binary             ;
+; ALU_A_SOURCE                           ; 01    ; Unsigned Binary             ;
+; ALU_A_IMMEDIATE_SIGN_EXTENDED          ; 10    ; Unsigned Binary             ;
+; ALU_A_IMMEDIATE_ZERO_EXTENDED          ; 11    ; Unsigned Binary             ;
+; ALU_B_DESTINATION                      ; 00    ; Unsigned Binary             ;
+; ALU_B_CONSTANT_ONE                     ; 01    ; Unsigned Binary             ;
+; ALU_B_IMMEDIATE_SIGN_EXTENDED_COND     ; 10    ; Unsigned Binary             ;
+; REGISTER_WRITE_ALU_D                   ; 000   ; Unsigned Binary             ;
+; REGISTER_WRITE_SOURCE                  ; 001   ; Unsigned Binary             ;
+; REGISTER_WRITE_IMMEDIATE_ZERO_EXTENDED ; 010   ; Unsigned Binary             ;
+; REGISTER_WRITE_IMMEDIATE_UPPER         ; 011   ; Unsigned Binary             ;
+; REGISTER_WRITE_DATA_READ_DATA          ; 100   ; Unsigned Binary             ;
+; REGISTER_WRITE_PROGRAM_COUNTER_NEXT    ; 101   ; Unsigned Binary             ;
+; MEMORY_ADDRESS_PROGRAM_COUNTER         ; 0     ; Unsigned Binary             ;
+; MEMORY_ADDRESS_SOURCE                  ; 1     ; Unsigned Binary             ;
+; PROGRAM_COUNTER_INCREMENT              ; 00    ; Unsigned Binary             ;
+; PROGRAM_COUNTER_ALU_D                  ; 01    ; Unsigned Binary             ;
+; PROGRAM_COUNTER_CONDITION              ; 10    ; Unsigned Binary             ;
+; PROGRAM_COUNTER_SOURCE                 ; 11    ; Unsigned Binary             ;
+; ADD                                    ; 000   ; Unsigned Binary             ;
+; SUBTRACT                               ; 001   ; Unsigned Binary             ;
+; COMPARE                                ; 010   ; Unsigned Binary             ;
+; AND                                    ; 011   ; Unsigned Binary             ;
+; OR                                     ; 100   ; Unsigned Binary             ;
+; XOR                                    ; 101   ; Unsigned Binary             ;
+; SHIFT                                  ; 110   ; Unsigned Binary             ;
++----------------------------------------+-------+-----------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1 ;
++-------------------------------+-------+----------------------------------+
+; Parameter Name                ; Value ; Type                             ;
++-------------------------------+-------+----------------------------------+
+; ALU_A_PROGRAM_COUNTER         ; 000   ; Unsigned Binary                  ;
+; ALU_A_SOURCE                  ; 001   ; Unsigned Binary                  ;
+; ALU_A_IMMEDIATE_SIGN_EXTENDED ; 010   ; Unsigned Binary                  ;
+; ALU_A_IMMEDIATE_ZERO_EXTENDED ; 011   ; Unsigned Binary                  ;
+; ALU_A_SHIFT_SOURCE            ; 100   ; Unsigned Binary                  ;
+; ALU_A_SHIFT_IMMEDIATE         ; 101   ; Unsigned Binary                  ;
+; ALU_B_DESTINATION             ; 0     ; Unsigned Binary                  ;
+; ALU_B_CONSTANT_ONE            ; 1     ; Unsigned Binary                  ;
+; EQ                            ; 0000  ; Unsigned Binary                  ;
+; NE                            ; 0001  ; Unsigned Binary                  ;
+; GE                            ; 1101  ; Unsigned Binary                  ;
+; CC                            ; 0011  ; Unsigned Binary                  ;
+; HI                            ; 0100  ; Unsigned Binary                  ;
+; LS                            ; 0101  ; Unsigned Binary                  ;
+; LO                            ; 1010  ; Unsigned Binary                  ;
+; HS                            ; 1011  ; Unsigned Binary                  ;
+; GT                            ; 0110  ; Unsigned Binary                  ;
+; LE                            ; 0111  ; Unsigned Binary                  ;
+; FS                            ; 1000  ; Unsigned Binary                  ;
+; FC                            ; 1001  ; Unsigned Binary                  ;
+; LT                            ; 1100  ; Unsigned Binary                  ;
+; UC                            ; 1110  ; Unsigned Binary                  ;
+; ZERO                          ; 0110  ; Unsigned Binary                  ;
+; NEGATIVE                      ; 0111  ; Unsigned Binary                  ;
+; LOW                           ; 0010  ; Unsigned Binary                  ;
+; FLAG                          ; 0101  ; Unsigned Binary                  ;
+; CARRY                         ; 0000  ; Unsigned Binary                  ;
++-------------------------------+-------+----------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|flop_enable_reset:program_counter_register ;
++----------------+-------+--------------------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                                       ;
++----------------+-------+--------------------------------------------------------------------------------------------+
+; WIDTH          ; 16    ; Signed Integer                                                                             ;
++----------------+-------+--------------------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register ;
++----------------+-------+----------------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                                   ;
++----------------+-------+----------------------------------------------------------------------------------------+
+; WIDTH          ; 16    ; Signed Integer                                                                         ;
++----------------+-------+----------------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register ;
++----------------+-------+-----------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                              ;
++----------------+-------+-----------------------------------------------------------------------------------+
+; WIDTH          ; 16    ; Signed Integer                                                                    ;
++----------------+-------+-----------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|mux4:program_counter_mux ;
++----------------+-------+--------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                     ;
++----------------+-------+--------------------------------------------------------------------------+
+; WIDTH          ; 16    ; Signed Integer                                                           ;
++----------------+-------+--------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|mux4:alu_a_mux ;
++----------------+-------+----------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                           ;
++----------------+-------+----------------------------------------------------------------+
+; WIDTH          ; 16    ; Signed Integer                                                 ;
++----------------+-------+----------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|mux4:alu_b_mux ;
++----------------+-------+----------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                           ;
++----------------+-------+----------------------------------------------------------------+
+; WIDTH          ; 16    ; Signed Integer                                                 ;
++----------------+-------+----------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux ;
++----------------+-------+------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                         ;
++----------------+-------+------------------------------------------------------------------------------+
+; WIDTH          ; 16    ; Signed Integer                                                               ;
++----------------+-------+------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|mux2:memory_address_select_mux ;
++----------------+-------+--------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                           ;
++----------------+-------+--------------------------------------------------------------------------------+
+; WIDTH          ; 16    ; Signed Integer                                                                 ;
++----------------+-------+--------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu1|datapath:datapath1|alu:alu1 ;
++----------------+-------+----------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                     ;
++----------------+-------+----------------------------------------------------------+
+; ADD            ; 000   ; Unsigned Binary                                          ;
+; SUBTRACT       ; 001   ; Unsigned Binary                                          ;
+; COMPARE        ; 010   ; Unsigned Binary                                          ;
+; AND            ; 011   ; Unsigned Binary                                          ;
+; OR             ; 100   ; Unsigned Binary                                          ;
+; XOR            ; 101   ; Unsigned Binary                                          ;
+; SHIFT          ; 110   ; Unsigned Binary                                          ;
++----------------+-------+----------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for Inferred Entity Instance: data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0 ;
++------------------------------------+-------------------------------------+-------------------------------------------+
+; Parameter Name                     ; Value                               ; Type                                      ;
++------------------------------------+-------------------------------------+-------------------------------------------+
+; BYTE_SIZE_BLOCK                    ; 8                                   ; Untyped                                   ;
+; AUTO_CARRY_CHAINS                  ; ON                                  ; AUTO_CARRY                                ;
+; IGNORE_CARRY_BUFFERS               ; OFF                                 ; IGNORE_CARRY                              ;
+; AUTO_CASCADE_CHAINS                ; ON                                  ; AUTO_CASCADE                              ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                                 ; IGNORE_CASCADE                            ;
+; WIDTH_BYTEENA                      ; 1                                   ; Untyped                                   ;
+; OPERATION_MODE                     ; SINGLE_PORT                         ; Untyped                                   ;
+; WIDTH_A                            ; 16                                  ; Untyped                                   ;
+; WIDTHAD_A                          ; 16                                  ; Untyped                                   ;
+; NUMWORDS_A                         ; 65536                               ; Untyped                                   ;
+; OUTDATA_REG_A                      ; UNREGISTERED                        ; Untyped                                   ;
+; ADDRESS_ACLR_A                     ; NONE                                ; Untyped                                   ;
+; OUTDATA_ACLR_A                     ; NONE                                ; Untyped                                   ;
+; WRCONTROL_ACLR_A                   ; NONE                                ; Untyped                                   ;
+; INDATA_ACLR_A                      ; NONE                                ; Untyped                                   ;
+; BYTEENA_ACLR_A                     ; NONE                                ; Untyped                                   ;
+; WIDTH_B                            ; 1                                   ; Untyped                                   ;
+; WIDTHAD_B                          ; 1                                   ; Untyped                                   ;
+; NUMWORDS_B                         ; 1                                   ; Untyped                                   ;
+; INDATA_REG_B                       ; CLOCK1                              ; Untyped                                   ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1                              ; Untyped                                   ;
+; RDCONTROL_REG_B                    ; CLOCK1                              ; Untyped                                   ;
+; ADDRESS_REG_B                      ; CLOCK1                              ; Untyped                                   ;
+; OUTDATA_REG_B                      ; UNREGISTERED                        ; Untyped                                   ;
+; BYTEENA_REG_B                      ; CLOCK1                              ; Untyped                                   ;
+; INDATA_ACLR_B                      ; NONE                                ; Untyped                                   ;
+; WRCONTROL_ACLR_B                   ; NONE                                ; Untyped                                   ;
+; ADDRESS_ACLR_B                     ; NONE                                ; Untyped                                   ;
+; OUTDATA_ACLR_B                     ; NONE                                ; Untyped                                   ;
+; RDCONTROL_ACLR_B                   ; NONE                                ; Untyped                                   ;
+; BYTEENA_ACLR_B                     ; NONE                                ; Untyped                                   ;
+; WIDTH_BYTEENA_A                    ; 1                                   ; Untyped                                   ;
+; WIDTH_BYTEENA_B                    ; 1                                   ; Untyped                                   ;
+; RAM_BLOCK_TYPE                     ; AUTO                                ; Untyped                                   ;
+; BYTE_SIZE                          ; 8                                   ; Untyped                                   ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                           ; Untyped                                   ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ                ; Untyped                                   ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ                ; Untyped                                   ;
+; INIT_FILE                          ; db/GPU.ram0_memory_e411fb78.hdl.mif ; Untyped                                   ;
+; INIT_FILE_LAYOUT                   ; PORT_A                              ; Untyped                                   ;
+; MAXIMUM_DEPTH                      ; 0                                   ; Untyped                                   ;
+; CLOCK_ENABLE_INPUT_A               ; NORMAL                              ; Untyped                                   ;
+; CLOCK_ENABLE_INPUT_B               ; NORMAL                              ; Untyped                                   ;
+; CLOCK_ENABLE_OUTPUT_A              ; NORMAL                              ; Untyped                                   ;
+; CLOCK_ENABLE_OUTPUT_B              ; NORMAL                              ; Untyped                                   ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN                     ; Untyped                                   ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN                     ; Untyped                                   ;
+; ENABLE_ECC                         ; FALSE                               ; Untyped                                   ;
+; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                               ; Untyped                                   ;
+; WIDTH_ECCSTATUS                    ; 3                                   ; Untyped                                   ;
+; DEVICE_FAMILY                      ; Cyclone V                           ; Untyped                                   ;
+; CBXI_PARAMETER                     ; altsyncram_5ve1                     ; Untyped                                   ;
++------------------------------------+-------------------------------------+-------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------------------------------------------+
+; altsyncram Parameter Settings by Entity Instance                                                                ;
++-------------------------------------------+---------------------------------------------------------------------+
+; Name                                      ; Value                                                               ;
++-------------------------------------------+---------------------------------------------------------------------+
+; Number of entity instances                ; 1                                                                   ;
+; Entity Instance                           ; data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0 ;
+;     -- OPERATION_MODE                     ; SINGLE_PORT                                                         ;
+;     -- WIDTH_A                            ; 16                                                                  ;
+;     -- NUMWORDS_A                         ; 65536                                                               ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                        ;
+;     -- WIDTH_B                            ; 1                                                                   ;
+;     -- NUMWORDS_B                         ; 1                                                                   ;
+;     -- ADDRESS_REG_B                      ; CLOCK1                                                              ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                        ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                                ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                           ;
++-------------------------------------------+---------------------------------------------------------------------+
+
+
++-------------------------------------------------------------+
+; Port Connectivity Checks: "data_memory_mapped1:data_memory" ;
++------------------+-------+----------+-----------------------+
+; Port             ; Type  ; Severity ; Details               ;
++------------------+-------+----------+-----------------------+
+; switches[15..10] ; Input ; Info     ; Stuck at GND          ;
++------------------+-------+----------+-----------------------+
+
+
++--------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux" ;
++----------+-------+----------+--------------------------------------------------------+
+; Port     ; Type  ; Severity ; Details                                                ;
++----------+-------+----------+--------------------------------------------------------+
+; d3[7..0] ; Input ; Info     ; Stuck at GND                                           ;
++----------+-------+----------+--------------------------------------------------------+
+
+
++------------------------------------------------------------------------+
+; Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|mux4:alu_b_mux" ;
++-----------+-------+----------+-----------------------------------------+
+; Port      ; Type  ; Severity ; Details                                 ;
++-----------+-------+----------+-----------------------------------------+
+; d1[15..1] ; Input ; Info     ; Stuck at GND                            ;
+; d1[0]     ; Input ; Info     ; Stuck at VCC                            ;
++-----------+-------+----------+-----------------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register"                          ;
++----------+--------+----------+-------------------------------------------------------------------------------------+
+; Port     ; Type   ; Severity ; Details                                                                             ;
++----------+--------+----------+-------------------------------------------------------------------------------------+
+; d[15..8] ; Input  ; Info     ; Stuck at GND                                                                        ;
+; d[4..3]  ; Input  ; Info     ; Stuck at GND                                                                        ;
+; d[1]     ; Input  ; Info     ; Stuck at GND                                                                        ;
+; q[15..8] ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; q[4..3]  ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; q[1]     ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++----------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "cpu:cpu1|datapath:datapath1"                                                                      ;
++--------------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port               ; Type   ; Severity ; Details                                                                             ;
++--------------------+--------+----------+-------------------------------------------------------------------------------------+
+; instruction[11..8] ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; instruction[3..0]  ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++--------------------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++-----------------------------------------------------+
+; Post-Synthesis Netlist Statistics for Top Partition ;
++-----------------------+-----------------------------+
+; Type                  ; Count                       ;
++-----------------------+-----------------------------+
+; arriav_ff             ; 337                         ;
+;     ENA               ; 276                         ;
+;     ENA SCLR          ; 32                          ;
+;     SCLR              ; 1                           ;
+;     plain             ; 28                          ;
+; arriav_lcell_comb     ; 614                         ;
+;     arith             ; 51                          ;
+;         0 data inputs ; 3                           ;
+;         1 data inputs ; 16                          ;
+;         5 data inputs ; 32                          ;
+;     extend            ; 3                           ;
+;         7 data inputs ; 3                           ;
+;     normal            ; 560                         ;
+;         2 data inputs ; 53                          ;
+;         3 data inputs ; 22                          ;
+;         4 data inputs ; 44                          ;
+;         5 data inputs ; 86                          ;
+;         6 data inputs ; 355                         ;
+; boundary_port         ; 28                          ;
+; stratixv_ram_block    ; 128                         ;
+;                       ;                             ;
+; Max LUT depth         ; 7.60                        ;
+; Average LUT depth     ; 5.69                        ;
++-----------------------+-----------------------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:01     ;
++----------------+--------------+
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Analysis & Synthesis
+    Info: Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
+    Info: Processing started: Wed Nov 20 16:27:26 2024
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off GPU -c GPU
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
+Info (12021): Found 1 design units, including 1 entities, in source file test3.v
+    Info (12023): Found entity 1: test3 File: C:/Users/dhhoy/3710-CPU/quartusProject/test3.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file vgacontroller.v
+    Info (12023): Found entity 1: vgaContoller File: C:/Users/dhhoy/3710-CPU/quartusProject/vgaController.v Line: 1
+Info (12021): Found 5 design units, including 5 entities, in source file utilities.v
+    Info (12023): Found entity 1: flop_reset File: C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v Line: 1
+    Info (12023): Found entity 2: flop_enable_reset File: C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v Line: 12
+    Info (12023): Found entity 3: mux2 File: C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v Line: 23
+    Info (12023): Found entity 4: mux4 File: C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v Line: 32
+    Info (12023): Found entity 5: mux8 File: C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v Line: 47
+Info (12021): Found 1 design units, including 1 entities, in source file test2.v
+    Info (12023): Found entity 1: test2 File: C:/Users/dhhoy/3710-CPU/quartusProject/test2.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file test1.v
+    Info (12023): Found entity 1: test1 File: C:/Users/dhhoy/3710-CPU/quartusProject/test1.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file tb_alu.v
+    Info (12023): Found entity 1: tb_alu File: C:/Users/dhhoy/3710-CPU/quartusProject/tb_ALU.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file system_mapped1.v
+    Info (12023): Found entity 1: system_mapped1 File: C:/Users/dhhoy/3710-CPU/quartusProject/system_mapped1.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file rightshift.v
+    Info (12023): Found entity 1: rightShift File: C:/Users/dhhoy/3710-CPU/quartusProject/rightShift.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file memory.v
+    Info (12023): Found entity 1: memory File: C:/Users/dhhoy/3710-CPU/quartusProject/memory.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file leftshift.v
+    Info (12023): Found entity 1: leftShift File: C:/Users/dhhoy/3710-CPU/quartusProject/leftShift.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file gpulookup.v
+    Info (12023): Found entity 1: gpuLookup File: C:/Users/dhhoy/3710-CPU/quartusProject/gpuLookup.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file gpu.v
+    Info (12023): Found entity 1: GPU File: C:/Users/dhhoy/3710-CPU/quartusProject/GPU.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file data_memory_mapped1.v
+    Info (12023): Found entity 1: data_memory_mapped1 File: C:/Users/dhhoy/3710-CPU/quartusProject/data_memory_mapped1.v Line: 1
+Info (12021): Found 3 design units, including 3 entities, in source file datapath.v
+    Info (12023): Found entity 1: datapath File: C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v Line: 1
+    Info (12023): Found entity 2: alu File: C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v Line: 151
+    Info (12023): Found entity 3: register_file File: C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v Line: 236
+Info (12021): Found 1 design units, including 1 entities, in source file cpu.v
+    Info (12023): Found entity 1: cpu File: C:/Users/dhhoy/3710-CPU/quartusProject/cpu.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file controller.v
+    Info (12023): Found entity 1: controller File: C:/Users/dhhoy/3710-CPU/quartusProject/controller.v Line: 4
+Info (12021): Found 1 design units, including 1 entities, in source file clockdivider.v
+    Info (12023): Found entity 1: clockDivider File: C:/Users/dhhoy/3710-CPU/quartusProject/clockDivider.v Line: 1
+Warning (10222): Verilog HDL Parameter Declaration warning at gpuLookup.v(10): Parameter Declaration in module "gpuLookup" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/dhhoy/3710-CPU/quartusProject/gpuLookup.v Line: 10
+Info (12127): Elaborating entity "system_mapped1" for the top level hierarchy
+Info (12128): Elaborating entity "cpu" for hierarchy "cpu:cpu1" File: C:/Users/dhhoy/3710-CPU/quartusProject/system_mapped1.v Line: 14
+Info (12128): Elaborating entity "controller" for hierarchy "cpu:cpu1|controller:controller1" File: C:/Users/dhhoy/3710-CPU/quartusProject/cpu.v Line: 34
+Info (12128): Elaborating entity "datapath" for hierarchy "cpu:cpu1|datapath:datapath1" File: C:/Users/dhhoy/3710-CPU/quartusProject/cpu.v Line: 42
+Info (12128): Elaborating entity "flop_enable_reset" for hierarchy "cpu:cpu1|datapath:datapath1|flop_enable_reset:program_counter_register" File: C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v Line: 101
+Info (12128): Elaborating entity "mux4" for hierarchy "cpu:cpu1|datapath:datapath1|mux4:program_counter_mux" File: C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v Line: 119
+Info (12128): Elaborating entity "mux8" for hierarchy "cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux" File: C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v Line: 129
+Info (12128): Elaborating entity "mux2" for hierarchy "cpu:cpu1|datapath:datapath1|mux2:memory_address_select_mux" File: C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v Line: 133
+Info (12128): Elaborating entity "alu" for hierarchy "cpu:cpu1|datapath:datapath1|alu:alu1" File: C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v Line: 138
+Info (12128): Elaborating entity "register_file" for hierarchy "cpu:cpu1|datapath:datapath1|register_file:register_file1" File: C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v Line: 145
+Info (12128): Elaborating entity "data_memory_mapped1" for hierarchy "data_memory_mapped1:data_memory" File: C:/Users/dhhoy/3710-CPU/quartusProject/system_mapped1.v Line: 18
+Info (12128): Elaborating entity "memory" for hierarchy "data_memory_mapped1:data_memory|memory:memory1" File: C:/Users/dhhoy/3710-CPU/quartusProject/data_memory_mapped1.v Line: 14
+Info (276014): Found 1 instances of uninferred RAM logic
+    Info (276007): RAM logic "cpu:cpu1|datapath:datapath1|register_file:register_file1|registers" is uninferred due to asynchronous read logic File: C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v Line: 243
+Info (19000): Inferred 1 megafunctions from design logic
+    Info (276029): Inferred altsyncram megafunction from the following design logic: "data_memory_mapped1:data_memory|memory:memory1|ram_rtl_0" 
+        Info (286033): Parameter OPERATION_MODE set to SINGLE_PORT
+        Info (286033): Parameter WIDTH_A set to 16
+        Info (286033): Parameter WIDTHAD_A set to 16
+        Info (286033): Parameter NUMWORDS_A set to 65536
+        Info (286033): Parameter OUTDATA_REG_A set to UNREGISTERED
+        Info (286033): Parameter ADDRESS_ACLR_A set to NONE
+        Info (286033): Parameter OUTDATA_ACLR_A set to NONE
+        Info (286033): Parameter INDATA_ACLR_A set to NONE
+        Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
+        Info (286033): Parameter INIT_FILE set to db/GPU.ram0_memory_e411fb78.hdl.mif
+Info (12130): Elaborated megafunction instantiation "data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0"
+Info (12133): Instantiated megafunction "data_memory_mapped1:data_memory|memory:memory1|altsyncram:ram_rtl_0" with the following parameter:
+    Info (12134): Parameter "OPERATION_MODE" = "SINGLE_PORT"
+    Info (12134): Parameter "WIDTH_A" = "16"
+    Info (12134): Parameter "WIDTHAD_A" = "16"
+    Info (12134): Parameter "NUMWORDS_A" = "65536"
+    Info (12134): Parameter "OUTDATA_REG_A" = "UNREGISTERED"
+    Info (12134): Parameter "ADDRESS_ACLR_A" = "NONE"
+    Info (12134): Parameter "OUTDATA_ACLR_A" = "NONE"
+    Info (12134): Parameter "INDATA_ACLR_A" = "NONE"
+    Info (12134): Parameter "WRCONTROL_ACLR_A" = "NONE"
+    Info (12134): Parameter "INIT_FILE" = "db/GPU.ram0_memory_e411fb78.hdl.mif"
+Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_5ve1.tdf
+    Info (12023): Found entity 1: altsyncram_5ve1 File: C:/Users/dhhoy/3710-CPU/quartusProject/db/altsyncram_5ve1.tdf Line: 34
+Info (12021): Found 1 design units, including 1 entities, in source file db/decode_dla.tdf
+    Info (12023): Found entity 1: decode_dla File: C:/Users/dhhoy/3710-CPU/quartusProject/db/decode_dla.tdf Line: 23
+Info (12021): Found 1 design units, including 1 entities, in source file db/decode_61a.tdf
+    Info (12023): Found entity 1: decode_61a File: C:/Users/dhhoy/3710-CPU/quartusProject/db/decode_61a.tdf Line: 23
+Info (12021): Found 1 design units, including 1 entities, in source file db/mux_chb.tdf
+    Info (12023): Found entity 1: mux_chb File: C:/Users/dhhoy/3710-CPU/quartusProject/db/mux_chb.tdf Line: 23
+Info (286030): Timing-Driven Synthesis is running
+Info (17049): 5 registers lost all their fanouts during netlist optimizations.
+Info (144001): Generated suppressed messages file C:/Users/dhhoy/3710-CPU/quartusProject/GPU.map.smsg
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Info (21057): Implemented 1059 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 12 input pins
+    Info (21059): Implemented 16 output pins
+    Info (21061): Implemented 903 logic cells
+    Info (21064): Implemented 128 RAM segments
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 2 warnings
+    Info: Peak virtual memory: 4976 megabytes
+    Info: Processing ended: Wed Nov 20 16:29:04 2024
+    Info: Elapsed time: 00:01:38
+    Info: Total CPU time (on all processors): 00:01:47
+
+
++------------------------------------------+
+; Analysis & Synthesis Suppressed Messages ;
++------------------------------------------+
+The suppressed messages can be found in C:/Users/dhhoy/3710-CPU/quartusProject/GPU.map.smsg.
+
+

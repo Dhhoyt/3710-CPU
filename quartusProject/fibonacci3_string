@@ -1,0 +1,39 @@
+  movi i 0
+  movi f fibonacci
+  movi m 255
+loop1:
+  cmpi i 24
+  bcond loop2 EQ
+  jal l f
+  movi p 64
+  add p i
+  stor p r
+  addi i 1
+  bcond loop1 UC
+loop2:
+  load o m
+  movi p 64
+  add p o
+  load v p
+  stor m v
+  bcond loop2 UC
+
+fibonacci:
+  cmpi i 0
+  bcond case1 NE
+  movi r 0
+  jcond l UC
+case1:
+  cmpi i 1
+  bcond else NE
+  movi r 1
+  jcond l UC
+else:
+  movi p 64
+  add p i
+  addi p -2
+  load t1 p
+  addi p 1
+  load r p
+  add r t1
+  jcond l UC

@@ -1,0 +1,7 @@
+Warning (10268): Verilog HDL information at vgaController.v(43): always construct contains both blocking and non-blocking assignments File: C:/Users/dhhoy/3710-CPU/quartusProject/vgaController.v Line: 43
+Info (10281): Verilog HDL Declaration information at datapath.v(50): object "NEGATIVE" differs only in case from object "negative" in the same scope File: C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v Line: 50
+Info (10281): Verilog HDL Declaration information at datapath.v(49): object "ZERO" differs only in case from object "zero" in the same scope File: C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v Line: 49
+Info (10281): Verilog HDL Declaration information at datapath.v(52): object "FLAG" differs only in case from object "flag" in the same scope File: C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v Line: 52
+Info (10281): Verilog HDL Declaration information at datapath.v(51): object "LOW" differs only in case from object "low" in the same scope File: C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v Line: 51
+Info (10281): Verilog HDL Declaration information at datapath.v(53): object "CARRY" differs only in case from object "carry" in the same scope File: C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v Line: 53
+Warning (10268): Verilog HDL information at datapath.v(175): always construct contains both blocking and non-blocking assignments File: C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v Line: 175

@@ -1,0 +1,11 @@
+  movi 7 255
+  movi 1 0
+  stor 7 6
+loop1:
+  cmpi 1 20
+  bcond end EQ
+  addi 1 1
+  bcond loop1 UC
+end:
+  stor 7 1
+  

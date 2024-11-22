@@ -1,0 +1,6 @@
+start:
+  addi 1 1
+  cmpi 1 5
+  bcond start NE
+  movi 2 0
+  stor 2 1
