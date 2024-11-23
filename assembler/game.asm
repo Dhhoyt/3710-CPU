@@ -6,7 +6,13 @@
 `define WALLS_COUNT $4
 `define MAX_FIXED_VAL $32767
 
-# do the raycast with the hardcoded map of walls
+
+# FUNCTION main entry point
+.FUN_MAIN
+
+
+
+# FUNCTION do the raycast with the hardcoded map of walls
 # return distance in %r8, texture UVX in %r9, texture ID in %rB
 .FUN_RAY_CAST # playerX:%r8, playerY:%r9, angle:%rB
 MOV %rB %r0
@@ -28,7 +34,7 @@ MOVI $0 %rB # default texture ID
 ADDI $5 %rC # add struct size to address
 LODW %rC #compute the intersection 
 BINT .INTERSECTION_FOUND
-JUC .INVALID_INTERSECTION
+JUC .CONTINUE_LOOP # invalid intersection
 
 .INTERSECTION_FOUND
 LODRD %r5 # get ray distance into %r5
@@ -48,7 +54,6 @@ BLT .RAY_CAST_LOOP #do again if theres more walls to check
 
 JUC %rA # return , might be wrong?
 
-.INVALID_INTERSECTION
 
 
 @ #preloaded ram values
