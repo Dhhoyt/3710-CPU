@@ -3,13 +3,13 @@ module GPU(
     input wire clr,
 	 input wire [15:0] distance,
 	 input wire [15:0] texture,
-	 input wire active_buffer,
+	 input wire buffer_select,
     output wire h_sync,
     output wire v_sync,
     output wire [7:0] red,
     output wire [7:0] green,
     output wire [7:0] blue,
-	 output wire reading_buffer,
+	 output reg  reading_buffer,
 	 output wire [8:0] reading_index, // enough to address 320 addresses
 	 output wire vga_clock,
 	 output wire vga_sync,
@@ -38,8 +38,6 @@ reg [2:0] state;
 wire [9:0] row;
 wire [9:0] real_row = row/2;
 wire [9:0] column_internal;
-
-reg active_buffer_internal;
 
 assign reading_index = (column_internal - h_front_porch_width)/2 + LOOKAHEAD_COUNT;
 reg [15:0] active_distances[LOOKAHEAD_COUNT - 1:0];
@@ -73,14 +71,14 @@ textureROM texture_lookup(
 	.q(color)
 );
 
-assign red = active_inside_wall ? color[7:5] << 5 : (active_above_wall ? 64: 128);
-assign green = active_inside_wall ? color[4:2] << 5 : (active_above_wall ? 64: 128);
-assign blue = active_inside_wall ? color[1:0] << 6 : (active_above_wall ? 64: 128);
+assign red = active_inside_wall ? {color[7:5], color[7:5], color[7:6]}  : (active_above_wall ? 48: 96);
+assign green = active_inside_wall ? {color[4:2], color[4:2], color[4:3]} : (active_above_wall ? 48: 96);
+assign blue = active_inside_wall ? {color[1:0], color[1:0], color[1:0], color[1:0]} : (active_above_wall ? 48: 96);
 
 always @ (posedge clk) begin
 	if (pixel_clk) begin
 	   if (~v_sync)
-			active_buffer_internal = active_buffer;
+			reading_buffer = buffer_select;
 		if (~row_clr)
 			state <= LOOKAHEAD_1;	
 		else begin
