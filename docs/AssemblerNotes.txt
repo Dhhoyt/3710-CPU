@@ -13,8 +13,7 @@ example:
 
 
 *** calling convention ***
-registers %r0 to %r3 are temp
-registers %r4 to %r7 are preserved by the function
+registers %r0 to %r7 are temp
 registers %r8 to %rD  (not %rA) are temp and args for the function
 registers %rE to %rF are preserved 
 	(is one of these a stack pointer?)

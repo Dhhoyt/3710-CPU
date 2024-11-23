@@ -1,3 +1,3 @@
-MOV %rB %r0 
-MOV %rB %r1 
+MOV %r0 %rB 
+MOV %r1 %rB 
 COS %r0 

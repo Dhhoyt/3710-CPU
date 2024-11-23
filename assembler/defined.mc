@@ -7,16 +7,19 @@
 
 # do the racast with the hardcoded map of walls
 .FUN_RAY_CAST # playerX:%r8, playerY:%r9, angle:%rB
-MOV %rB %r0
-MOV %rB %r1
+MOV %r0 %rB
+MOV %r1 %rB
 COS %r0 # ray_dx = cos(angle)
 SIN %r1 # ray_dy = sin(angle)
+
+ADD %r0 %r8 # move the direction vector to the player position
+ADD %r1 %r9
 
 LODP %r8 %r9 # load player position
 LODR %r0 %r1 # load ray position
 
 MOVI WALLS_ADDR %rC # put wall address in %rC
-MOVI 0 %r3 # i = 0
+MOVI %r3 0 # i = 0
 .RAY_CAST_LOOP
 ADDI $4 %rC # add struct size to address
 LODW %rC #compute the intersection TODO does this need a destination?
