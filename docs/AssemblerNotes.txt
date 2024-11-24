@@ -10,6 +10,10 @@ example:
 ~ MOVI $0 %r2
 
 
+*** undocumented features??? ***
+MOVW macro to load both upper and lower byte of immediate
+	Also I added code to parse a signed 8.8 fixed point here, format: $$15.7
+
 
 
 *** calling convention ***

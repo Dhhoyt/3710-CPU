@@ -2,7 +2,19 @@
 # written by the Nibble Noshers
 
 
-#TODO calculate these out and also fixed point
+
+# 100 / 320
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -14,19 +26,82 @@
 
 # FUNCTION main entry point
 .FUN_MAIN
-#TODO load these from memory
-MOVI $0 %r4 # player angle
+#init stuff
+MOVI $0 %r2
+LUI $0 %r2
+MOVI $0 %r8
+LUI $3 %r8
+MOVI $0 %r9
+LUI $3 %r9
+MOVI $2 %r0
+LUI $64 %r0
+STOR %r2 %r0
+MOVI $0 %r0
+LUI $64 %r0
+STOR %r8 %r0
+MOVI $1 %r0
+LUI $64 %r0
+STOR %r9 %r0
 
 
-SUBI $50 %r4 # start on left of FOV
-MOVI $3 %r8 # player X, Y
-MOVI $3 %r9
-MOV %r4 %rB #player angle argument
+.FRAME_LOOP
+MOVI $0 %r1 # column count
+MOVI $4 %r0
+LUI $64 %r0
+STOR %r1 %r0
+MOVI $2 %r0
+LUI $64 %r0
+LOAD %r2 %r0
+MOVI $0 %r0
+LUI $50 %r0
+SUB %r0 %r2 # start on left of FOV
+MOVI $3 %r0
+LUI $64 %r0
+STOR %r2 %r0 # r2 is now the col angle
 
 
+.COL_LOOP
+MOVI $0 %r0
+LUI $64 %r0
+LOAD %r8 %r0
+MOVI $1 %r0
+LUI $64 %r0
+LOAD %r9 %r0
+MOVI $3 %r0
+LUI $64 %r0
+LOAD %rB %r0
+MOVI $80 %r1
+LUI $0 %r1
+ADD %r1 %rB # add the step
+STOR %rB %r0 # store the new angle for the next iteration
 
+#CALL .FUN_RAY_CAST
 
+MOVI $4 %r0
+LUI $64 %r0
+LOAD %r1 %r0 # get current column
 
+MOVI $0 %r0
+LUI $248 %r0
+ADD %r1 %r0 # add the column to the address
+STOR %r8 %r0
+
+MOVI $0 %r0
+LUI $250 %r0
+ADD %r1 %r0 # add the column to the address
+STOR %r9 %r0
+#TODO ignore texture ID for now
+
+MOVI $64 %r2
+LUI $1 %r2
+CMP %r2 %r1
+BGT .COL_LOOP # repeat for every column
+.END_COL_LOOP
+
+#TODO set GPU flags and switch frame buffer
+BUC .FRAME_LOOP
+
+.END_MAIN
 
 
 # FUNCTION do the raycast with the hardcoded map of walls
@@ -70,7 +145,7 @@ CMPI $4 %r3
 BLT .RAY_CAST_LOOP #do again if theres more walls to check
 
 JUC %rA # return , might be wrong?
-
+.END_RAY_CAST
 
 
 @ #preloaded ram values

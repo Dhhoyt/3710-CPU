@@ -162,6 +162,16 @@ def replaceMacros(parts: list[str]):
             toreturn.append(s)
     return toreturn
 
+def parseImm(token):
+    if token.startswith('$$'):
+        parsed = int(float(token[2:]) * 256)
+    elif token.startswith('$'):
+        parsed = int(token[1:])
+    else:
+        sys.exit(f'ERROR: Badly formatted imm \'{token}\'')
+	
+    return parsed
+
 # casey wolfe added some code here to define multi line macros
 # use ~ to denote more lines
 def precompile(filename):
@@ -175,7 +185,7 @@ def precompile(filename):
         line = x.split('#')[0]
         parts = line.split()
 
-        if inMacro:
+        if inMacro: # added multiline macros
             if len(parts) > 0 and parts[0]=='~':
                 macros[macroName] = macros[macroName] + '\n' + ' '.join([x for x in parts[1:]])
             else:
@@ -209,7 +219,7 @@ def precompile(filename):
             for i, reg in enumerate(reglist):
                 if reg != '':
                     df.write(f'MOV {reg} {parameter_regs[i]}\n')
-            df.write(f'MOVI {label} %rA\n') # I think this is wrong? should %rA be two registers?
+            df.write(f'MOVI {label} %rA\n')
             df.write(f'LUI {label} %rA\n')
             df.write(f'JAL %rA %rA\n')
         elif len(parts) > 0 and parts[0] == 'MOVW':
@@ -217,7 +227,7 @@ def precompile(filename):
                 sys.exit('not enough MOVW args')
             imm = parts[1]
             rdst = parts[2]
-            parsed_imm = int(imm, 0)
+            parsed_imm = parseImm(imm)
             if parsed_imm > 0xFFFF:
                 sys.exit(f'MOVW imm too large, must be less than 0xFFFF, found {parsed_imm}')
             lo_byte = byte(parsed_imm, 0)

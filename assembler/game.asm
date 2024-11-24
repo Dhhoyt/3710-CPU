@@ -2,9 +2,9 @@
 # written by the Nibble Noshers
 
 `define COL_COUNT $320
-`define FOV_HALF $50
-#TODO calculate these out and also fixed point
-`define ANGLE_STEP $100 / $320 
+`define FOV_HALF $$50
+# 100 / 320
+`define ANGLE_STEP $$0.3125 
 `define DIST_BUFFER_1_ADDR $63488
 `define DIST_BUFFER_2_ADDR $64512
 `define UV_BUFFER_1_ADDR $64000
@@ -27,51 +27,61 @@
 # FUNCTION main entry point
 .FUN_MAIN
 	#init stuff
-	MOVI $0 %r2 # player angle
-	MOVI $3 %r8 # player X
-	MOVI $3 %r9 # player Y
-	STOR %r2 `PLAYER_ANGLE_ADDR
-	STOR %r8 `PLAYER_X_ADDR
-	STOR %r9 `PLAYER_Y_ADDR
+	MOVW $$0 %r2 # player angle
+	MOVW $$3 %r8 # player X
+	MOVW $$3 %r9 # player Y
+	MOVW `PLAYER_ANGLE_ADDR %r0
+	STOR %r2 %r0
+	MOVW `PLAYER_X_ADDR %r0
+	STOR %r8 %r0
+	MOVW `PLAYER_Y_ADDR %r0
+	STOR %r9 %r0
 
 	
 	.FRAME_LOOP
 		MOVI $0 %r1 # column count
-		STOR %r1 `COL_ADDR
-		LOAD %r2 PLAYER_ANGLE_ADDR
-		SUBI `FOV_HALF %r2 # start on left of FOV
-		STOR %r2 COL_ANGLE_ADDR # r2 is now the col angle
+		MOVW `COL_ADDR %r0
+		STOR %r1 %r0
+		MOVW `PLAYER_ANGLE_ADDR %r0
+		LOAD %r2 %r0
+		MOVW `FOV_HALF %r0
+		SUB  %r0 %r2 # start on left of FOV
+		MOVW `COL_ANGLE_ADDR %r0
+		STOR %r2 %r0 # r2 is now the col angle
 
 		
 		.COL_LOOP
-			MOVI `PLAYER_X_ADDR %r0 # load player x and y
+			MOVW `PLAYER_X_ADDR %r0 # load player x and y
 			LOAD %r8 %r0 
-			MOVI `PLAYER_Y_ADDR %r0
+			MOVW `PLAYER_Y_ADDR %r0
 			LOAD %r9 %r0 
-			MOVI `COL_ANGLE_ADDR %r0 # load the angle
+			MOVW `COL_ANGLE_ADDR %r0 # load the angle
 			LOAD %rB %r0 
-			ADDI `ANGLE_STEP %rB # add the step
-			STOR %rB `COL_ANGLE_ADDR # store the new angle for the next iteration
+			MOVW `ANGLE_STEP %r1
+			ADD %r1 %rB # add the step
+			STOR %rB %r0 # store the new angle for the next iteration
 
-			CALL .FUN_RAY_CAST
+			#CALL .FUN_RAY_CAST
 
-			LOAD `COL_ADDR %r1 # get current column
+			MOVW `COL_ADDR %r0
+			LOAD %r1 %r0 # get current column
 
-			LOAD `DIST_BUFFER_1_ADDR %r0 # save the distance
+			MOVW `DIST_BUFFER_1_ADDR %r0 # save the distance
 			ADD %r1 %r0 # add the column to the address
 			STOR %r8 %r0
 
-			LOAD `UV_BUFFER_1_ADDR %r0 # save the UVX
+			MOVW `UV_BUFFER_1_ADDR %r0 # save the UVX
 			ADD %r1 %r0 # add the column to the address
 			STOR %r9 %r0
 			#TODO ignore texture ID for now
 
-			CMPI `COL_COUNT %r1
-			JGT .COL_LOOP # repeat for every column
+			MOVW `COL_COUNT %r2
+			CMP %r2 %r1
+			BGT .COL_LOOP # repeat for every column
 		.END_COL_LOOP
 
 		#TODO set GPU flags and switch frame buffer
-		JUC .FRAME_LOOP
+		BUC .FRAME_LOOP
 
 .END_MAIN
 
@@ -98,12 +108,12 @@
 	ADDI $5 %rC # add struct size to address
 	LODW %rC #compute the intersection 
 	BINT .INTERSECTION_FOUND
-	JUC .CONTINUE_LOOP # invalid intersection
+	BUC .CONTINUE_LOOP # invalid intersection
 
 	.INTERSECTION_FOUND
 	LODRD %r5 # get ray distance into %r5
 	CMP %r5 %r8
-	JGT .CONTINUE_LOOP # do again if r5 > r8  #TODO make sure the > is the right way around
+	BGT .CONTINUE_LOOP # do again if r5 > r8  #TODO make sure the > is the right way around
 	# here the wall is closer than the current max distance
 	MOV %r5 %r8 #new closest distance
 	LODUV %r9 # new texture location
