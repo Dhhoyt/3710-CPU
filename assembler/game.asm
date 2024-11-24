@@ -1,59 +1,123 @@
 # wolfenstyle rendering engine
 # written by the Nibble Noshers
 
+`define COL_COUNT $320
+`define FOV_HALF $50
+#TODO calculate these out and also fixed point
+`define ANGLE_STEP $100 / $320 
+`define DIST_BUFFER_1_ADDR $63488
+`define DIST_BUFFER_2_ADDR $64512
+`define UV_BUFFER_1_ADDR $64000
+`define UV_BUFFER_2_ADDR $65024
+
+`define PLAYER_X_ADDR $16384
+`define PLAYER_Y_ADDR $16385
+`define PLAYER_ANGLE_ADDR $16386
+`define COL_ANGLE_ADDR $16387
+`define COL_ADDR $16388
+
+
 
 `define WALLS_ADDR $8193 #RAM_START + 1
 `define WALLS_COUNT $4
 `define MAX_FIXED_VAL $32767
 
 
+
 # FUNCTION main entry point
 .FUN_MAIN
+	#init stuff
+	MOVI $0 %r2 # player angle
+	MOVI $3 %r8 # player X
+	MOVI $3 %r9 # player Y
+	STOR %r2 `PLAYER_ANGLE_ADDR
+	STOR %r8 `PLAYER_X_ADDR
+	STOR %r9 `PLAYER_Y_ADDR
 
+	
+	.FRAME_LOOP
+		MOVI $0 %r1 # column count
+		STOR %r1 `COL_ADDR
+		LOAD %r2 PLAYER_ANGLE_ADDR
+		SUBI `FOV_HALF %r2 # start on left of FOV
+		STOR %r2 COL_ANGLE_ADDR # r2 is now the col angle
+
+		
+		.COL_LOOP
+			MOVI `PLAYER_X_ADDR %r0 # load player x and y
+			LOAD %r8 %r0 
+			MOVI `PLAYER_Y_ADDR %r0
+			LOAD %r9 %r0 
+			MOVI `COL_ANGLE_ADDR %r0 # load the angle
+			LOAD %rB %r0 
+			ADDI `ANGLE_STEP %rB # add the step
+			STOR %rB `COL_ANGLE_ADDR # store the new angle for the next iteration
+
+			CALL .FUN_RAY_CAST
+
+			LOAD `COL_ADDR %r1 # get current column
+
+			LOAD `DIST_BUFFER_1_ADDR %r0 # save the distance
+			ADD %r1 %r0 # add the column to the address
+			STOR %r8 %r0
+
+			LOAD `UV_BUFFER_1_ADDR %r0 # save the UVX
+			ADD %r1 %r0 # add the column to the address
+			STOR %r9 %r0
+			#TODO ignore texture ID for now
+
+			CMPI `COL_COUNT %r1
+			JGT .COL_LOOP # repeat for every column
+		.END_COL_LOOP
+
+		#TODO set GPU flags and switch frame buffer
+		JUC .FRAME_LOOP
+
+.END_MAIN
 
 
 # FUNCTION do the raycast with the hardcoded map of walls
 # return distance in %r8, texture UVX in %r9, texture ID in %rB
 .FUN_RAY_CAST # playerX:%r8, playerY:%r9, angle:%rB
-MOV %rB %r0
-MOV %rB %r1
-COS %r0 # ray_dx = cos(angle)
-SIN %r1 # ray_dy = sin(angle)
-ADD %r8 %r0# move the direction vector to the player position
-ADD %r9 %r1
+	MOV %rB %r0
+	MOV %rB %r1
+	COS %r0 # ray_dx = cos(angle)
+	SIN %r1 # ray_dy = sin(angle)
+	ADD %r8 %r0# move the direction vector to the player position
+	ADD %r9 %r1
 
-LODP %r8 %r9 # load player position
-LODR %r0 %r1 # load ray position
+	LODP %r8 %r9 # load player position
+	LODR %r0 %r1 # load ray position
 
-MOVI WALLS_ADDR %rC # put wall address in %rC
-MOVI $0 %r3  # i = 0
-MOVI MAX_FIXED_VAL %r8 # maxDistance  = (max value)
-MOVI $0 %r9 # default texture location
-MOVI $0 %rB # default texture ID
-.RAY_CAST_LOOP
-ADDI $5 %rC # add struct size to address
-LODW %rC #compute the intersection 
-BINT .INTERSECTION_FOUND
-JUC .CONTINUE_LOOP # invalid intersection
+	MOVI `WALLS_ADDR %rC # put wall address in %rC
+	MOVI $0 %r3  # i = 0
+	MOVI `MAX_FIXED_VAL %r8 # maxDistance  = (max value)
+	MOVI $0 %r9 # default texture location
+	MOVI $0 %rB # default texture ID
+	.RAY_CAST_LOOP
+	ADDI $5 %rC # add struct size to address
+	LODW %rC #compute the intersection 
+	BINT .INTERSECTION_FOUND
+	JUC .CONTINUE_LOOP # invalid intersection
 
-.INTERSECTION_FOUND
-LODRD %r5 # get ray distance into %r5
-CMP %r5 %r8
-JGT .CONTINUE_LOOP # do again if r5 > r8  #TODO make sure the > is the right way around
-# here the wall is closer than the current max distance
-MOV %r5 %r8 #new closest distance
-LODUV %r9 # new texture location
-MOV %rC %r2
-ADDI $4 %r2 # get texture address
-LOAD %r2 %rB # new texture ID
+	.INTERSECTION_FOUND
+	LODRD %r5 # get ray distance into %r5
+	CMP %r5 %r8
+	JGT .CONTINUE_LOOP # do again if r5 > r8  #TODO make sure the > is the right way around
+	# here the wall is closer than the current max distance
+	MOV %r5 %r8 #new closest distance
+	LODUV %r9 # new texture location
+	MOV %rC %r2
+	ADDI $4 %r2 # get texture address
+	LOAD %r2 %rB # new texture ID
 
-.CONTINUE_LOOP
-ADDI $1 %r3 # count up
-CMPI WALLS_COUNT %r3
-BLT .RAY_CAST_LOOP #do again if theres more walls to check
+	.CONTINUE_LOOP
+	ADDI $1 %r3 # count up
+	CMPI `WALLS_COUNT %r3
+	BLT .RAY_CAST_LOOP #do again if theres more walls to check
 
-JUC %rA # return , might be wrong?
-
+	JUC %rA # return , might be wrong?
+.END_RAY_CAST
 
 
 @ #preloaded ram values
