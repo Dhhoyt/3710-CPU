@@ -16,7 +16,8 @@
 `define COL_ANGLE_ADDR $16387
 `define COL_ADDR $16388
 
-
+`define JOYSTICK_X_ADDR 65533
+`define JOYSTICK_Y_ADDR 65534
 
 `define WALLS_ADDR $8193 #RAM_START + 1
 `define WALLS_COUNT $4
@@ -42,8 +43,36 @@
 		MOVI $0 %r1 # column count
 		MOVW `COL_ADDR %r0
 		STOR %r1 %r0
+
+		# do the player motion before rendering 
 		MOVW `PLAYER_ANGLE_ADDR %r0
 		LOAD %r2 %r0
+		#MOVW `JOYSTICK_X_ADDR %r3 
+		#LOAD %r4 %r3 # load joystick delta
+		MOVI $1 %r4 # temp set angle delta to the smallest possible value, a slow rotation hopefully
+		ADD %r4 %r2 # add to player angle
+		STOR %r2 %r0 # store new player angle
+
+		MOVW `PLAYER_X_ADDR %r0 # load player x and y
+		LOAD %r8 %r0
+		MOVW `PLAYER_Y_ADDR %r0
+		LOAD %r9 %r0
+		#MOVW `JOYSTICK_Y_ADDR %r0 # load joystick Y delta
+		#LOAD %r4 %r0
+		MOVW $$0 %r4 # temp add nothing to the player position
+		MOV %r2 %r3 # duplicate angle
+		COS %r2
+		SIN %r3
+		MUL %r4 %r2 # multiply cos and sin by the Y delta
+		MUL %r4 %r3
+		ADD %r2 %r8 # add the cos to X
+		ADD %r3 %r9	# add the sin to Y
+		MOVW `PLAYER_X_ADDR %r0 # store new player x and y
+		STOR %r8 %r0
+		MOVW `PLAYER_Y_ADDR %r0
+		STOR %r9 %r0
+		
+		#set column angle to the left of screen
 		MOVW `FOV_HALF %r0
 		SUB  %r0 %r2 # start on left of FOV
 		MOVW `COL_ANGLE_ADDR %r0
@@ -52,16 +81,16 @@
 		
 		.COL_LOOP
 			MOVW `PLAYER_X_ADDR %r0 # load player x and y
-			LOAD %r8 %r0 
+			LOAD %r8 %r0
 			MOVW `PLAYER_Y_ADDR %r0
-			LOAD %r9 %r0 
+			LOAD %r9 %r0
 			MOVW `COL_ANGLE_ADDR %r0 # load the angle
-			LOAD %rB %r0 
+			LOAD %rB %r0
 			MOVW `ANGLE_STEP %r1
 			ADD %r1 %rB # add the step
 			STOR %rB %r0 # store the new angle for the next iteration
 
-			#CALL .FUN_RAY_CAST
+			CALL .FUN_RAY_CAST
 
 			MOVW `COL_ADDR %r0
 			LOAD %r1 %r0 # get current column

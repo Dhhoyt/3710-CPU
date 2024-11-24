@@ -109,8 +109,8 @@ BUC .FRAME_LOOP
 .FUN_RAY_CAST # playerX:%r8, playerY:%r9, angle:%rB
 MOV %rB %r0
 MOV %rB %r1
-COS %r0 # ray_dx = cos(angle)
-SIN %r1 # ray_dy = sin(angle)
+COS %r0 %r0 # ray_dx = cos(angle)
+SIN %r0 %r1 # ray_dy = sin(angle)
 ADD %r8 %r0# move the direction vector to the player position
 ADD %r9 %r1
 
@@ -126,12 +126,12 @@ MOVI $0 %rB # default texture ID
 ADDI $5 %rC # add struct size to address
 LODW %rC #compute the intersection
 BINT .INTERSECTION_FOUND
-JUC .CONTINUE_LOOP # invalid intersection
+BUC .CONTINUE_LOOP # invalid intersection
 
 .INTERSECTION_FOUND
 LODRD %r5 # get ray distance into %r5
 CMP %r5 %r8
-JGT .CONTINUE_LOOP # do again if r5 > r8 #TODO make sure the > is the right way around
+BGT .CONTINUE_LOOP # do again if r5 > r8 #TODO make sure the > is the right way around
 # here the wall is closer than the current max distance
 MOV %r5 %r8 #new closest distance
 LODUV %r9 # new texture location

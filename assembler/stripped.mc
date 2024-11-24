@@ -57,4 +57,8 @@ BGT .COL_LOOP
 BUC .FRAME_LOOP 
 MOV %rB %r0 
 MOV %rB %r1 
-COS %r0 
+COS %r0 %r0 
+SIN %r0 %r1 
+ADD %r8 %r0 
+ADD %r9 %r1 
+LODP %r8 %r9 

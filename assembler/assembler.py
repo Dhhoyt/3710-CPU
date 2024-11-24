@@ -9,7 +9,7 @@ macros : dict[str,str] = {}
 RAM_START = 8192
 FILE_LENGTH = 16384 
 
-r_type_insts =   {'ADD',  'ADDU',  'ADDC',  'MUL',  'SUB',  'SUBC',  'CMP',  'AND',  'OR',  'XOR',  'MOV'}
+r_type_insts =   {'ADD',  'ADDU',  'ADDC',  'MUL',  'SUB',  'SUBC',  'CMP',  'AND',  'OR',  'XOR',  'MOV', 'SIN', 'COS'}
 i_type_insts =   {'ADDI', 'ADDUI', 'ADDCI', 'MULI', 'SUBI', 'SUBCI', 'CMPI', 'ANDI', 'ORI', 'XORI', 'MOVI', 'LUI'}
 sh_type_insts =  {'LSH', 'ALSH'}
 shi_type_insts = {'LSHI', 'ALSHI'}
@@ -82,6 +82,9 @@ inst_codes : dict[str,str] = {
     'SUBCI': 'A',
     'CMP':   'B',
     'CMPI':  'B',
+
+    'COS':   'F',
+    'SIN':   'E',
 
     'SHIFT_TYPE': '8',
     'LSH':   '4',
@@ -234,6 +237,9 @@ def precompile(filename):
             hi_byte = byte(parsed_imm, 1)
             df.write(f'MOVI ${lo_byte} {rdst}\n')
             df.write(f'LUI ${hi_byte} {rdst}\n')
+        elif len(parts) > 0 and parts[0] in {'SIN', 'COS'}: # insert dummy/unused register 0
+            parts.insert(1, f'%r0')
+            df.write(' '.join(parts) + '\n')
         else:
             df.write(' '.join(parts) + '\n')
 
