@@ -474,6 +474,14 @@ def assemble(filename: str):
                     formatted_line = f'{parsed_line:04X}'
                     wf.write(f'{formatted_line}\n')
                     address += 1
+        elif mode == 'IMMEDIATE\n':
+            for x in f:
+                line = x.split('#')[0]
+                if len(line) > 1:
+                    parsed_line = parseImm(line[:-1])
+                    formatted_line = f'{parsed_line:04X}'
+                    wf.write(f'{formatted_line}\n')
+                    address += 1
         else:
             sys.exit(f"Unsupported RAM encoding mode: {mode[:-1]}")
 
