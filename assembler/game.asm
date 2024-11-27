@@ -10,14 +10,16 @@
 `define UV_BUFFER_1_ADDR $64000
 `define UV_BUFFER_2_ADDR $65024
 
-`define PLAYER_X_ADDR $16384
-`define PLAYER_Y_ADDR $16385
-`define PLAYER_ANGLE_ADDR $16386
-`define COL_ANGLE_ADDR $16387
-`define COL_ADDR $16388
+# these are now all preserved registers
+# `define PLAYER_X_ADDR $16384 # %r8
+# `define PLAYER_Y_ADDR $16385 # %r9
+# `define PLAYER_ANGLE_ADDR $16386 # %r4
+# `define COL_ANGLE_ADDR $16387 # %rB
+# `define COL_ADDR $16388 #r5
 
-`define JOYSTICK_X_ADDR 65533
-`define JOYSTICK_Y_ADDR 65534
+`define JOYSTICK_X_ADDR $65533
+`define JOYSTICK_Y_ADDR $65534
+`define GPU_FLAG_ADDR $65535
 
 `define WALLS_ADDR $8193 #RAM_START + 1
 `define WALLS_COUNT $4
@@ -28,95 +30,67 @@
 # FUNCTION main entry point
 .FUN_MAIN
 	#init stuff
-	MOVW $$0 %r2 # player angle
+	MOVW $$0 %r4 # player angle
 	MOVW $$3 %r8 # player X
 	MOVW $$3 %r9 # player Y
-	MOVW `PLAYER_ANGLE_ADDR %r0
-	STOR %r2 %r0
-	MOVW `PLAYER_X_ADDR %r0
-	STOR %r8 %r0
-	MOVW `PLAYER_Y_ADDR %r0
-	STOR %r9 %r0
 
 	
 	.FRAME_LOOP
-		MOVI $0 %r1 # column count
-		MOVW `COL_ADDR %r0
-		STOR %r1 %r0
-
 		# do the player motion before rendering 
-		MOVW `PLAYER_ANGLE_ADDR %r0
-		LOAD %r2 %r0
-		#MOVW `JOYSTICK_X_ADDR %r3 
-		#LOAD %r4 %r3 # load joystick delta
-		MOVI $1 %r4 # temp set angle delta to the smallest possible value, a slow rotation hopefully
-		ADD %r4 %r2 # add to player angle
-		STOR %r2 %r0 # store new player angle
+		#MOVW `JOYSTICK_X_ADDR %r0
+		#LOAD %r1 %r0 # load joystick delta
+		MOVI $1 %r1 # temp set angle delta to the smallest possible value, a slow rotation hopefully
+		ADD %r1 %r4 # add to player angle
 
-		MOVW `PLAYER_X_ADDR %r0 # load player x and y
-		LOAD %r8 %r0
-		MOVW `PLAYER_Y_ADDR %r0
-		LOAD %r9 %r0
 		#MOVW `JOYSTICK_Y_ADDR %r0 # load joystick Y delta
-		#LOAD %r4 %r0
-		MOVW $$0 %r4 # temp add nothing to the player position
-		MOV %r2 %r3 # duplicate angle
-		COS %r2
-		SIN %r3
-		MUL %r4 %r2 # multiply cos and sin by the Y delta
-		MUL %r4 %r3
-		ADD %r2 %r8 # add the cos to X
-		ADD %r3 %r9	# add the sin to Y
-		MOVW `PLAYER_X_ADDR %r0 # store new player x and y
-		STOR %r8 %r0
-		MOVW `PLAYER_Y_ADDR %r0
-		STOR %r9 %r0
+		#LOAD %r3 %r0
+		MOVW $$0 %r3 # temp add nothing to the player position
+		MOV %r4 %r1 # duplicate player angle
+		MOV %r4 %r2 # duplicate player angle
+		COS %r1
+		SIN %r2
+		MUL %r3 %r1 # multiply cos and sin by the Y delta
+		MUL %r3 %r2
+		ADD %r1 %r8 # add the cos to X
+		ADD %r2 %r9	# add the sin to Y
 		
 		#set column angle to the left of screen
-		MOVW `FOV_HALF %r0
-		SUB  %r0 %r2 # start on left of FOV
-		MOVW `COL_ANGLE_ADDR %r0
-		STOR %r2 %r0 # r2 is now the col angle
-
+		MOVW `FOV_HALF %r1
+		SUB  %r1 %rB # start on left of FOV
+		MOVI $0 %r5 # column count = 0
 		
 		.COL_LOOP
-			MOVW `PLAYER_X_ADDR %r0 # load player x and y
-			LOAD %r8 %r0
-			MOVW `PLAYER_Y_ADDR %r0
-			LOAD %r9 %r0
-			MOVW `COL_ANGLE_ADDR %r0 # load the angle
-			LOAD %rB %r0
-			MOVW `ANGLE_STEP %r1
-			ADD %r1 %rB # add the step
-			STOR %rB %r0 # store the new angle for the next iteration
-
 			CALL .FUN_RAY_CAST
 
-			MOVW `COL_ADDR %r0
-			LOAD %r1 %r0 # get current column
-
 			MOVW `DIST_BUFFER_1_ADDR %r0 # save the distance
-			ADD %r1 %r0 # add the column to the address
-			STOR %r8 %r0
+			ADD %r5 %r0 # add the column to the address
+			STOR %rC %r0
 
 			MOVW `UV_BUFFER_1_ADDR %r0 # save the UVX
-			ADD %r1 %r0 # add the column to the address
-			STOR %r9 %r0
-			#TODO ignore texture ID for now
+			ADD %r5 %r0 # add the column to the address
+			STOR %rD %r0
 
-			MOVW `COL_COUNT %r2
-			CMP %r2 %r1
+			MOVW `ANGLE_STEP %r1
+			ADD %r1 %rB # add the angle step
+
+			ADD $1 %r5 # next column
+
+			MOVW `COL_COUNT %r2 // number of columns
+			CMP %r2 %r5
 			BGT .COL_LOOP # repeat for every column
 		.END_COL_LOOP
 
 		#TODO set GPU flags and switch frame buffer
+		# lets do this after optimizing register use in the above code
+
 		BUC .FRAME_LOOP
 
 .END_MAIN
 
 
 # FUNCTION do the raycast with the hardcoded map of walls
-# return distance in %r8, texture UVX in %r9, texture ID in %rB
+# return distance in %rC, texture UVX in %rD
+# input argument registers are preserved
 .FUN_RAY_CAST # playerX:%r8, playerY:%r9, angle:%rB
 	MOV %rB %r0
 	MOV %rB %r1
@@ -128,34 +102,34 @@
 	LODP %r8 %r9 # load player position
 	LODR %r0 %r1 # load ray position
 
-	MOVW `WALLS_ADDR %rC # put wall address in %rC
-	MOVI $0 %r3  # i = 0
-	MOVW `MAX_FIXED_VAL %r8 # maxDistance  = (max value)
-	MOVI $0 %r9 # default texture UV
+	MOVW `WALLS_ADDR %r0 # put first wall address in %r0
+	MOVI $0 %r1  # i = r1 = 0
+	MOVW `MAX_FIXED_VAL %rC # maxDistance  = (max value)
+	MOVI $0 %rD # default texture UV
 	.RAY_CAST_LOOP
-	ADDI $5 %rC # add struct size to address
-	LODW %rC #compute the intersection 
+	LODW %r0 #compute the intersection
 	BINT .INTERSECTION_FOUND
 	BUC .CONTINUE_LOOP # invalid intersection
 
 	.INTERSECTION_FOUND
-	DIST %r5 # get ray distance into %r5
-	CMP %r5 %r8
-	BGT .CONTINUE_LOOP # do again if r5 > r8  #TODO make sure the > is the right way around
+	DIST %r2 # get ray distance into %r2
+	CMP %r2 %rC
+	BGT .CONTINUE_LOOP # do again if r2 > rC  #TODO make sure the > is the right way around
 	# here the wall is closer than the current max distance
-	MOV %r5 %r8 #new closest distance
-	TXUV %r9 # new texture UV
+	MOV %r2 %rC #new closest distance
+	TXUV %rD # new texture UV
 
 	.CONTINUE_LOOP
-	ADDI $1 %r3 # count up
-	CMPI `WALLS_COUNT %r3
+	ADDI $5 %r0 # add struct size to wall pointer 
+	ADDI $1 %r1 # count up
+	CMPI `WALLS_COUNT %r1 #TODO this seems the opposite of the above comparison?
 	BLT .RAY_CAST_LOOP #do again if theres more walls to check
 
-	JUC %rA # return , might be wrong?
+	JUC %rA # return
 .END_RAY_CAST
 
 
-@ #preloaded ram values
+@ #preloaded ram values #TODO these need to be fixed point
 DECIMAL
 1
 1

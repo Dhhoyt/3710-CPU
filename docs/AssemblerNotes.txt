@@ -17,10 +17,10 @@ MOVW macro to load both upper and lower byte of immediate
 
 
 *** calling convention ***
-registers %r0 to %r7 are temp
+registers %r0 to %r3  and %rE are temp
+registers %r4 to %r7  and %rE are preserved
 registers %r8 to %rD  (not %rA) are temp and args for the function
-registers %rE to %rF are preserved 
-	(is one of these a stack pointer?)
+register  %rF is preserved (stack pointer if needed)
 
 %rA is the linked register
 
@@ -28,6 +28,9 @@ parameter_regs = ['%r8', '%r9', '%rB', '%rC', '%rD']
 
 returns sit in the parameter_regs
 
+*** Immediate Values ***
+$x is an integer
+$$x will convert to fixed point
 
 
 *** RAM preload ***

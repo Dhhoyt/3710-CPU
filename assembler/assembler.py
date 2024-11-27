@@ -443,11 +443,15 @@ def assemble(filename: str):
                 if len(parts) != 1 :
                     sys.exit(f'ERROR: Wrong number of args on line {i+1} in instruction {x}\n\tExpected: 1, Found: {len(parts)}')
                 r_X = parts[0]
+                if r_X not in reg_codes:
+                    sys.exit(f'ERROR: Unrecognized register on line {i+1} in instruction {x}')
                 wf.write(inst_codes['DISTANCE_1_TYPE'] + reg_codes[r_X] + inst_codes[instr] + '0\n')
             elif instr in dist_2_type_insts:
                 if len(parts) != 2 :
                     sys.exit(f'ERROR: Wrong number of args on line {i+1} in instruction {x}\n\tExpected: 2, Found: {len(parts)}')
                 r_X, r_Y = parts
+                if r_X not in reg_codes or r_Y not in reg_codes:
+                    sys.exit(f'ERROR: Unrecognized register on line {i+1} in instruction {x}')
                 wf.write(inst_codes['DISTANCE_2_TYPE'] + reg_codes[r_X] + inst_codes[instr] + reg_codes[r_Y] +'\n')
             elif instr == 'NOP':
                 # Hardcode NOP as OR %r0 %r0
