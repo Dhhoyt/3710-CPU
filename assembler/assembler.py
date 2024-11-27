@@ -13,9 +13,10 @@ r_type_insts =   {'ADD',  'ADDU',  'ADDC',  'MUL',  'SUB',  'SUBC',  'CMP',  'AN
 i_type_insts =   {'ADDI', 'ADDUI', 'ADDCI', 'MULI', 'SUBI', 'SUBCI', 'CMPI', 'ANDI', 'ORI', 'XORI', 'MOVI', 'LUI'}
 sh_type_insts =  {'LSH', 'ALSH'}
 shi_type_insts = {'LSHI', 'ALSHI'}
-b_type_insts =   {'BEQ', 'BNE', 'BGE', 'BCS', 'BCC', 'BHI', 'BLS', 'BLO', 'BHS', 'BGT', 'BLE', 'BFS', 'BFC', 'BLT', 'BUC'}
-j_type_insts =   {'JEQ', 'JNE', 'JGE', 'JCS', 'JCC', 'JHI', 'JLS', 'JLO', 'JHS', 'JGT', 'JLE', 'JFS', 'JFC', 'JLT', 'JUC'}
+b_type_insts =   {'BEQ', 'BNE', 'BGE', 'BCS', 'BCC', 'BHI', 'BLS', 'BLO', 'BHS', 'BGT', 'BLE', 'BFS', 'BFC', 'BLT', 'BUC', 'BINT'}
+j_type_insts =   {'JEQ', 'JNE', 'JGE', 'JCS', 'JCC', 'JHI', 'JLS', 'JLO', 'JHS', 'JGT', 'JLE', 'JFS', 'JFC', 'JLT', 'JUC', 'JINT'}
 spec_type_insts= {'LOAD', 'STOR', 'JAL'}
+dist_type_insts= {'LODP', 'LODR', 'LODW'}
 
 sign_ext_imm =   {'ADDI', 'ADDUI', 'ADDCI', 'MULI', 'SUBI', 'SUBCI', 'CMPI'}
 zero_ext_imm =   {'ANDI', 'ORI', 'XORI', 'MOVI', 'LUI'}
@@ -109,6 +110,11 @@ inst_codes : dict[str,str] = {
     'EXCP': 'B',
     'TBITI':'E',
 
+    'DISTANCE_TYPE': 'E',
+    'LODP': '0',
+    'LODR': '1',
+    'LODW': '2',
+
     'BRANCH': 'C',
     'JUMP': 'C',
 
@@ -126,7 +132,8 @@ inst_codes : dict[str,str] = {
     'HS' : 'B',
     'LT' : 'C',
     'GE' : 'D',
-    'UC' : 'E'
+    'UC' : 'E',
+    'INT': 'F'
 }
 
 # from https://stackoverflow.com/questions/38834378/path-to-a-directory-as-argparse-argument
@@ -216,12 +223,12 @@ def precompile(filename):
             if len(parts) < 2:
                 sys.exit('not enough CALL args')
             label = parts[1]
-            reglist = parts[2][1:-1].split(',')
-            if len(reglist) > 5:
-                sys.exit('too many parameters')
-            for i, reg in enumerate(reglist):
-                if reg != '':
-                    df.write(f'MOV {reg} {parameter_regs[i]}\n')
+            # reglist = parts[2][1:-1].split(',') # Commented out because moving data like this before a function is wasteful
+            # if len(reglist) > 5:
+            #     sys.exit('too many parameters')
+            # for i, reg in enumerate(reglist):
+            #     if reg != '':
+            #         df.write(f'MOV {reg} {parameter_regs[i]}\n')
             df.write(f'MOVI {label} %rA\n')
             df.write(f'LUI {label} %rA\n')
             df.write(f'JAL %rA %rA\n')
@@ -425,18 +432,22 @@ def assemble(filename: str):
                     sys.exit(f'ERROR: Unrecognized register on line {i+1} in instruction {x}')
                 else:
                     wf.write(inst_codes['SPECIAL_TYPE'] + reg_codes[r_first] + inst_codes[instr] + reg_codes[r_sec] + '\n')
+            elif instr in dist_type_insts:
+                if instr == 'LODW':
+                    if len(parts) != 1 :
+                        sys.exit(f'ERROR: Wrong number of args on line {i+1} in instruction {x}\n\tExpected: 1, Found: {len(parts)}')
+                    else:
+                        r_X = parts[0]
+                        r_Y = 0
+                elif len(parts) != 2 :
+                    sys.exit(f'ERROR: Wrong number of args on line {i+1} in instruction {x}\n\tExpected: 2, Found: {len(parts)}')
+                else:
+                    r_X, r_Y = parts
+                wf.write(inst_codes['DISTANCE_TYPE'] + reg_codes[r_X] + inst_codes[instr] + reg_codes[r_X] + '\n')
+
             elif instr == 'NOP':
                 # Hardcode NOP as OR %r0 %r0
                 wf.write('0020\n')
-            elif instr == 'RAND':
-                if len(parts) != 1:
-                    sys.exit(f'too many args for RAND, line {i+1}')
-                else:
-                    r_dst = parts[0]
-                    if r_dst not in reg_codes:
-                        sys.exit(f'Unkown register in RAND on line {i+1}')
-                    else:
-                        wf.write(f'4{reg_codes[r_dst]}F0\n')
 
 
             else: # ----------------------------------------------------------------------------------------

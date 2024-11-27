@@ -20,6 +20,30 @@ STOR %r1 %r0
 MOVI $2 %r0 
 LUI $64 %r0 
 LOAD %r2 %r0 
+MOVI $1 %r4 
+ADD %r4 %r2 
+STOR %r2 %r0 
+MOVI $0 %r0 
+LUI $64 %r0 
+LOAD %r8 %r0 
+MOVI $1 %r0 
+LUI $64 %r0 
+LOAD %r9 %r0 
+MOVI $0 %r4 
+LUI $0 %r4 
+MOV %r2 %r3 
+COS %r0 %r2 
+SIN %r0 %r3 
+MUL %r4 %r2 
+MUL %r4 %r3 
+ADD %r2 %r8 
+ADD %r3 %r9 
+MOVI $0 %r0 
+LUI $64 %r0 
+STOR %r8 %r0 
+MOVI $1 %r0 
+LUI $64 %r0 
+STOR %r9 %r0 
 MOVI $0 %r0 
 LUI $50 %r0 
 SUB %r0 %r2 
@@ -39,6 +63,9 @@ MOVI $80 %r1
 LUI $0 %r1 
 ADD %r1 %rB 
 STOR %rB %r0 
+MOVI .FUN_RAY_CAST %rA 
+LUI .FUN_RAY_CAST %rA 
+JAL %rA %rA 
 MOVI $4 %r0 
 LUI $64 %r0 
 LOAD %r1 %r0 
@@ -62,3 +89,16 @@ SIN %r0 %r1
 ADD %r8 %r0 
 ADD %r9 %r1 
 LODP %r8 %r9 
+LODR %r0 %r1 
+MOVI $1 %rC 
+LUI $32 %rC 
+MOVI $0 %r3 
+MOVI $255 %r8 
+LUI $127 %r8 
+MOVI $0 %r9 
+MOVI $0 %rB 
+ADDI $5 %rC 
+LODW %rC 
+BINT .INTERSECTION_FOUND 
+BUC .CONTINUE_LOOP 
+LODRD %r5 

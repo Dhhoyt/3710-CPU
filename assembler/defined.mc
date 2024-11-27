@@ -24,6 +24,7 @@
 
 
 
+
 # FUNCTION main entry point
 .FUN_MAIN
 #init stuff
@@ -49,9 +50,42 @@ MOVI $0 %r1 # column count
 MOVI $4 %r0
 LUI $64 %r0
 STOR %r1 %r0
+
+# do the player motion before rendering
 MOVI $2 %r0
 LUI $64 %r0
 LOAD %r2 %r0
+#MOVW 65533 %r3
+#LOAD %r4 %r3 # load joystick delta
+MOVI $1 %r4 # temp set angle delta to the smallest possible value, a slow rotation hopefully
+ADD %r4 %r2 # add to player angle
+STOR %r2 %r0 # store new player angle
+
+MOVI $0 %r0
+LUI $64 %r0
+LOAD %r8 %r0
+MOVI $1 %r0
+LUI $64 %r0
+LOAD %r9 %r0
+#MOVW 65534 %r0 # load joystick Y delta
+#LOAD %r4 %r0
+MOVI $0 %r4
+LUI $0 %r4
+MOV %r2 %r3 # duplicate angle
+COS %r0 %r2
+SIN %r0 %r3
+MUL %r4 %r2 # multiply cos and sin by the Y delta
+MUL %r4 %r3
+ADD %r2 %r8 # add the cos to X
+ADD %r3 %r9 # add the sin to Y
+MOVI $0 %r0
+LUI $64 %r0
+STOR %r8 %r0
+MOVI $1 %r0
+LUI $64 %r0
+STOR %r9 %r0
+
+#set column angle to the left of screen
 MOVI $0 %r0
 LUI $50 %r0
 SUB %r0 %r2 # start on left of FOV
@@ -75,7 +109,9 @@ LUI $0 %r1
 ADD %r1 %rB # add the step
 STOR %rB %r0 # store the new angle for the next iteration
 
-#CALL .FUN_RAY_CAST
+MOVI .FUN_RAY_CAST %rA
+LUI .FUN_RAY_CAST %rA
+JAL %rA %rA
 
 MOVI $4 %r0
 LUI $64 %r0
@@ -117,9 +153,11 @@ ADD %r9 %r1
 LODP %r8 %r9 # load player position
 LODR %r0 %r1 # load ray position
 
-MOVI $8193 %rC # put wall address in %rC
+MOVI $1 %rC
+LUI $32 %rC
 MOVI $0 %r3 # i = 0
-MOVI $32767 %r8 # maxDistance = (max value)
+MOVI $255 %r8
+LUI $127 %r8
 MOVI $0 %r9 # default texture location
 MOVI $0 %rB # default texture ID
 .RAY_CAST_LOOP

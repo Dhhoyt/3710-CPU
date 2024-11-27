@@ -128,9 +128,9 @@
 	LODP %r8 %r9 # load player position
 	LODR %r0 %r1 # load ray position
 
-	MOVI `WALLS_ADDR %rC # put wall address in %rC
+	MOVW `WALLS_ADDR %rC # put wall address in %rC
 	MOVI $0 %r3  # i = 0
-	MOVI `MAX_FIXED_VAL %r8 # maxDistance  = (max value)
+	MOVW `MAX_FIXED_VAL %r8 # maxDistance  = (max value)
 	MOVI $0 %r9 # default texture location
 	MOVI $0 %rB # default texture ID
 	.RAY_CAST_LOOP
