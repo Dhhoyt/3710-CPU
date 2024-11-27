@@ -1,0 +1,5 @@
+movi 1 1
+movi 2 2
+movi 3 3
+movi 4 4
+movi 5 9

@@ -8,8 +8,8 @@ module rayCast(
     input wire signed [15:0] x4, // Wall point 2 x-coordinate (Q8.8)
     input wire signed [15:0] y4, // Wall point 2 y-coordinate (Q8.8)
     output wire intersection, // Goes high if the intersection is valid
-    output wire signed [15:0] ray_distance, // Distance the ray travels to intersection
-    output wire signed [15:0] uv_x // How far along the wall for texture sampling
+    output wire signed [15:0] ray_distance, // Distance the ray travels to intersection (Q8.8)
+    output wire signed [15:0] uv_x // How far along the wall for texture sampling (Normal Int 0-64)
 );
 
 	
@@ -28,28 +28,43 @@ module rayCast(
 	 // so we have 16 decmimal places and 16 interger places (Because squaring can double the interger digits)
 	 // After the multiplication, the subtraciton respects the exponent
     wire signed [31:0] demnominator = (ray_dx * wall_dy) - (ray_dy * wall_dx); // Q16.16 wire 
-    wire signed [31:0] t_numerator =   (((x1 - x3)   * (wall_dy)) - ((y1 - y3) * (wall_dy)));
-    wire signed [31:0] u_numerator =  -(((ray_dx)    * (y1 - y3)) - ((ray_dy)  * (x1 - x3)));
+	 wire signed [47:0] t_numerator = (((x1 - x3) * (wall_dy)) - ((y1 - y3) * (wall_dx))) * offset;
+	 wire signed [47:0] u_numerator = -(((ray_dx) * (y1 - y3)) - ((ray_dy) * (x1 - x3))) * offset;
 
     wire parallel = demnominator == 0;
 
 	 // Division of 2 Q16.16 numbers, x and y, is (x * 2^16)/(y * 2^16) = x/y * (2^16)/(2^16) = x/y
 	 // To fix this, we must offset the result by 2^16
-    assign t = ~parallel ? (($signed(t_numerator) * offset) / $signed(demnominator)) : -1;
-    assign u = ~parallel ? (($signed(u_numerator) * offset) / $signed(demnominator)) : -1;
-
-    assign intersection = ~parallel && t >= 0 && u >= 0 && u <= offset; 
-
-    wire [31:0] distance_squared = ray_dx * ray_dx + ray_dy + ray_dx;
-	 wire [15:0] unchecked_distance;
 	 
+	 wire signed [31:0] t_unchecked = (t_numerator / demnominator)	;
+	 wire signed [31:0] u_unchecked = (u_numerator / demnominator);
+	 
+    wire signed [31:0] t = ~parallel ? t_unchecked : -1;
+    wire signed [31:0] u = ~parallel ? u_unchecked : -1;
+
+    wire small_denom = (demnominator > -256 && demnominator < 256);
+	 assign intersection = ~parallel && ~small_denom && t >= 0 && u >= 0 && u <= offset;
+
+    wire [31:0] distance_squared_ray = ray_dx * ray_dx + ray_dy * ray_dy;
+	 wire [15:0] unchecked_t_distance;
 	 sqrt32to16 raySqrt(
-		.x(distance_squared),
-		.y(unchecked_distance)
+		.x(distance_squared_ray),
+		.res(unchecked_t_distance)
 	 );
+	 
+	 wire [15:0] unchecked_ray_distance = (unchecked_t_distance * t) >> 16;
 	
-	 assign ray_distance = intersection ? unchecked_distance : 0;
-		
-    assign uv_x = 0;
+	 assign ray_distance = intersection ? unchecked_ray_distance : 0;
+	 
+    wire [31:0] distance_squared_wall = wall_dx * wall_dx + wall_dy * wall_dy;
+	 wire [15:0] unchecked_u_distance;
+	 sqrt32to16 wallSqrt(
+		.x(distance_squared_wall),
+		.res(unchecked_u_distance)
+	 );
+	 
+	 wire [15:0] unchecked_wall_distance = (unchecked_u_distance * u * 64) >> 24;
+	
+	 assign uv_x = intersection ? unchecked_wall_distance >> 2 : 0;
 
 endmodule

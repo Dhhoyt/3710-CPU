@@ -19,6 +19,8 @@ OPERATION_JCOND = 0b0100
 OPERATION_JAL = 0b0100
 
 EXTRA_ADD = 0b0101
+EXTRA_COS = 0b1110
+EXTRA_SIN = 0b1111
 EXTRA_LOAD = 0b0000
 EXTRA_STOR = 0b0100
 EXTRA_SCOND = 0b1101
@@ -40,6 +42,10 @@ def encode(i, l, j):
     match i[0]:
         case "add":
             return rtype(i, EXTRA_ADD)
+        case "sin":
+            return rtype(i, EXTRA_SIN)
+        case "cos":
+            return rtype(i, EXTRA_COS)
         case "addi":
             return itype(i, OPERATION_ADDI, l)
         case "movi":
@@ -90,7 +96,7 @@ def rtype(instruction, operation_code_extra: int):
     return (OPERATION_RTYPE << OPERATION_SHIFT) \
         | (int(instruction[1]) << DESTINATION_SHIFT) \
         | (operation_code_extra << EXTRA_SHIFT) \
-        | int(instruction[2])
+        | (int(instruction[2]) if len(instruction) > 2 else 0)
 
 def itype(instruction, operation_code: int, labels):
     try:

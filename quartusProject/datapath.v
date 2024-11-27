@@ -15,9 +15,14 @@ module datapath
 
      input register_write_enable,
      input [2:0] register_write_data_select,
+	  input [2:0] register_write_data_select_extra,
+	  
+	  input raycast_write_enable,
+	  input [2:0] raycast_write_select,
 
      input [15:0] memory_read_data,
-     input memory_address_select,
+     input [1:0] memory_address_select,
+	  input [2:0] memory_offset,
      output [15:0] memory_address,
      output [15:0] memory_write_data);
 
@@ -45,6 +50,7 @@ module datapath
     parameter FC = 4'b1001;
     parameter LT = 4'b1100;
     parameter UC = 4'b1110;
+	 parameter IT = 4'b1111;
 
     parameter ZERO = 4'd6;
     parameter NEGATIVE = 4'd7;
@@ -75,6 +81,14 @@ module datapath
     // TODO: Better names
     wire [15:0] source_condition = condition ? source : 16'b0;
     wire [15:0] program_counter_condition = condition ? source : program_counter_increment;
+	 
+	 wire [15:0] register_write_data_extra;
+	 wire [15:0] sin_value, cos_value;
+	 
+	 wire [15:0] distance, tuvx;
+	 
+	 wire intersection;
+
 
     always @(*) begin
         // TODO: This needs to change location for scond
@@ -92,6 +106,8 @@ module datapath
             FS: condition <= status[FLAG];
             FC: condition <= !status[FLAG];
             LT: condition <= !status[NEGATIVE] && !status[ZERO];
+				FC: condition <= !status[FLAG];
+				IT: condition <= intersection;
             UC: condition <= 1'b1;
             default: condition <= 1'b0;
         endcase
@@ -122,13 +138,25 @@ module datapath
                    alu_a_select, alu_a);
     mux4 #(16) alu_b_mux(destination, CONSTANT_ONE, immediate_sign_extended_condition, source_condition,
                          alu_b_select, alu_b);
+								 
+	 
     mux8 #(16) register_write_data_mux(alu_d, source, 
                                        immediate_zero_extended, immediate_upper, 
                                        memory_read_data, program_counter_increment, 
-                                       memory_read_data, memory_read_data, 
+                                       memory_read_data, register_write_data_extra, 
                                        register_write_data_select, register_write_data);
-    mux2 #(16) memory_address_select_mux(program_counter, 
+	 								
+	 mux8 #(16) register_write_data_extra_mux(sin_value, cos_value, 
+                                       distance, tuvx, 
+                                       0, 0, 
+                                       0, 0, 
+                                       register_write_data_select_extra, register_write_data_extra);
+													
+	 wire [15:0] dest_with_offset = destination + memory_offset;												
+	
+    mux4 #(16) memory_address_select_mux(program_counter, 
                                        source, 
+													dest_with_offset, dest_with_offset,
                                        memory_address_select, 
                                        memory_address);
 
@@ -143,6 +171,38 @@ module datapath
      register_address_destination,
      register_write_data, 
      source, destination);
+	  
+	  sin_cos trig_unit(
+	      .angle(destination),
+			.sine(sin_value),
+			.cosine(cos_value)
+	  );
+	  reg [15:0] raycast_register[7:0];
+	  
+	  always @ (posedge clock) begin
+			if (raycast_write_enable) begin
+			   case(raycast_write_select)
+				   3'b000: begin raycast_register[0] <= destination; raycast_register[1] <= source; end
+					3'b001: begin raycast_register[0] <= destination; raycast_register[1] <= source; end
+					3'b010: begin raycast_register[2] <= destination; raycast_register[3] <= source; end
+					3'b011: begin raycast_register[2] <= destination; raycast_register[3] <= source; end
+					3'b100: raycast_register[4] <= memory_read_data;
+					3'b101: raycast_register[5] <= memory_read_data;
+					3'b110: raycast_register[6] <= memory_read_data;
+					3'b111: raycast_register[7] <= memory_read_data;
+					default: raycast_register[raycast_write_select] <= memory_read_data;
+				endcase
+			end
+	  end
+	  
+	  rayCast rc (
+	      raycast_register[0], raycast_register[1], 
+			raycast_register[2], raycast_register[3], 
+			raycast_register[4], raycast_register[5], 
+			raycast_register[6], raycast_register[7],
+			intersection,
+			distance, tuvx
+	  );
 endmodule
 
 // Arithmetic and Logic Unit
@@ -254,4 +314,3 @@ module register_file
     assign read_data1 = read_address1 ? registers[read_address1] : 16'b0;
     assign read_data2 = read_address2 ? registers[read_address2] : 16'b0;
 endmodule
-
