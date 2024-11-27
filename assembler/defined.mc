@@ -158,8 +158,7 @@ LUI $32 %rC
 MOVI $0 %r3 # i = 0
 MOVI $255 %r8
 LUI $127 %r8
-MOVI $0 %r9 # default texture location
-MOVI $0 %rB # default texture ID
+MOVI $0 %r9 # default texture UV
 .RAY_CAST_LOOP
 ADDI $5 %rC # add struct size to address
 LODW %rC #compute the intersection
@@ -167,15 +166,12 @@ BINT .INTERSECTION_FOUND
 BUC .CONTINUE_LOOP # invalid intersection
 
 .INTERSECTION_FOUND
-LODRD %r5 # get ray distance into %r5
+DIST %r5 # get ray distance into %r5
 CMP %r5 %r8
 BGT .CONTINUE_LOOP # do again if r5 > r8 #TODO make sure the > is the right way around
 # here the wall is closer than the current max distance
 MOV %r5 %r8 #new closest distance
-LODUV %r9 # new texture location
-MOV %rC %r2
-ADDI $4 %r2 # get texture address
-LOAD %r2 %rB # new texture ID
+TXUV %r9 # new texture UV
 
 .CONTINUE_LOOP
 ADDI $1 %r3 # count up

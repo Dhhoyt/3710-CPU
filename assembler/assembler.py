@@ -14,9 +14,11 @@ i_type_insts =   {'ADDI', 'ADDUI', 'ADDCI', 'MULI', 'SUBI', 'SUBCI', 'CMPI', 'AN
 sh_type_insts =  {'LSH', 'ALSH'}
 shi_type_insts = {'LSHI', 'ALSHI'}
 b_type_insts =   {'BEQ', 'BNE', 'BGE', 'BCS', 'BCC', 'BHI', 'BLS', 'BLO', 'BHS', 'BGT', 'BLE', 'BFS', 'BFC', 'BLT', 'BUC', 'BINT'}
-j_type_insts =   {'JEQ', 'JNE', 'JGE', 'JCS', 'JCC', 'JHI', 'JLS', 'JLO', 'JHS', 'JGT', 'JLE', 'JFS', 'JFC', 'JLT', 'JUC', 'JINT'}
+j_type_insts =   {'JEQ', 'JNE', 'JGE', 'JCS', 'JCC', 'JHI', 'JLS', 'JLO', 'JHS', 'JGT', 'JLE', 'JFS', 'JFC', 'JLT', 'JUC'}
 spec_type_insts= {'LOAD', 'STOR', 'JAL'}
-dist_type_insts= {'LODP', 'LODR', 'LODW'}
+dist_1_type_insts= {'LODW', 'DIST', 'TXUV'}
+dist_2_type_insts= {'LODP', 'LODR'}
+
 
 sign_ext_imm =   {'ADDI', 'ADDUI', 'ADDCI', 'MULI', 'SUBI', 'SUBCI', 'CMPI'}
 zero_ext_imm =   {'ANDI', 'ORI', 'XORI', 'MOVI', 'LUI'}
@@ -110,10 +112,15 @@ inst_codes : dict[str,str] = {
     'EXCP': 'B',
     'TBITI':'E',
 
-    'DISTANCE_TYPE': 'E',
+    'DISTANCE_1_TYPE': 'E',
+    'LODW': '2',
+    'DIST': '3',
+    'TXUV': '4',
+
+    'DISTANCE_2_TYPE': 'E',
     'LODP': '0',
     'LODR': '1',
-    'LODW': '2',
+    
 
     'BRANCH': 'C',
     'JUMP': 'C',
@@ -432,19 +439,16 @@ def assemble(filename: str):
                     sys.exit(f'ERROR: Unrecognized register on line {i+1} in instruction {x}')
                 else:
                     wf.write(inst_codes['SPECIAL_TYPE'] + reg_codes[r_first] + inst_codes[instr] + reg_codes[r_sec] + '\n')
-            elif instr in dist_type_insts:
-                if instr == 'LODW':
-                    if len(parts) != 1 :
-                        sys.exit(f'ERROR: Wrong number of args on line {i+1} in instruction {x}\n\tExpected: 1, Found: {len(parts)}')
-                    else:
-                        r_X = parts[0]
-                        r_Y = 0
-                elif len(parts) != 2 :
+            elif instr in dist_1_type_insts:
+                if len(parts) != 1 :
+                    sys.exit(f'ERROR: Wrong number of args on line {i+1} in instruction {x}\n\tExpected: 1, Found: {len(parts)}')
+                r_X = parts[0]
+                wf.write(inst_codes['DISTANCE_1_TYPE'] + reg_codes[r_X] + inst_codes[instr] + '0\n')
+            elif instr in dist_2_type_insts:
+                if len(parts) != 2 :
                     sys.exit(f'ERROR: Wrong number of args on line {i+1} in instruction {x}\n\tExpected: 2, Found: {len(parts)}')
-                else:
-                    r_X, r_Y = parts
-                wf.write(inst_codes['DISTANCE_TYPE'] + reg_codes[r_X] + inst_codes[instr] + reg_codes[r_X] + '\n')
-
+                r_X, r_Y = parts
+                wf.write(inst_codes['DISTANCE_2_TYPE'] + reg_codes[r_X] + inst_codes[instr] + reg_codes[r_Y] +'\n')
             elif instr == 'NOP':
                 # Hardcode NOP as OR %r0 %r0
                 wf.write('0020\n')
