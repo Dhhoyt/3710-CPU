@@ -11,11 +11,11 @@
 `define UV_BUFFER_2_ADDR $65024
 
 # these are now all preserved registers
-# `define PLAYER_X_ADDR $16384 # %r8
-# `define PLAYER_Y_ADDR $16385 # %r9
-# `define PLAYER_ANGLE_ADDR $16386 # %r4
-# `define COL_ANGLE_ADDR $16387 # %rB
-# `define COL_ADDR $16388 #r5
+`define PLAYER_X_ADDR $16384 # %r8
+`define PLAYER_Y_ADDR $16385 # %r9
+`define PLAYER_ANGLE_ADDR $16386 # %r4
+`define COL_ANGLE_ADDR $16387 # %rB
+`define COL_ADDR $16388 #r5
 
 `define JOYSTICK_X_ADDR $65533
 `define JOYSTICK_Y_ADDR $65534
@@ -73,7 +73,7 @@
 			MOVW `ANGLE_STEP %r1
 			ADD %r1 %rB # add the angle step
 
-			ADD $1 %r5 # next column
+			ADDI $1 %r5 # next column
 
 			MOVW `COL_COUNT %r2 // number of columns
 			CMP %r2 %r5
@@ -81,7 +81,7 @@
 		.END_COL_LOOP
 
 		#TODO set GPU flags and switch frame buffer
-		# lets do this after optimizing register use in the above code
+		# assuming that ram starts at 0, thus always render buffer 0
 
 		BUC .FRAME_LOOP
 
