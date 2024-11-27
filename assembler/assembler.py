@@ -7,15 +7,18 @@ jpoint_instrs = {}
 macros : dict[str,str] = {}
 
 RAM_START = 8192
-FILE_LENGTH = 16384
+FILE_LENGTH = 16384 
 
-r_type_insts =   {'ADD',  'ADDU',  'ADDC',  'MUL',  'SUB',  'SUBC',  'CMP',  'AND',  'OR',  'XOR',  'MOV'}
+r_type_insts =   {'ADD',  'ADDU',  'ADDC',  'MUL',  'SUB',  'SUBC',  'CMP',  'AND',  'OR',  'XOR',  'MOV', 'SIN', 'COS'}
 i_type_insts =   {'ADDI', 'ADDUI', 'ADDCI', 'MULI', 'SUBI', 'SUBCI', 'CMPI', 'ANDI', 'ORI', 'XORI', 'MOVI', 'LUI'}
 sh_type_insts =  {'LSH', 'ALSH'}
 shi_type_insts = {'LSHI', 'ALSHI'}
-b_type_insts =   {'BEQ', 'BNE', 'BGE', 'BCS', 'BCC', 'BHI', 'BLS', 'BLO', 'BHS', 'BGT', 'BLE', 'BFS', 'BFC', 'BLT', 'BUC'}
+b_type_insts =   {'BEQ', 'BNE', 'BGE', 'BCS', 'BCC', 'BHI', 'BLS', 'BLO', 'BHS', 'BGT', 'BLE', 'BFS', 'BFC', 'BLT', 'BUC', 'BINT'}
 j_type_insts =   {'JEQ', 'JNE', 'JGE', 'JCS', 'JCC', 'JHI', 'JLS', 'JLO', 'JHS', 'JGT', 'JLE', 'JFS', 'JFC', 'JLT', 'JUC'}
 spec_type_insts= {'LOAD', 'STOR', 'JAL'}
+dist_1_type_insts= {'LODW', 'DIST', 'TXUV'}
+dist_2_type_insts= {'LODP', 'LODR'}
+
 
 sign_ext_imm =   {'ADDI', 'ADDUI', 'ADDCI', 'MULI', 'SUBI', 'SUBCI', 'CMPI'}
 zero_ext_imm =   {'ANDI', 'ORI', 'XORI', 'MOVI', 'LUI'}
@@ -83,6 +86,9 @@ inst_codes : dict[str,str] = {
     'CMP':   'B',
     'CMPI':  'B',
 
+    'COS':   'F',
+    'SIN':   'E',
+
     'SHIFT_TYPE': '8',
     'LSH':   '4',
     'LSHI':  '0',
@@ -106,6 +112,16 @@ inst_codes : dict[str,str] = {
     'EXCP': 'B',
     'TBITI':'E',
 
+    'DISTANCE_1_TYPE': 'E',
+    'LODW': '2',
+    'DIST': '3',
+    'TXUV': '4',
+
+    'DISTANCE_2_TYPE': 'E',
+    'LODP': '0',
+    'LODR': '1',
+    
+
     'BRANCH': 'C',
     'JUMP': 'C',
 
@@ -123,7 +139,8 @@ inst_codes : dict[str,str] = {
     'HS' : 'B',
     'LT' : 'C',
     'GE' : 'D',
-    'UC' : 'E'
+    'UC' : 'E',
+    'INT': 'F'
 }
 
 # from https://stackoverflow.com/questions/38834378/path-to-a-directory-as-argparse-argument
@@ -162,13 +179,18 @@ def replaceMacros(parts: list[str]):
             toreturn.append(s)
     return toreturn
 
+def parseImm(token):
+    if token.startswith('$$'):
+        parsed = int(float(token[2:]) * 256)
+    elif token.startswith('$'):
+        parsed = int(token[1:])
+    else:
+        sys.exit(f'ERROR: Badly formatted imm \'{token}\'')
+	
+    return parsed
+
 # casey wolfe added some code here to define multi line macros
 # use ~ to denote more lines
-''' example
-`define foo 
-~ MOVI $10 %r1
-~ MOVI $0 %r2
-'''
 def precompile(filename):
     f = open(filename, 'r')
     df = open('defined.mc', 'w')
@@ -180,7 +202,7 @@ def precompile(filename):
         line = x.split('#')[0]
         parts = line.split()
 
-        if inMacro:
+        if inMacro: # added multiline macros
             if len(parts) > 0 and parts[0]=='~':
                 macros[macroName] = macros[macroName] + '\n' + ' '.join([x for x in parts[1:]])
             else:
@@ -208,12 +230,12 @@ def precompile(filename):
             if len(parts) < 2:
                 sys.exit('not enough CALL args')
             label = parts[1]
-            reglist = parts[2][1:-1].split(',')
-            if len(reglist) > 5:
-                sys.exit('too many parameters')
-            for i, reg in enumerate(reglist):
-                if reg != '':
-                    df.write(f'MOV {reg} {parameter_regs[i]}\n')
+            # reglist = parts[2][1:-1].split(',') # Commented out because moving data like this before a function is wasteful
+            # if len(reglist) > 5:
+            #     sys.exit('too many parameters')
+            # for i, reg in enumerate(reglist):
+            #     if reg != '':
+            #         df.write(f'MOV {reg} {parameter_regs[i]}\n')
             df.write(f'MOVI {label} %rA\n')
             df.write(f'LUI {label} %rA\n')
             df.write(f'JAL %rA %rA\n')
@@ -222,13 +244,16 @@ def precompile(filename):
                 sys.exit('not enough MOVW args')
             imm = parts[1]
             rdst = parts[2]
-            parsed_imm = int(imm, 0)
+            parsed_imm = parseImm(imm)
             if parsed_imm > 0xFFFF:
                 sys.exit(f'MOVW imm too large, must be less than 0xFFFF, found {parsed_imm}')
             lo_byte = byte(parsed_imm, 0)
             hi_byte = byte(parsed_imm, 1)
             df.write(f'MOVI ${lo_byte} {rdst}\n')
             df.write(f'LUI ${hi_byte} {rdst}\n')
+        elif len(parts) > 0 and parts[0] in {'SIN', 'COS'}: # insert dummy/unused register 0
+            parts.insert(1, f'%r0')
+            df.write(' '.join(parts) + '\n')
         else:
             df.write(' '.join(parts) + '\n')
 
@@ -414,18 +439,23 @@ def assemble(filename: str):
                     sys.exit(f'ERROR: Unrecognized register on line {i+1} in instruction {x}')
                 else:
                     wf.write(inst_codes['SPECIAL_TYPE'] + reg_codes[r_first] + inst_codes[instr] + reg_codes[r_sec] + '\n')
+            elif instr in dist_1_type_insts:
+                if len(parts) != 1 :
+                    sys.exit(f'ERROR: Wrong number of args on line {i+1} in instruction {x}\n\tExpected: 1, Found: {len(parts)}')
+                r_X = parts[0]
+                if r_X not in reg_codes:
+                    sys.exit(f'ERROR: Unrecognized register on line {i+1} in instruction {x}')
+                wf.write(inst_codes['DISTANCE_1_TYPE'] + reg_codes[r_X] + inst_codes[instr] + '0\n')
+            elif instr in dist_2_type_insts:
+                if len(parts) != 2 :
+                    sys.exit(f'ERROR: Wrong number of args on line {i+1} in instruction {x}\n\tExpected: 2, Found: {len(parts)}')
+                r_X, r_Y = parts
+                if r_X not in reg_codes or r_Y not in reg_codes:
+                    sys.exit(f'ERROR: Unrecognized register on line {i+1} in instruction {x}')
+                wf.write(inst_codes['DISTANCE_2_TYPE'] + reg_codes[r_X] + inst_codes[instr] + reg_codes[r_Y] +'\n')
             elif instr == 'NOP':
                 # Hardcode NOP as OR %r0 %r0
                 wf.write('0020\n')
-            elif instr == 'RAND':
-                if len(parts) != 1:
-                    sys.exit(f'too many args for RAND, line {i+1}')
-                else:
-                    r_dst = parts[0]
-                    if r_dst not in reg_codes:
-                        sys.exit(f'Unkown register in RAND on line {i+1}')
-                    else:
-                        wf.write(f'4{reg_codes[r_dst]}F0\n')
 
 
             else: # ----------------------------------------------------------------------------------------
