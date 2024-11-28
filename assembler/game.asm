@@ -145,8 +145,8 @@
 
 	.INTERSECTION_FOUND
 	DIST %r2 # get ray distance into %r2
-	CMP %r2 %rC
-	BGT .CONTINUE_LOOP # do again if r2 > rC  #TODO make sure the > is the right way around
+	CMP %rC %r2
+	BGT .CONTINUE_LOOP # do again if rC < r2
 	# here the wall is closer than the current max distance
 	MOV %r2 %rC #new closest distance
 	TXUV %rD # new texture UV
@@ -154,7 +154,7 @@
 	.CONTINUE_LOOP
 	ADDI $5 %r0 # add struct size to wall pointer 
 	ADDI $1 %r1 # count up
-	CMPI `WALLS_COUNT %r1 #TODO this seems the opposite of the above comparison?
+	CMPI `WALLS_COUNT %r1
 	BLT .RAY_CAST_LOOP #do again if theres more walls to check
 
 	JUC %rA # return

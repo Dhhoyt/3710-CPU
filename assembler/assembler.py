@@ -7,7 +7,7 @@ jpoint_instrs = {}
 macros : dict[str,str] = {}
 
 RAM_START = 8192
-FILE_LENGTH = 16384 
+FILE_LENGTH = 16384
 
 r_type_insts =   {'ADD',  'ADDU',  'ADDC',  'MUL',  'SUB',  'SUBC',  'CMP',  'AND',  'OR',  'XOR',  'MOV', 'SIN', 'COS'}
 i_type_insts =   {'ADDI', 'ADDUI', 'ADDCI', 'MULI', 'SUBI', 'SUBCI', 'CMPI', 'ANDI', 'ORI', 'XORI', 'MOVI', 'LUI'}
