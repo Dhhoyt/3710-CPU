@@ -94,7 +94,7 @@
 			ADDI $1 %r5 # next column
 
 			MOVW `COL_COUNT %r2 // number of columns
-			CMP %r2 %r5
+			CMP %r5 %r2
 			BGT .COL_LOOP # repeat for every column
 		.END_COL_LOOP
 
