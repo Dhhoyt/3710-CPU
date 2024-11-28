@@ -22,7 +22,6 @@ module sqrt32to16 (
     attemptSqrtSubtraction ass14(.brought_down(x[5:4]),   .x(diff[12]), .existing_answer({3'b0,  res[15: 3]}), .res(diff[13]), .subtract(res[2]));
     attemptSqrtSubtraction ass15(.brought_down(x[3:2]),   .x(diff[13]), .existing_answer({2'b0,  res[15: 2]}), .res(diff[14]), .subtract(res[1]));
     attemptSqrtSubtraction ass16(.brought_down(x[1:0]),   .x(diff[14]), .existing_answer({1'b0,  res[15: 1]}),                 .subtract(res[0]));
-
 endmodule
 
 module attemptSqrtSubtraction(

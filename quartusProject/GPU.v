@@ -1,19 +1,18 @@
 module GPU(
     input wire clk,
     input wire clr,
-	 input wire [15:0] distance,
-	 input wire [15:0] texture,
-	 input wire buffer_select,
+	input wire [15:0] distance,
+	input wire [15:0] texture,
+	input wire buffer_select,
     output wire h_sync,
     output wire v_sync,
     output wire [7:0] red,
     output wire [7:0] green,
     output wire [7:0] blue,
-	 output reg  reading_buffer,
-	 output wire [8:0] reading_index, // enough to address 320 addresses
-	 output wire vga_clock,
-	 output wire vga_sync,
-	 output wire vga_blank
+	output wire [8:0] reading_index, // enough to address 320 addresses
+	output wire vga_clock,
+	output wire vga_sync,
+	output wire vga_blank
 );
 
 parameter LOOKAHEAD_COUNT = 8;
@@ -77,8 +76,7 @@ assign blue = active_inside_wall ? {color[1:0], color[1:0], color[1:0], color[1:
 
 always @ (posedge clk) begin
 	if (pixel_clk) begin
-	   if (~v_sync)
-			reading_buffer = buffer_select;
+
 		if (~row_clr)
 			state <= LOOKAHEAD_1;	
 		else begin

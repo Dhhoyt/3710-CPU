@@ -14,7 +14,7 @@ module rayCast_tb();
   // Outputs
   wire intersection;
   wire [15:0] ray_distance;
-  wire [7:0] uv_x;
+  wire [15:0] uv_x;
   wire signed [31:0] t;
   wire signed [31:0] u;
 
@@ -28,8 +28,6 @@ module rayCast_tb();
     .y3(w1y),
     .x4(w2x),
     .y4(w2y),
-    .t(t),
-    .u(u),
     .intersection(intersection),
     .ray_distance(ray_distance),
     .uv_x(uv_x)
@@ -69,9 +67,8 @@ module rayCast_tb();
                     #1;
 
                     // Output the results to the console
-                    $display("%h, %h, %h, %h, %h, %h, %h, %h, %h, %h, %h, %h, %h",
+                    $display("%h, %h, %h, %h, %h, %h, %h, %h, %h, %h, %h",
                       r1x, r1y, r2x, r2y, w1x, w1y, w2x, w2y,
-                      t, u,
                       intersection, ray_distance, uv_x);
                   end
                 end

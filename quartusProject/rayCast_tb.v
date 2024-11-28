@@ -14,7 +14,7 @@ module rayCast_tb();
   // Outputs
   wire intersection;
   wire [15:0] ray_distance;
-  wire [7:0] uv_x;
+  wire [15:0] uv_x;
   wire signed [31:0] t;
   wire signed [31:0] u;
 
@@ -28,15 +28,13 @@ module rayCast_tb();
     .y3(w1y),
     .x4(w2x),
     .y4(w2y),
-    .t(t),
-    .u(u),
     .intersection(intersection),
     .ray_distance(ray_distance),
     .uv_x(uv_x)
   );
 
   // Stride size
-  parameter integer stride = (1 << 12) - 1;
+  parameter integer stride = 3732/2;
   parameter integer bound = (1 << 12);
 
   // Loop variables
@@ -44,17 +42,16 @@ module rayCast_tb();
 
   initial begin
     // Print header for easier reading of output
-    $display("r1x, r1y, r2x, r2y, w1x, w1y, w2x, w2y -> intersection, ray_distance, uv_x");
 
     // 8 nested loops
-    for (i = -bound; i <= bound - 1; i = i + stride) begin
-      for (j = -bound; j <= bound - 1; j = j + stride) begin
-        for (k = -bound; k <= bound - 1; k = k + stride) begin
-          for (l = -bound; l <= bound - 1; l = l + stride) begin
-            for (m = -bound; m <= bound - 1; m = m + stride) begin
-              for (n = -bound; n <= bound - 1; n = n + stride) begin
-                for (o = -bound; o <= bound - 1; o = o + stride) begin
-                  for (p = -bound; p <= bound - 1; p = p + stride) begin
+    for (i = -bound + 32; i <= bound - 1; i = i + stride + 3) begin
+      for (j = -bound + 342; j <= bound - 1; j = j + stride + 18) begin
+        for (k = -bound + 25; k <= bound - 1; k = k + stride + 9) begin
+          for (l = -bound + 83; l <= bound - 1; l = l + stride + 6) begin
+            for (m = -bound + 35; m <= bound - 1; m = m + stride + 15) begin
+              for (n = -bound + 21; n <= bound - 1; n = n + stride + 15) begin
+                for (o = -bound + 73; o <= bound - 1; o = o + stride + 3) begin
+                  for (p = -bound + 33; p <= bound - 1; p = p + stride + 1) begin
                     // Apply test values to inputs
                     r1x = i;
                     r1y = j;
@@ -69,9 +66,8 @@ module rayCast_tb();
                     #1;
 
                     // Output the results to the console
-                    $display("%h, %h, %h, %h, %h, %h, %h, %h, %h, %h, %h, %h, %h",
+                    $display("%h, %h, %h, %h, %h, %h, %h, %h, %h, %h, %h",
                       r1x, r1y, r2x, r2y, w1x, w1y, w2x, w2y,
-                      t, u,
                       intersection, ray_distance, uv_x);
                   end
                 end
