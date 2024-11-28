@@ -2,13 +2,13 @@
 # written by the Nibble Noshers
 
 `define COL_COUNT $320
-`define FOV_HALF $$50
-# 100 / 320
-`define ANGLE_STEP $$0.3125 
-`define DIST_BUFFER_1_ADDR $63488
-`define DIST_BUFFER_2_ADDR $64512
-`define UV_BUFFER_1_ADDR $64000
-`define UV_BUFFER_2_ADDR $65024
+`define FOV_HALF $$1.25
+# FOV / 320
+`define ANGLE_STEP $$0.00390625
+`define DIST_BUFFER_0_ADDR $63488
+`define DIST_BUFFER_1_ADDR $64512
+`define UV_BUFFER_0_ADDR $64000
+`define UV_BUFFER_1_ADDR $65024
 
 # these are now all preserved registers
 `define PLAYER_X_ADDR $16384 # %r8
@@ -16,6 +16,7 @@
 `define PLAYER_ANGLE_ADDR $16386 # %r4
 `define COL_ANGLE_ADDR $16387 # %rB
 `define COL_ADDR $16388 #r5
+#%r6 is buffer ID
 
 `define JOYSTICK_X_ADDR $65533
 `define JOYSTICK_Y_ADDR $65534
@@ -33,6 +34,7 @@
 	MOVW $$0 %r4 # player angle
 	MOVW $$3 %r8 # player X
 	MOVW $$3 %r9 # player Y
+	MOVI $1  %r6 # Frame buffer ID
 
 	
 	.FRAME_LOOP
@@ -56,20 +58,36 @@
 		
 		#set column angle to the left of screen
 		MOVW `FOV_HALF %r1
+		MOV %r4 %rB # reset column angle to be player angle
 		SUB  %r1 %rB # start on left of FOV
 		MOVI $0 %r5 # column count = 0
 		
 		.COL_LOOP
 			CALL .FUN_RAY_CAST
 
-			MOVW `DIST_BUFFER_1_ADDR %r0 # save the distance
-			ADD %r5 %r0 # add the column to the address
-			STOR %rC %r0
+			CMPI $0 %r6 # pick the right buffer
+			BNE  .BUFFER_1
 
-			MOVW `UV_BUFFER_1_ADDR %r0 # save the UVX
-			ADD %r5 %r0 # add the column to the address
-			STOR %rD %r0
+			.BUFFER_0
+				MOVW `DIST_BUFFER_0_ADDR %r0 # save the distance
+				ADD %r5 %r0 # add the column to the address
+				STOR %rC %r0
 
+				MOVW `UV_BUFFER_0_ADDR %r0 # save the UVX
+				ADD %r5 %r0 # add the column to the address
+				STOR %rD %r0
+				BUC .CONTINUE_COL_LOOP
+			
+			.BUFFER_1
+				MOVW `DIST_BUFFER_1_ADDR %r0 # save the distance
+				ADD %r5 %r0 # add the column to the address
+				STOR %rC %r0
+
+				MOVW `UV_BUFFER_1_ADDR %r0 # save the UVX
+				ADD %r5 %r0 # add the column to the address
+				STOR %rD %r0
+
+			.CONTINUE_COL_LOOP
 			MOVW `ANGLE_STEP %r1
 			ADD %r1 %rB # add the angle step
 
@@ -80,8 +98,22 @@
 			BGT .COL_LOOP # repeat for every column
 		.END_COL_LOOP
 
-		#TODO set GPU flags and switch frame buffer
-		# assuming that ram starts at 0, thus always render buffer 0
+		MOVW `GPU_FLAG_ADDR %r0 #get flag address
+		.WAIT_FOR_RENDERING # wait for rendering the previous frame to finish
+			LOAD %r1 %r0 # load the flag register
+			ANDI $1 %r1 # mask out the lowest bit
+			CMPI $0 %r1	# check if lowest bit is set
+			BEQ .WAIT_FOR_RENDERING # repeat until it is set
+
+		# write to the GPU flag
+		# write the buffer ID that we just filled
+		MOV %r6 %r1 # copy frame buffer ID
+		LSHI $1 %r1 # shift to the second bit
+		STOR %r1 %r0 # set the flag
+
+		# now switch which one we write to 
+		XORI $1 %r6 # switch frame buffer to write to 
+
 
 		BUC .FRAME_LOOP
 
