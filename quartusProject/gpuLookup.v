@@ -1,7 +1,7 @@
 module gpuLookup #(parameter TEXTURE_SIZE = 64, parameter SCREEN_HEIGHT = 16'b1111000000000000) ( // Screen Height must be in Q8.8 format.
 	input wire [15:0] distance,
 	input wire [9:0] screen_y,
-	output wire [$clog2(TEXTURE_SIZE):0] uv_y,
+	output wire [$clog2(TEXTURE_SIZE)-1:0] uv_y,
 	output wire inside_wall,
 	output wire above_wall
 );

@@ -1,9 +1,9 @@
 module memory
     (input clock,
-     input [15:0] write_data_a, // write_data_b,
-     input [15:0] address_a, // address_b,
-     input write_enable_a, // write_enable_b,
-     output reg [15:0] read_data_a /*, read_data_b */);
+     input [15:0] write_data_a, write_data_b,
+     input [15:0] address_a, address_b,
+     input write_enable_a, write_enable_b,
+     output reg [15:0] read_data_a, read_data_b );
 
     reg [15:0] ram[2**16-1:0];
     initial begin

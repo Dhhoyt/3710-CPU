@@ -24,7 +24,7 @@ module cpu
 	 wire [2:0] register_write_data_select_extra;
 
 
-    wire [2:0] memory_address_select;
+    wire [1:0] memory_address_select;
 	 
 	 wire raycast_write_enable;
 	 wire [2:0] raycast_write_select;

@@ -148,8 +148,8 @@ module datapath
 	 								
 	 mux8 #(16) register_write_data_extra_mux(sin_value, cos_value, 
                                        distance, tuvx, 
-                                       0, 0, 
-                                       0, 0, 
+                                       16'd0, 16'd0, 
+                                       16'd0, 16'd0, 
                                        register_write_data_select_extra, register_write_data_extra);
 													
 	 wire [15:0] dest_with_offset = destination + memory_offset;												

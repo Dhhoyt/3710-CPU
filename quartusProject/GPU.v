@@ -3,7 +3,6 @@ module GPU(
     input wire clr,
 	input wire [15:0] distance,
 	input wire [15:0] texture,
-	input wire buffer_select,
     output wire h_sync,
     output wire v_sync,
     output wire [7:0] red,
