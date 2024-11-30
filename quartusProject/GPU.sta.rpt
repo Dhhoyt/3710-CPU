@@ -1,5 +1,5 @@
 Timing Analyzer report for GPU
-Fri Nov 29 18:11:56 2024
+Sat Nov 30 00:47:27 2024
 Quartus Prime Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
 
 
@@ -102,16 +102,16 @@ https://fpgasoftware.intel.com/eula.
 ; Number detected on machine ; 12          ;
 ; Maximum allowed            ; 6           ;
 ;                            ;             ;
-; Average used               ; 3.81        ;
+; Average used               ; 3.75        ;
 ; Maximum used               ; 6           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;  67.4%      ;
-;     Processor 3            ;  67.1%      ;
-;     Processor 4            ;  66.7%      ;
-;     Processor 5            ;  39.8%      ;
-;     Processor 6            ;  39.8%      ;
+;     Processor 2            ;  69.5%      ;
+;     Processor 3            ;  69.1%      ;
+;     Processor 4            ;  69.0%      ;
+;     Processor 5            ;  33.8%      ;
+;     Processor 6            ;  33.8%      ;
 +----------------------------+-------------+
 
 
@@ -125,14 +125,14 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+-----------------------------------------------------------------------------+
 
 
-+-------------------------------------------------------------------------------------------------------------+
-; Slow 1100mV 85C Model Fmax Summary                                                                          ;
-+----------+-----------------+-------------------------------------------------------------------------+------+
-; Fmax     ; Restricted Fmax ; Clock Name                                                              ; Note ;
-+----------+-----------------+-------------------------------------------------------------------------+------+
-; 6.51 MHz ; 6.51 MHz        ; clock                                                                   ;      ;
-; 97.9 MHz ; 97.9 MHz        ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ;      ;
-+----------+-----------------+-------------------------------------------------------------------------+------+
++---------------------------------------------------------------------------------------------------------------+
+; Slow 1100mV 85C Model Fmax Summary                                                                            ;
++------------+-----------------+-------------------------------------------------------------------------+------+
+; Fmax       ; Restricted Fmax ; Clock Name                                                              ; Note ;
++------------+-----------------+-------------------------------------------------------------------------+------+
+; 6.46 MHz   ; 6.46 MHz        ; clock                                                                   ;      ;
+; 100.16 MHz ; 100.16 MHz      ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ;      ;
++------------+-----------------+-------------------------------------------------------------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
 
@@ -147,8 +147,8 @@ HTML report is unavailable in plain text report export.
 +-------------------------------------------------------------------------+----------+---------------+
 ; Clock                                                                   ; Slack    ; End Point TNS ;
 +-------------------------------------------------------------------------+----------+---------------+
-; clock                                                                   ; -152.593 ; -128684.845   ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -7.013   ; -151.454      ;
+; clock                                                                   ; -153.740 ; -126255.811   ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -6.448   ; -154.641      ;
 +-------------------------------------------------------------------------+----------+---------------+
 
 
@@ -157,8 +157,8 @@ HTML report is unavailable in plain text report export.
 +-------------------------------------------------------------------------+-------+---------------+
 ; Clock                                                                   ; Slack ; End Point TNS ;
 +-------------------------------------------------------------------------+-------+---------------+
-; clock                                                                   ; 0.215 ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.942 ; 0.000         ;
+; clock                                                                   ; 0.305 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.960 ; 0.000         ;
 +-------------------------------------------------------------------------+-------+---------------+
 
 
@@ -167,7 +167,7 @@ HTML report is unavailable in plain text report export.
 +-------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                   ; Slack  ; End Point TNS ;
 +-------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -4.034 ; -92.001       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -4.331 ; -82.194       ;
 +-------------------------------------------------------------------------+--------+---------------+
 
 
@@ -176,7 +176,7 @@ HTML report is unavailable in plain text report export.
 +-------------------------------------------------------------------------+-------+---------------+
 ; Clock                                                                   ; Slack ; End Point TNS ;
 +-------------------------------------------------------------------------+-------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 1.056 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.944 ; 0.000         ;
 +-------------------------------------------------------------------------+-------+---------------+
 
 
@@ -185,8 +185,8 @@ HTML report is unavailable in plain text report export.
 +-------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                   ; Slack  ; End Point TNS ;
 +-------------------------------------------------------------------------+--------+---------------+
-; clock                                                                   ; -2.636 ; -30915.858    ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -0.064 ; -0.124        ;
+; clock                                                                   ; -2.636 ; -30913.715    ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.037  ; 0.000         ;
 +-------------------------------------------------------------------------+--------+---------------+
 
 
@@ -196,14 +196,14 @@ HTML report is unavailable in plain text report export.
 No synchronizer chains to report.
 
 
-+--------------------------------------------------------------------------------------------------------------+
-; Slow 1100mV 0C Model Fmax Summary                                                                            ;
-+-----------+-----------------+-------------------------------------------------------------------------+------+
-; Fmax      ; Restricted Fmax ; Clock Name                                                              ; Note ;
-+-----------+-----------------+-------------------------------------------------------------------------+------+
-; 6.36 MHz  ; 6.36 MHz        ; clock                                                                   ;      ;
-; 99.05 MHz ; 99.05 MHz       ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ;      ;
-+-----------+-----------------+-------------------------------------------------------------------------+------+
++---------------------------------------------------------------------------------------------------------------+
+; Slow 1100mV 0C Model Fmax Summary                                                                             ;
++------------+-----------------+-------------------------------------------------------------------------+------+
+; Fmax       ; Restricted Fmax ; Clock Name                                                              ; Note ;
++------------+-----------------+-------------------------------------------------------------------------+------+
+; 6.32 MHz   ; 6.32 MHz        ; clock                                                                   ;      ;
+; 102.82 MHz ; 102.82 MHz      ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ;      ;
++------------+-----------------+-------------------------------------------------------------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
 
@@ -212,8 +212,8 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +-------------------------------------------------------------------------+----------+---------------+
 ; Clock                                                                   ; Slack    ; End Point TNS ;
 +-------------------------------------------------------------------------+----------+---------------+
-; clock                                                                   ; -156.209 ; -126549.156   ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -7.055   ; -154.264      ;
+; clock                                                                   ; -157.283 ; -124216.526   ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -6.361   ; -155.768      ;
 +-------------------------------------------------------------------------+----------+---------------+
 
 
@@ -222,8 +222,8 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +-------------------------------------------------------------------------+-------+---------------+
 ; Clock                                                                   ; Slack ; End Point TNS ;
 +-------------------------------------------------------------------------+-------+---------------+
-; clock                                                                   ; 0.087 ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.763 ; 0.000         ;
+; clock                                                                   ; 0.235 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.905 ; 0.000         ;
 +-------------------------------------------------------------------------+-------+---------------+
 
 
@@ -232,7 +232,7 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +-------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                   ; Slack  ; End Point TNS ;
 +-------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -4.160 ; -95.497       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -4.431 ; -85.260       ;
 +-------------------------------------------------------------------------+--------+---------------+
 
 
@@ -241,7 +241,7 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +-------------------------------------------------------------------------+-------+---------------+
 ; Clock                                                                   ; Slack ; End Point TNS ;
 +-------------------------------------------------------------------------+-------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 1.127 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.991 ; 0.000         ;
 +-------------------------------------------------------------------------+-------+---------------+
 
 
@@ -250,8 +250,8 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +-------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                   ; Slack  ; End Point TNS ;
 +-------------------------------------------------------------------------+--------+---------------+
-; clock                                                                   ; -2.636 ; -31162.194    ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -0.072 ; -0.142        ;
+; clock                                                                   ; -2.636 ; -31152.151    ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.037  ; 0.000         ;
 +-------------------------------------------------------------------------+--------+---------------+
 
 
@@ -266,8 +266,8 @@ No synchronizer chains to report.
 +-------------------------------------------------------------------------+---------+---------------+
 ; Clock                                                                   ; Slack   ; End Point TNS ;
 +-------------------------------------------------------------------------+---------+---------------+
-; clock                                                                   ; -84.454 ; -74276.924    ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -3.632  ; -70.305       ;
+; clock                                                                   ; -85.681 ; -72934.891    ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -3.510  ; -74.721       ;
 +-------------------------------------------------------------------------+---------+---------------+
 
 
@@ -276,8 +276,8 @@ No synchronizer chains to report.
 +-------------------------------------------------------------------------+-------+---------------+
 ; Clock                                                                   ; Slack ; End Point TNS ;
 +-------------------------------------------------------------------------+-------+---------------+
-; clock                                                                   ; 0.071 ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.368 ; 0.000         ;
+; clock                                                                   ; 0.074 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.465 ; 0.000         ;
 +-------------------------------------------------------------------------+-------+---------------+
 
 
@@ -286,7 +286,7 @@ No synchronizer chains to report.
 +-------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                   ; Slack  ; End Point TNS ;
 +-------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -1.755 ; -36.766       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -1.963 ; -31.932       ;
 +-------------------------------------------------------------------------+--------+---------------+
 
 
@@ -295,7 +295,7 @@ No synchronizer chains to report.
 +-------------------------------------------------------------------------+-------+---------------+
 ; Clock                                                                   ; Slack ; End Point TNS ;
 +-------------------------------------------------------------------------+-------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.461 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.433 ; 0.000         ;
 +-------------------------------------------------------------------------+-------+---------------+
 
 
@@ -304,8 +304,8 @@ No synchronizer chains to report.
 +-------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                   ; Slack  ; End Point TNS ;
 +-------------------------------------------------------------------------+--------+---------------+
-; clock                                                                   ; -2.636 ; -27421.970    ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -0.005 ; -0.005        ;
+; clock                                                                   ; -2.636 ; -27425.031    ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.049  ; 0.000         ;
 +-------------------------------------------------------------------------+--------+---------------+
 
 
@@ -320,8 +320,8 @@ No synchronizer chains to report.
 +-------------------------------------------------------------------------+---------+---------------+
 ; Clock                                                                   ; Slack   ; End Point TNS ;
 +-------------------------------------------------------------------------+---------+---------------+
-; clock                                                                   ; -80.000 ; -66421.799    ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -3.332  ; -65.807       ;
+; clock                                                                   ; -80.958 ; -65283.142    ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -3.190  ; -68.994       ;
 +-------------------------------------------------------------------------+---------+---------------+
 
 
@@ -330,8 +330,8 @@ No synchronizer chains to report.
 +-------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                   ; Slack  ; End Point TNS ;
 +-------------------------------------------------------------------------+--------+---------------+
-; clock                                                                   ; -0.023 ; -0.028        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.461  ; 0.000         ;
+; clock                                                                   ; -0.014 ; -0.018        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.422  ; 0.000         ;
 +-------------------------------------------------------------------------+--------+---------------+
 
 
@@ -340,7 +340,7 @@ No synchronizer chains to report.
 +-------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                   ; Slack  ; End Point TNS ;
 +-------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -1.660 ; -35.426       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -1.843 ; -30.804       ;
 +-------------------------------------------------------------------------+--------+---------------+
 
 
@@ -349,7 +349,7 @@ No synchronizer chains to report.
 +-------------------------------------------------------------------------+-------+---------------+
 ; Clock                                                                   ; Slack ; End Point TNS ;
 +-------------------------------------------------------------------------+-------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.533 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.498 ; 0.000         ;
 +-------------------------------------------------------------------------+-------+---------------+
 
 
@@ -358,8 +358,8 @@ No synchronizer chains to report.
 +-------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                   ; Slack  ; End Point TNS ;
 +-------------------------------------------------------------------------+--------+---------------+
-; clock                                                                   ; -2.636 ; -27431.354    ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.079  ; 0.000         ;
+; clock                                                                   ; -2.636 ; -27436.323    ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 0.126  ; 0.000         ;
 +-------------------------------------------------------------------------+--------+---------------+
 
 
@@ -374,12 +374,12 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+-------------+--------+----------+---------+---------------------+
 ; Clock                                                                    ; Setup       ; Hold   ; Recovery ; Removal ; Minimum Pulse Width ;
 +--------------------------------------------------------------------------+-------------+--------+----------+---------+---------------------+
-; Worst-case Slack                                                         ; -156.209    ; -0.023 ; -4.160   ; 0.461   ; -2.636              ;
-;  clock                                                                   ; -156.209    ; -0.023 ; N/A      ; N/A     ; -2.636              ;
-;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -7.055      ; 0.368  ; -4.160   ; 0.461   ; -0.072              ;
-; Design-wide TNS                                                          ; -128836.299 ; -0.028 ; -95.497  ; 0.0     ; -31162.336          ;
-;  clock                                                                   ; -128684.845 ; -0.028 ; N/A      ; N/A     ; -31162.194          ;
-;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -154.264    ; 0.000  ; -95.497  ; 0.000   ; -0.142              ;
+; Worst-case Slack                                                         ; -157.283    ; -0.014 ; -4.431   ; 0.433   ; -2.636              ;
+;  clock                                                                   ; -157.283    ; -0.014 ; N/A      ; N/A     ; -2.636              ;
+;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -6.448      ; 0.422  ; -4.431   ; 0.433   ; 0.037               ;
+; Design-wide TNS                                                          ; -126410.452 ; -0.018 ; -85.26   ; 0.0     ; -31152.151          ;
+;  clock                                                                   ; -126255.811 ; -0.018 ; N/A      ; N/A     ; -31152.151          ;
+;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; -155.768    ; 0.000  ; -85.260  ; 0.000   ; 0.000               ;
 +--------------------------------------------------------------------------+-------------+--------+----------+---------+---------------------+
 
 
@@ -583,7 +583,7 @@ No synchronizer chains to report.
 +-------------------------------------------------------------------------+-------------------------------------------------------------------------+--------------+----------+----------+----------+
 ; From Clock                                                              ; To Clock                                                                ; RR Paths     ; FR Paths ; RF Paths ; FF Paths ;
 +-------------------------------------------------------------------------+-------------------------------------------------------------------------+--------------+----------+----------+----------+
-; clock                                                                   ; clock                                                                   ; > 2147483647 ; 11762    ; 674385   ; 0        ;
+; clock                                                                   ; clock                                                                   ; > 2147483647 ; 11632    ; 588177   ; 0        ;
 ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; clock                                                                   ; 1481         ; 1446     ; 0        ; 0        ;
 ; clock                                                                   ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 170          ; 0        ; 0        ; 0        ;
 ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 20           ; 20       ; 0        ; 0        ;
@@ -596,7 +596,7 @@ Entries labeled "false path" only account for clock-to-clock false paths and not
 +-------------------------------------------------------------------------+-------------------------------------------------------------------------+--------------+----------+----------+----------+
 ; From Clock                                                              ; To Clock                                                                ; RR Paths     ; FR Paths ; RF Paths ; FF Paths ;
 +-------------------------------------------------------------------------+-------------------------------------------------------------------------+--------------+----------+----------+----------+
-; clock                                                                   ; clock                                                                   ; > 2147483647 ; 11762    ; 674385   ; 0        ;
+; clock                                                                   ; clock                                                                   ; > 2147483647 ; 11632    ; 588177   ; 0        ;
 ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; clock                                                                   ; 1481         ; 1446     ; 0        ; 0        ;
 ; clock                                                                   ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 170          ; 0        ; 0        ; 0        ;
 ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] ; 20           ; 20       ; 0        ; 0        ;
@@ -646,7 +646,7 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 ; Unconstrained Input Ports       ; 1     ; 1    ;
 ; Unconstrained Input Port Paths  ; 7352  ; 7352 ;
 ; Unconstrained Output Ports      ; 19    ; 19   ;
-; Unconstrained Output Port Paths ; 2654  ; 2654 ;
+; Unconstrained Output Port Paths ; 2639  ; 2639 ;
 +---------------------------------+-------+------+
 
 
@@ -738,7 +738,7 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 Info: *******************************************************************
 Info: Running Quartus Prime Timing Analyzer
     Info: Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
-    Info: Processing started: Fri Nov 29 18:11:23 2024
+    Info: Processing started: Sat Nov 30 00:46:39 2024
 Info: Command: quartus_sta GPU -c GPU
 Info: qsta_default_script.tcl version: #1
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
@@ -757,120 +757,120 @@ Info: Found TIMING_ANALYZER_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
 Info: Analyzing Slow 1100mV 85C Model
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -152.593
+Info (332146): Worst-case setup slack is -153.740
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):  -152.593         -128684.845 clock 
-    Info (332119):    -7.013            -151.454 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case hold slack is 0.215
+    Info (332119):  -153.740         -126255.811 clock 
+    Info (332119):    -6.448            -154.641 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case hold slack is 0.305
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.215               0.000 clock 
-    Info (332119):     0.942               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case recovery slack is -4.034
+    Info (332119):     0.305               0.000 clock 
+    Info (332119):     0.960               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case recovery slack is -4.331
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -4.034             -92.001 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case removal slack is 1.056
+    Info (332119):    -4.331             -82.194 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case removal slack is 0.944
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     1.056               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     0.944               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636          -30915.858 clock 
-    Info (332119):    -0.064              -0.124 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):    -2.636          -30913.715 clock 
+    Info (332119):     0.037               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
 Info: Analyzing Slow 1100mV 0C Model
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -156.209
+Info (332146): Worst-case setup slack is -157.283
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):  -156.209         -126549.156 clock 
-    Info (332119):    -7.055            -154.264 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case hold slack is 0.087
+    Info (332119):  -157.283         -124216.526 clock 
+    Info (332119):    -6.361            -155.768 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case hold slack is 0.235
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.087               0.000 clock 
-    Info (332119):     0.763               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case recovery slack is -4.160
+    Info (332119):     0.235               0.000 clock 
+    Info (332119):     0.905               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case recovery slack is -4.431
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -4.160             -95.497 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case removal slack is 1.127
+    Info (332119):    -4.431             -85.260 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case removal slack is 0.991
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     1.127               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     0.991               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636          -31162.194 clock 
-    Info (332119):    -0.072              -0.142 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):    -2.636          -31152.151 clock 
+    Info (332119):     0.037               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
 Info: Analyzing Fast 1100mV 85C Model
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -84.454
+Info (332146): Worst-case setup slack is -85.681
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):   -84.454          -74276.924 clock 
-    Info (332119):    -3.632             -70.305 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case hold slack is 0.071
+    Info (332119):   -85.681          -72934.891 clock 
+    Info (332119):    -3.510             -74.721 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case hold slack is 0.074
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.071               0.000 clock 
-    Info (332119):     0.368               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case recovery slack is -1.755
+    Info (332119):     0.074               0.000 clock 
+    Info (332119):     0.465               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case recovery slack is -1.963
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -1.755             -36.766 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case removal slack is 0.461
+    Info (332119):    -1.963             -31.932 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case removal slack is 0.433
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.461               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     0.433               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636          -27421.970 clock 
-    Info (332119):    -0.005              -0.005 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):    -2.636          -27425.031 clock 
+    Info (332119):     0.049               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
 Info: Analyzing Fast 1100mV 0C Model
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -80.000
+Info (332146): Worst-case setup slack is -80.958
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):   -80.000          -66421.799 clock 
-    Info (332119):    -3.332             -65.807 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case hold slack is -0.023
+    Info (332119):   -80.958          -65283.142 clock 
+    Info (332119):    -3.190             -68.994 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case hold slack is -0.014
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.023              -0.028 clock 
-    Info (332119):     0.461               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case recovery slack is -1.660
+    Info (332119):    -0.014              -0.018 clock 
+    Info (332119):     0.422               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case recovery slack is -1.843
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -1.660             -35.426 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case removal slack is 0.533
+    Info (332119):    -1.843             -30.804 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case removal slack is 0.498
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.533               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     0.498               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636          -27431.354 clock 
-    Info (332119):     0.079               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):    -2.636          -27436.323 clock 
+    Info (332119):     0.126               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
 Info: Quartus Prime Timing Analyzer was successful. 0 errors, 7 warnings
-    Info: Peak virtual memory: 5618 megabytes
-    Info: Processing ended: Fri Nov 29 18:11:56 2024
-    Info: Elapsed time: 00:00:33
-    Info: Total CPU time (on all processors): 00:01:35
+    Info: Peak virtual memory: 5609 megabytes
+    Info: Processing ended: Sat Nov 30 00:47:27 2024
+    Info: Elapsed time: 00:00:48
+    Info: Total CPU time (on all processors): 00:02:05
 
 

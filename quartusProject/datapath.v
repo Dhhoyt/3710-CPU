@@ -71,7 +71,7 @@ module datapath
     wire [7:0] immediate = instruction[7:0];
     wire [15:0] immediate_sign_extended = { {8{immediate[7]}}, immediate };
     wire [15:0] immediate_zero_extended = { 8'h00, immediate };
-    wire [15:0] immediate_upper = { immediate, 8'h00 };
+    wire [15:0] immediate_upper = { immediate, destination[7:0] };
     // ALU flags
     wire negative, zero, flag, low, carry;
     wire [15:0] program_counter_increment = program_counter + 16'd1;
@@ -311,6 +311,6 @@ module register_file
         if (write_enable) registers[write_address] <= write_data;
 
     // Register 0 is hardwired to 0
-    assign read_data1 = read_address1 ? registers[read_address1] : 16'b0;
-    assign read_data2 = read_address2 ? registers[read_address2] : 16'b0;
+    assign read_data1 = registers[read_address1];
+    assign read_data2 = registers[read_address2];
 endmodule

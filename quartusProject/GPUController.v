@@ -18,7 +18,7 @@ module GPUController(
 localparam DISTANCE_1_OFFSET = 16'd63488;
 localparam DISTANCE_2_OFFSET = 16'd64512;
 localparam TEXTURE_1_OFFSET = 16'd64000;
-localparam TEXTURE_2_OFFSET = 16'd64512;
+localparam TEXTURE_2_OFFSET = 16'd65024;
 localparam FLAG_ADDRESS = 16'd65535;
 
 localparam WAITING = 4'd0;

@@ -7,7 +7,7 @@ module memory
 
     reg [15:0] ram[2**16-1:0];
     initial begin
-        $readmemb("C:/Users/dhhoy/3710-CPU/quartusProject/data_files/data.txt", ram);
+        $readmemh("C:/Users/dhhoy/3710-CPU/assembler/2test.dat", ram);
     end
 
     // Port A
@@ -26,7 +26,7 @@ module memory
                 end
         end
 
-    // Port B
+    // Port B	
    always @(negedge clock)
        begin
            if (write_enable_b)

@@ -1,5 +1,5 @@
 Analysis & Synthesis report for GPU
-Fri Nov 29 18:03:32 2024
+Sat Nov 30 01:00:14 2024
 Quartus Prime Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
 
 
@@ -88,14 +88,13 @@ Quartus Prime Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
  80. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|rayCast:rc|sqrt32to16:raySqrt|attemptSqrtSubtraction:ass2"
  81. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|rayCast:rc|sqrt32to16:raySqrt|attemptSqrtSubtraction:ass1"
  82. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|mux8:register_write_data_extra_mux"
- 83. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux"
- 84. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|mux4:alu_b_mux"
- 85. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register"
- 86. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1"
- 87. Post-Synthesis Netlist Statistics for Top Partition
- 88. Elapsed Time Per Partition
- 89. Analysis & Synthesis Messages
- 90. Analysis & Synthesis Suppressed Messages
+ 83. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|mux4:alu_b_mux"
+ 84. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register"
+ 85. Port Connectivity Checks: "cpu:cpu1|datapath:datapath1"
+ 86. Post-Synthesis Netlist Statistics for Top Partition
+ 87. Elapsed Time Per Partition
+ 88. Analysis & Synthesis Messages
+ 89. Analysis & Synthesis Suppressed Messages
 
 
 
@@ -122,7 +121,7 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +---------------------------------+------------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Fri Nov 29 18:03:32 2024          ;
+; Analysis & Synthesis Status     ; Successful - Sat Nov 30 01:00:13 2024          ;
 ; Quartus Prime Version           ; 23.1std.1 Build 993 05/14/2024 SC Lite Edition ;
 ; Revision Name                   ; GPU                                            ;
 ; Top-level Entity Name           ; system_mapped1                                 ;
@@ -237,67 +236,67 @@ https://fpgasoftware.intel.com/eula.
 ; Number detected on machine ; 12          ;
 ; Maximum allowed            ; 6           ;
 ;                            ;             ;
-; Average used               ; 1.39        ;
+; Average used               ; 2.46        ;
 ; Maximum used               ; 6           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;  10.7%      ;
-;     Processor 3            ;  10.7%      ;
-;     Processor 4            ;  10.2%      ;
-;     Processor 5            ;   3.4%      ;
-;     Processor 6            ;   3.4%      ;
+;     Processor 2            ;  39.3%      ;
+;     Processor 3            ;  39.3%      ;
+;     Processor 4            ;  39.3%      ;
+;     Processor 5            ;  15.0%      ;
+;     Processor 6            ;  13.2%      ;
 +----------------------------+-------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                                                    ;
-+-------------------------------------+-----------------+-------------------------------------------------------+---------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path    ; Used in Netlist ; File Type                                             ; File Name with Absolute Path                                                    ; Library ;
-+-------------------------------------+-----------------+-------------------------------------------------------+---------------------------------------------------------------------------------+---------+
-; sqrt32to16.v                        ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/sqrt32to16.v                             ;         ;
-; rayCast.v                           ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/rayCast.v                                ;         ;
-; sin_cos.v                           ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/sin_cos.v                                ;         ;
-; GPUController.v                     ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/GPUController.v                          ;         ;
-; vgaController.v                     ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/vgaController.v                          ;         ;
-; utilities.v                         ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v                              ;         ;
-; system_mapped1.v                    ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/system_mapped1.v                         ;         ;
-; memory.v                            ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/memory.v                                 ;         ;
-; gpuLookup.v                         ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/gpuLookup.v                              ;         ;
-; GPU.v                               ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/GPU.v                                    ;         ;
-; datapath.v                          ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v                               ;         ;
-; cpu.v                               ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/cpu.v                                    ;         ;
-; controller.v                        ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/controller.v                             ;         ;
-; clockDivider.v                      ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/clockDivider.v                           ;         ;
-; data_files/data.txt                 ; yes             ; Auto-Found File                                       ; C:/Users/dhhoy/3710-CPU/quartusProject/data_files/data.txt                      ;         ;
-; data_files/sin_lut.hex              ; yes             ; Auto-Found Hexadecimal (Intel-Format) File            ; C:/Users/dhhoy/3710-CPU/quartusProject/data_files/sin_lut.hex                   ;         ;
-; texturerom.v                        ; yes             ; Auto-Found Verilog HDL File                           ; C:/Users/dhhoy/3710-CPU/quartusProject/texturerom.v                             ;         ;
-; data_files/texture.dat              ; yes             ; Auto-Found Unspecified File                           ; C:/Users/dhhoy/3710-CPU/quartusProject/data_files/texture.dat                   ;         ;
-; altsyncram.tdf                      ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altsyncram.tdf        ;         ;
-; stratix_ram_block.inc               ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/stratix_ram_block.inc ;         ;
-; lpm_mux.inc                         ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/lpm_mux.inc           ;         ;
-; lpm_decode.inc                      ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/lpm_decode.inc        ;         ;
-; aglobal231.inc                      ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/aglobal231.inc        ;         ;
-; a_rdenreg.inc                       ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/a_rdenreg.inc         ;         ;
-; altrom.inc                          ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altrom.inc            ;         ;
-; altram.inc                          ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altram.inc            ;         ;
-; altdpram.inc                        ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altdpram.inc          ;         ;
-; db/altsyncram_cr52.tdf              ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/altsyncram_cr52.tdf                   ;         ;
-; db/GPU.ram0_memory_e411fb78.hdl.mif ; yes             ; Auto-Generated Auto-Found Memory Initialization File  ; C:/Users/dhhoy/3710-CPU/quartusProject/db/GPU.ram0_memory_e411fb78.hdl.mif      ;         ;
-; db/decode_dla.tdf                   ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/decode_dla.tdf                        ;         ;
-; db/mux_chb.tdf                      ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/mux_chb.tdf                           ;         ;
-; lpm_divide.tdf                      ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/lpm_divide.tdf        ;         ;
-; abs_divider.inc                     ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/abs_divider.inc       ;         ;
-; sign_div_unsign.inc                 ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/sign_div_unsign.inc   ;         ;
-; db/lpm_divide_2ro.tdf               ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/lpm_divide_2ro.tdf                    ;         ;
-; db/abs_divider_bdg.tdf              ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/abs_divider_bdg.tdf                   ;         ;
-; db/alt_u_div_63f.tdf                ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/alt_u_div_63f.tdf                     ;         ;
-; db/lpm_abs_4p9.tdf                  ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/lpm_abs_4p9.tdf                       ;         ;
-; db/lpm_abs_bp9.tdf                  ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/lpm_abs_bp9.tdf                       ;         ;
-; db/lpm_divide_6dm.tdf               ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/lpm_divide_6dm.tdf                    ;         ;
-; db/sign_div_unsign_cnh.tdf          ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/sign_div_unsign_cnh.tdf               ;         ;
-; db/alt_u_div_u2f.tdf                ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/alt_u_div_u2f.tdf                     ;         ;
-+-------------------------------------+-----------------+-------------------------------------------------------+---------------------------------------------------------------------------------+---------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                                          ;
++-------------------------------------------+-----------------+-------------------------------------------------------+---------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path          ; Used in Netlist ; File Type                                             ; File Name with Absolute Path                                                    ; Library ;
++-------------------------------------------+-----------------+-------------------------------------------------------+---------------------------------------------------------------------------------+---------+
+; sqrt32to16.v                              ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/sqrt32to16.v                             ;         ;
+; rayCast.v                                 ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/rayCast.v                                ;         ;
+; sin_cos.v                                 ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/sin_cos.v                                ;         ;
+; GPUController.v                           ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/GPUController.v                          ;         ;
+; vgaController.v                           ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/vgaController.v                          ;         ;
+; utilities.v                               ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v                              ;         ;
+; system_mapped1.v                          ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/system_mapped1.v                         ;         ;
+; memory.v                                  ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/memory.v                                 ;         ;
+; gpuLookup.v                               ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/gpuLookup.v                              ;         ;
+; GPU.v                                     ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/GPU.v                                    ;         ;
+; datapath.v                                ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/datapath.v                               ;         ;
+; cpu.v                                     ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/cpu.v                                    ;         ;
+; controller.v                              ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/controller.v                             ;         ;
+; clockDivider.v                            ; yes             ; User Verilog HDL File                                 ; C:/Users/dhhoy/3710-CPU/quartusProject/clockDivider.v                           ;         ;
+; /users/dhhoy/3710-cpu/assembler/2test.dat ; yes             ; Auto-Found Unspecified File                           ; /users/dhhoy/3710-cpu/assembler/2test.dat                                       ;         ;
+; data_files/sin_lut.hex                    ; yes             ; Auto-Found Hexadecimal (Intel-Format) File            ; C:/Users/dhhoy/3710-CPU/quartusProject/data_files/sin_lut.hex                   ;         ;
+; texturerom.v                              ; yes             ; Auto-Found Verilog HDL File                           ; C:/Users/dhhoy/3710-CPU/quartusProject/texturerom.v                             ;         ;
+; data_files/texture.dat                    ; yes             ; Auto-Found Unspecified File                           ; C:/Users/dhhoy/3710-CPU/quartusProject/data_files/texture.dat                   ;         ;
+; altsyncram.tdf                            ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altsyncram.tdf        ;         ;
+; stratix_ram_block.inc                     ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/stratix_ram_block.inc ;         ;
+; lpm_mux.inc                               ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/lpm_mux.inc           ;         ;
+; lpm_decode.inc                            ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/lpm_decode.inc        ;         ;
+; aglobal231.inc                            ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/aglobal231.inc        ;         ;
+; a_rdenreg.inc                             ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/a_rdenreg.inc         ;         ;
+; altrom.inc                                ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altrom.inc            ;         ;
+; altram.inc                                ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altram.inc            ;         ;
+; altdpram.inc                              ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altdpram.inc          ;         ;
+; db/altsyncram_cr52.tdf                    ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/altsyncram_cr52.tdf                   ;         ;
+; db/gpu.ram0_memory_e411fb78.hdl.mif       ; yes             ; Auto-Generated Auto-Found Memory Initialization File  ; C:/Users/dhhoy/3710-CPU/quartusProject/db/gpu.ram0_memory_e411fb78.hdl.mif      ;         ;
+; db/decode_dla.tdf                         ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/decode_dla.tdf                        ;         ;
+; db/mux_chb.tdf                            ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/mux_chb.tdf                           ;         ;
+; lpm_divide.tdf                            ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/lpm_divide.tdf        ;         ;
+; abs_divider.inc                           ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/abs_divider.inc       ;         ;
+; sign_div_unsign.inc                       ; yes             ; Megafunction                                          ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/sign_div_unsign.inc   ;         ;
+; db/lpm_divide_2ro.tdf                     ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/lpm_divide_2ro.tdf                    ;         ;
+; db/abs_divider_bdg.tdf                    ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/abs_divider_bdg.tdf                   ;         ;
+; db/alt_u_div_63f.tdf                      ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/alt_u_div_63f.tdf                     ;         ;
+; db/lpm_abs_4p9.tdf                        ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/lpm_abs_4p9.tdf                       ;         ;
+; db/lpm_abs_bp9.tdf                        ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/lpm_abs_bp9.tdf                       ;         ;
+; db/lpm_divide_6dm.tdf                     ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/lpm_divide_6dm.tdf                    ;         ;
+; db/sign_div_unsign_cnh.tdf                ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/sign_div_unsign_cnh.tdf               ;         ;
+; db/alt_u_div_u2f.tdf                      ; yes             ; Auto-Generated Megafunction                           ; C:/Users/dhhoy/3710-CPU/quartusProject/db/alt_u_div_u2f.tdf                     ;         ;
++-------------------------------------------+-----------------+-------------------------------------------------------+---------------------------------------------------------------------------------+---------+
 
 
 +-----------------------------------------------------------+
@@ -305,14 +304,14 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------+-------------+
 ; Resource                                    ; Usage       ;
 +---------------------------------------------+-------------+
-; Estimate of Logic utilization (ALMs needed) ; 12648       ;
+; Estimate of Logic utilization (ALMs needed) ; 12613       ;
 ;                                             ;             ;
-; Combinational ALUT usage for logic          ; 20447       ;
-;     -- 7 input functions                    ; 77          ;
-;     -- 6 input functions                    ; 3383        ;
-;     -- 5 input functions                    ; 5804        ;
-;     -- 4 input functions                    ; 4609        ;
-;     -- <=3 input functions                  ; 6574        ;
+; Combinational ALUT usage for logic          ; 20382       ;
+;     -- 7 input functions                    ; 88          ;
+;     -- 6 input functions                    ; 3359        ;
+;     -- 5 input functions                    ; 5795        ;
+;     -- 4 input functions                    ; 4604        ;
+;     -- <=3 input functions                  ; 6536        ;
 ;                                             ;             ;
 ; Dedicated logic registers                   ; 7747        ;
 ;                                             ;             ;
@@ -324,8 +323,8 @@ https://fpgasoftware.intel.com/eula.
 ;                                             ;             ;
 ; Maximum fan-out node                        ; clock~input ;
 ; Maximum fan-out                             ; 7875        ;
-; Total fan-out                               ; 115717      ;
-; Average fan-out                             ; 4.07        ;
+; Total fan-out                               ; 115494      ;
+; Average fan-out                             ; 4.08        ;
 +---------------------------------------------+-------------+
 
 
@@ -334,7 +333,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------+--------------+
 ; Compilation Hierarchy Node                            ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                                    ; Entity Name            ; Library Name ;
 +-------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------+--------------+
-; |system_mapped1                                       ; 20447 (0)           ; 7747 (0)                  ; 1048576           ; 21         ; 31   ; 0            ; |system_mapped1                                                                                                                                        ; system_mapped1         ; work         ;
+; |system_mapped1                                       ; 20382 (0)           ; 7747 (0)                  ; 1048576           ; 21         ; 31   ; 0            ; |system_mapped1                                                                                                                                        ; system_mapped1         ; work         ;
 ;    |GPUController:gpu|                                ; 12905 (3065)        ; 7288 (7073)               ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|GPUController:gpu                                                                                                                      ; GPUController          ; work         ;
 ;       |GPU:gpu|                                       ; 9829 (129)          ; 215 (184)                 ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|GPUController:gpu|GPU:gpu                                                                                                              ; GPU                    ; work         ;
 ;          |clockDivider:pixelClkDiv|                   ; 3 (3)               ; 2 (2)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|GPUController:gpu|GPU:gpu|clockDivider:pixelClkDiv                                                                                     ; clockDivider           ; work         ;
@@ -414,17 +413,17 @@ https://fpgasoftware.intel.com/eula.
 ;          |textureROM:texture_lookup|                  ; 230 (230)           ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|GPUController:gpu|GPU:gpu|textureROM:texture_lookup                                                                                    ; textureROM             ; work         ;
 ;          |vgaContoller:vga_cont|                      ; 42 (42)             ; 28 (28)                   ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|GPUController:gpu|GPU:gpu|vgaContoller:vga_cont                                                                                        ; vgaContoller           ; work         ;
 ;       |mux4:memory_mux|                               ; 11 (11)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|GPUController:gpu|mux4:memory_mux                                                                                                      ; mux4                   ; work         ;
-;    |cpu:cpu1|                                         ; 7484 (0)            ; 456 (0)                   ; 0                 ; 21         ; 0    ; 0            ; |system_mapped1|cpu:cpu1                                                                                                                               ; cpu                    ; work         ;
-;       |controller:controller1|                        ; 130 (130)           ; 35 (35)                   ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|controller:controller1                                                                                                        ; controller             ; work         ;
-;       |datapath:datapath1|                            ; 7354 (44)           ; 421 (128)                 ; 0                 ; 21         ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1                                                                                                            ; datapath               ; work         ;
+;    |cpu:cpu1|                                         ; 7419 (0)            ; 456 (0)                   ; 0                 ; 21         ; 0    ; 0            ; |system_mapped1|cpu:cpu1                                                                                                                               ; cpu                    ; work         ;
+;       |controller:controller1|                        ; 129 (129)           ; 35 (35)                   ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|controller:controller1                                                                                                        ; controller             ; work         ;
+;       |datapath:datapath1|                            ; 7290 (44)           ; 421 (128)                 ; 0                 ; 21         ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1                                                                                                            ; datapath               ; work         ;
 ;          |alu:alu1|                                   ; 130 (130)           ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|alu:alu1                                                                                                   ; alu                    ; work         ;
 ;          |flop_enable_reset:instruction_register|     ; 1 (1)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register                                                                     ; flop_enable_reset      ; work         ;
 ;          |flop_enable_reset:program_counter_register| ; 18 (18)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:program_counter_register                                                                 ; flop_enable_reset      ; work         ;
 ;          |flop_enable_reset:status_register|          ; 22 (22)             ; 5 (5)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register                                                                          ; flop_enable_reset      ; work         ;
-;          |mux4:alu_a_mux|                             ; 18 (18)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:alu_a_mux                                                                                             ; mux4                   ; work         ;
-;          |mux4:alu_b_mux|                             ; 17 (17)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:alu_b_mux                                                                                             ; mux4                   ; work         ;
+;          |mux4:alu_a_mux|                             ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:alu_a_mux                                                                                             ; mux4                   ; work         ;
+;          |mux4:alu_b_mux|                             ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:alu_b_mux                                                                                             ; mux4                   ; work         ;
 ;          |mux4:memory_address_select_mux|             ; 18 (18)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:memory_address_select_mux                                                                             ; mux4                   ; work         ;
-;          |mux8:register_write_data_mux|               ; 82 (82)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux                                                                               ; mux8                   ; work         ;
+;          |mux8:register_write_data_mux|               ; 77 (77)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux                                                                               ; mux8                   ; work         ;
 ;          |rayCast:rc|                                 ; 6610 (452)          ; 0 (0)                     ; 0                 ; 21         ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|rayCast:rc                                                                                                 ; rayCast                ; work         ;
 ;             |lpm_divide:Div0|                         ; 2539 (0)            ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|rayCast:rc|lpm_divide:Div0                                                                                 ; lpm_divide             ; work         ;
 ;                |lpm_divide_2ro:auto_generated|        ; 2539 (0)            ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|rayCast:rc|lpm_divide:Div0|lpm_divide_2ro:auto_generated                                                   ; lpm_divide_2ro         ; work         ;
@@ -472,8 +471,8 @@ https://fpgasoftware.intel.com/eula.
 ;                |attemptSqrtSubtraction:ass7|          ; 35 (35)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|rayCast:rc|sqrt32to16:wallSqrt|attemptSqrtSubtraction:ass7                                                 ; attemptSqrtSubtraction ; work         ;
 ;                |attemptSqrtSubtraction:ass8|          ; 37 (37)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|rayCast:rc|sqrt32to16:wallSqrt|attemptSqrtSubtraction:ass8                                                 ; attemptSqrtSubtraction ; work         ;
 ;                |attemptSqrtSubtraction:ass9|          ; 46 (46)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|rayCast:rc|sqrt32to16:wallSqrt|attemptSqrtSubtraction:ass9                                                 ; attemptSqrtSubtraction ; work         ;
-;          |register_file:register_file1|               ; 209 (209)           ; 256 (256)                 ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|register_file:register_file1                                                                               ; register_file          ; work         ;
-;          |sin_cos:trig_unit|                          ; 185 (185)           ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|sin_cos:trig_unit                                                                                          ; sin_cos                ; work         ;
+;          |register_file:register_file1|               ; 176 (176)           ; 256 (256)                 ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|register_file:register_file1                                                                               ; register_file          ; work         ;
+;          |sin_cos:trig_unit|                          ; 162 (162)           ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |system_mapped1|cpu:cpu1|datapath:datapath1|sin_cos:trig_unit                                                                                          ; sin_cos                ; work         ;
 ;    |memory:memory1|                                   ; 58 (0)              ; 3 (0)                     ; 1048576           ; 0          ; 0    ; 0            ; |system_mapped1|memory:memory1                                                                                                                         ; memory                 ; work         ;
 ;       |altsyncram:ram_rtl_0|                          ; 58 (0)              ; 3 (0)                     ; 1048576           ; 0          ; 0    ; 0            ; |system_mapped1|memory:memory1|altsyncram:ram_rtl_0                                                                                                    ; altsyncram             ; work         ;
 ;          |altsyncram_cr52:auto_generated|             ; 58 (0)              ; 3 (3)                     ; 1048576           ; 0          ; 0    ; 0            ; |system_mapped1|memory:memory1|altsyncram:ram_rtl_0|altsyncram_cr52:auto_generated                                                                     ; altsyncram_cr52        ; work         ;
@@ -614,13 +613,13 @@ Encoding Type:  One-Hot
 ; cpu:cpu1|controller:controller1|state_next.EXECUTE_LODW3_660 ; cpu:cpu1|controller:controller1|Selector0 ; yes                    ;
 ; cpu:cpu1|controller:controller1|state_next.EXECUTE_LODW4_648 ; cpu:cpu1|controller:controller1|Selector0 ; yes                    ;
 ; cpu:cpu1|controller:controller1|state_next.EXECUTE_LODW5_636 ; cpu:cpu1|controller:controller1|Selector0 ; yes                    ;
-; cpu:cpu1|controller:controller1|state_next.EXECUTE_DIST_624  ; cpu:cpu1|controller:controller1|WideOr0   ; yes                    ;
-; cpu:cpu1|controller:controller1|state_next.EXECUTE_TXUV_614  ; cpu:cpu1|controller:controller1|WideOr0   ; yes                    ;
-; cpu:cpu1|controller:controller1|state_next.EXECUTE_MOVI_790  ; cpu:cpu1|controller:controller1|Mux2      ; yes                    ;
+; cpu:cpu1|controller:controller1|state_next.EXECUTE_MOV_798   ; cpu:cpu1|controller:controller1|Mux2      ; yes                    ;
 ; cpu:cpu1|controller:controller1|state_next.EXECUTE_LUI_766   ; cpu:cpu1|controller:controller1|Mux2      ; yes                    ;
 ; cpu:cpu1|controller:controller1|state_next.EXECUTE_SIN_718   ; cpu:cpu1|controller:controller1|Mux2      ; yes                    ;
 ; cpu:cpu1|controller:controller1|state_next.EXECUTE_COS_710   ; cpu:cpu1|controller:controller1|Mux2      ; yes                    ;
-; cpu:cpu1|controller:controller1|state_next.EXECUTE_MOV_798   ; cpu:cpu1|controller:controller1|Mux2      ; yes                    ;
+; cpu:cpu1|controller:controller1|state_next.EXECUTE_DIST_624  ; cpu:cpu1|controller:controller1|WideOr0   ; yes                    ;
+; cpu:cpu1|controller:controller1|state_next.EXECUTE_TXUV_614  ; cpu:cpu1|controller:controller1|WideOr0   ; yes                    ;
+; cpu:cpu1|controller:controller1|state_next.EXECUTE_MOVI_790  ; cpu:cpu1|controller:controller1|Mux2      ; yes                    ;
 ; cpu:cpu1|controller:controller1|state_next.EXECUTE_LODP_702  ; cpu:cpu1|controller:controller1|WideOr0   ; yes                    ;
 ; cpu:cpu1|controller:controller1|state_next.EXECUTE_LODR_692  ; cpu:cpu1|controller:controller1|WideOr0   ; yes                    ;
 ; cpu:cpu1|controller:controller1|state_next.EXECUTE_LODW1_682 ; cpu:cpu1|controller:controller1|WideOr0   ; yes                    ;
@@ -693,19 +692,19 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:alu_a_mux|Mux9                              ;
 ; 320:1              ; 2 bits    ; 426 LEs       ; 426 LEs              ; 0 LEs                  ; No         ; |system_mapped1|GPUController:gpu|Mux30                                                      ;
 ; 320:1              ; 4 bits    ; 852 LEs       ; 852 LEs              ; 0 LEs                  ; No         ; |system_mapped1|GPUController:gpu|Mux27                                                      ;
-; 3:1                ; 16 bits   ; 32 LEs        ; 0 LEs                ; 32 LEs                 ; Yes        ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[11]     ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register|q[2]           ;
-; 10:1               ; 2 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register|q[5]           ;
-; 6:1                ; 16 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:program_counter_register|q[11] ;
-; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:memory_address_select_mux|Mux3              ;
-; 9:1                ; 14 bits   ; 84 LEs        ; 70 LEs               ; 14 LEs                 ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|alu:alu1|Mux5                                    ;
-; 12:1               ; 6 bits    ; 48 LEs        ; 42 LEs               ; 6 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux|Mux5                ;
-; 18:1               ; 2 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux|Mux8                ;
-; 19:1               ; 6 bits    ; 72 LEs        ; 54 LEs               ; 18 LEs                 ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux|Mux10               ;
 ; 320:1              ; 4 bits    ; 852 LEs       ; 852 LEs              ; 0 LEs                  ; No         ; |system_mapped1|GPUController:gpu|Mux12                                                      ;
 ; 320:1              ; 4 bits    ; 852 LEs       ; 852 LEs              ; 0 LEs                  ; No         ; |system_mapped1|GPUController:gpu|Mux8                                                       ;
 ; 320:1              ; 4 bits    ; 852 LEs       ; 852 LEs              ; 0 LEs                  ; No         ; |system_mapped1|GPUController:gpu|Mux4                                                       ;
 ; 320:1              ; 4 bits    ; 852 LEs       ; 852 LEs              ; 0 LEs                  ; No         ; |system_mapped1|GPUController:gpu|Mux0                                                       ;
+; 3:1                ; 16 bits   ; 32 LEs        ; 0 LEs                ; 32 LEs                 ; Yes        ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[9]      ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register|q[7]           ;
+; 10:1               ; 2 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:status_register|q[5]           ;
+; 6:1                ; 16 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |system_mapped1|cpu:cpu1|datapath:datapath1|flop_enable_reset:program_counter_register|q[11] ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux4:memory_address_select_mux|Mux12             ;
+; 9:1                ; 14 bits   ; 84 LEs        ; 70 LEs               ; 14 LEs                 ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|alu:alu1|Mux5                                    ;
+; 12:1               ; 6 bits    ; 48 LEs        ; 42 LEs               ; 6 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux|Mux0                ;
+; 18:1               ; 2 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux|Mux8                ;
+; 19:1               ; 6 bits    ; 72 LEs        ; 54 LEs               ; 18 LEs                 ; No         ; |system_mapped1|cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux|Mux15               ;
 ; 3:1                ; 16 bits   ; 32 LEs        ; 0 LEs                ; 32 LEs                 ; Yes        ; |system_mapped1|GPUController:gpu|flags[0]                                                   ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |system_mapped1|GPUController:gpu|GPU:gpu|clockDivider:pixelClkDiv|counter[0]                ;
 ; 4:1                ; 9 bits    ; 18 LEs        ; 0 LEs                ; 18 LEs                 ; Yes        ; |system_mapped1|GPUController:gpu|loading_index[1]                                           ;
@@ -1658,6 +1657,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; d0[15..11] ; Input ; Info     ; Stuck at VCC                  ;
 ; d0[9]      ; Input ; Info     ; Stuck at GND                  ;
 ; d1[15..11] ; Input ; Info     ; Stuck at VCC                  ;
+; d1[9]      ; Input ; Info     ; Stuck at VCC                  ;
 ; d2         ; Input ; Info     ; Stuck at VCC                  ;
 ; d3         ; Input ; Info     ; Stuck at VCC                  ;
 +------------+-------+----------+-------------------------------+
@@ -1821,15 +1821,6 @@ Note: In order to hide this table in the UI and the text report file, please set
 +------+-------+----------+------------------------------------------------------------------+
 
 
-+--------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|mux8:register_write_data_mux" ;
-+----------+-------+----------+--------------------------------------------------------+
-; Port     ; Type  ; Severity ; Details                                                ;
-+----------+-------+----------+--------------------------------------------------------+
-; d3[7..0] ; Input ; Info     ; Stuck at GND                                           ;
-+----------+-------+----------+--------------------------------------------------------+
-
-
 +------------------------------------------------------------------------+
 ; Port Connectivity Checks: "cpu:cpu1|datapath:datapath1|mux4:alu_b_mux" ;
 +-----------+-------+----------+-----------------------------------------+
@@ -1875,24 +1866,24 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     SCLR              ; 20                          ;
 ;     SLD               ; 1                           ;
 ;     plain             ; 55                          ;
-; arriav_lcell_comb     ; 20451                       ;
+; arriav_lcell_comb     ; 20386                       ;
 ;     arith             ; 7943                        ;
 ;         0 data inputs ; 677                         ;
-;         1 data inputs ; 621                         ;
-;         2 data inputs ; 1495                        ;
-;         3 data inputs ; 204                         ;
-;         4 data inputs ; 880                         ;
+;         1 data inputs ; 635                         ;
+;         2 data inputs ; 1481                        ;
+;         3 data inputs ; 206                         ;
+;         4 data inputs ; 878                         ;
 ;         5 data inputs ; 4066                        ;
-;     extend            ; 77                          ;
-;         7 data inputs ; 77                          ;
-;     normal            ; 11996                       ;
+;     extend            ; 88                          ;
+;         7 data inputs ; 88                          ;
+;     normal            ; 11920                       ;
 ;         0 data inputs ; 1                           ;
 ;         1 data inputs ; 3                           ;
-;         2 data inputs ; 2111                        ;
-;         3 data inputs ; 1077                        ;
-;         4 data inputs ; 3683                        ;
-;         5 data inputs ; 1738                        ;
-;         6 data inputs ; 3383                        ;
+;         2 data inputs ; 2074                        ;
+;         3 data inputs ; 1074                        ;
+;         4 data inputs ; 3680                        ;
+;         5 data inputs ; 1729                        ;
+;         6 data inputs ; 3359                        ;
 ;     shared            ; 435                         ;
 ;         0 data inputs ; 91                          ;
 ;         1 data inputs ; 32                          ;
@@ -1904,7 +1895,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; stratixv_ram_block    ; 128                         ;
 ;                       ;                             ;
 ; Max LUT depth         ; 176.80                      ;
-; Average LUT depth     ; 86.69                       ;
+; Average LUT depth     ; 86.82                       ;
 +-----------------------+-----------------------------+
 
 
@@ -1913,7 +1904,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:27     ;
+; Top            ; 00:00:30     ;
 +----------------+--------------+
 
 
@@ -1923,7 +1914,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
-    Info: Processing started: Fri Nov 29 18:01:21 2024
+    Info: Processing started: Sat Nov 30 00:59:29 2024
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off GPU -c GPU
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
@@ -2037,7 +2028,6 @@ Info (12128): Elaborating entity "sqrt32to16" for hierarchy "cpu:cpu1|datapath:d
 Info (12128): Elaborating entity "attemptSqrtSubtraction" for hierarchy "cpu:cpu1|datapath:datapath1|rayCast:rc|sqrt32to16:raySqrt|attemptSqrtSubtraction:ass1" File: C:/Users/dhhoy/3710-CPU/quartusProject/sqrt32to16.v Line: 9
 Warning (10230): Verilog HDL assignment warning at sqrt32to16.v(35): truncated value with size 34 to match size of target (32) File: C:/Users/dhhoy/3710-CPU/quartusProject/sqrt32to16.v Line: 35
 Info (12128): Elaborating entity "memory" for hierarchy "memory:memory1" File: C:/Users/dhhoy/3710-CPU/quartusProject/system_mapped1.v Line: 34
-Warning (10850): Verilog HDL warning at memory.v(10): number of words (66176) in memory file does not match the number of elements in the address range [0:65535] File: C:/Users/dhhoy/3710-CPU/quartusProject/memory.v Line: 10
 Info (12128): Elaborating entity "GPUController" for hierarchy "GPUController:gpu" File: C:/Users/dhhoy/3710-CPU/quartusProject/system_mapped1.v Line: 52
 Warning (10230): Verilog HDL assignment warning at GPUController.v(132): truncated value with size 32 to match size of target (9) File: C:/Users/dhhoy/3710-CPU/quartusProject/GPUController.v Line: 132
 Warning (10270): Verilog HDL Case Statement warning at GPUController.v(152): incomplete case statement has no default case item File: C:/Users/dhhoy/3710-CPU/quartusProject/GPUController.v Line: 152
@@ -2214,20 +2204,20 @@ Warning (13012): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_BCOND_
     Warning (13013): Ports D and ENA on the latch are fed by the same signal cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]~synth File: C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v Line: 18
 Warning (13012): Latch cpu:cpu1|controller:controller1|state_next.FETCH_918 has unsafe behavior File: C:/Users/dhhoy/3710-CPU/quartusProject/controller.v Line: 164
     Warning (13013): Ports D and ENA on the latch are fed by the same signal cpu:cpu1|controller:controller1|WideNor0~synth File: C:/Users/dhhoy/3710-CPU/quartusProject/controller.v Line: 164
-Warning (13012): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_DIST_624 has unsafe behavior File: C:/Users/dhhoy/3710-CPU/quartusProject/controller.v Line: 164
+Warning (13012): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_MOV_798 has unsafe behavior File: C:/Users/dhhoy/3710-CPU/quartusProject/controller.v Line: 164
     Warning (13013): Ports D and ENA on the latch are fed by the same signal cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]~synth File: C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v Line: 18
-Warning (13012): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_TXUV_614 has unsafe behavior File: C:/Users/dhhoy/3710-CPU/quartusProject/controller.v Line: 164
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[6]~synth File: C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v Line: 18
-Warning (13012): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_MOVI_790 has unsafe behavior File: C:/Users/dhhoy/3710-CPU/quartusProject/controller.v Line: 164
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]~synth File: C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v Line: 18
 Warning (13012): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_LUI_766 has unsafe behavior File: C:/Users/dhhoy/3710-CPU/quartusProject/controller.v Line: 164
     Warning (13013): Ports D and ENA on the latch are fed by the same signal cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]~synth File: C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v Line: 18
 Warning (13012): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_SIN_718 has unsafe behavior File: C:/Users/dhhoy/3710-CPU/quartusProject/controller.v Line: 164
     Warning (13013): Ports D and ENA on the latch are fed by the same signal cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]~synth File: C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v Line: 18
 Warning (13012): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_COS_710 has unsafe behavior File: C:/Users/dhhoy/3710-CPU/quartusProject/controller.v Line: 164
     Warning (13013): Ports D and ENA on the latch are fed by the same signal cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]~synth File: C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v Line: 18
-Warning (13012): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_MOV_798 has unsafe behavior File: C:/Users/dhhoy/3710-CPU/quartusProject/controller.v Line: 164
+Warning (13012): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_DIST_624 has unsafe behavior File: C:/Users/dhhoy/3710-CPU/quartusProject/controller.v Line: 164
     Warning (13013): Ports D and ENA on the latch are fed by the same signal cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]~synth File: C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v Line: 18
+Warning (13012): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_TXUV_614 has unsafe behavior File: C:/Users/dhhoy/3710-CPU/quartusProject/controller.v Line: 164
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[6]~synth File: C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v Line: 18
+Warning (13012): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_MOVI_790 has unsafe behavior File: C:/Users/dhhoy/3710-CPU/quartusProject/controller.v Line: 164
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]~synth File: C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v Line: 18
 Warning (13012): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_LODP_702 has unsafe behavior File: C:/Users/dhhoy/3710-CPU/quartusProject/controller.v Line: 164
     Warning (13013): Ports D and ENA on the latch are fed by the same signal cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]~synth File: C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v Line: 18
 Warning (13012): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_LODR_692 has unsafe behavior File: C:/Users/dhhoy/3710-CPU/quartusProject/controller.v Line: 164
@@ -2239,6 +2229,7 @@ Warning (13012): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_ADDI_8
 Warning (13012): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_ADD_894 has unsafe behavior File: C:/Users/dhhoy/3710-CPU/quartusProject/controller.v Line: 164
     Warning (13013): Ports D and ENA on the latch are fed by the same signal cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]~synth File: C:/Users/dhhoy/3710-CPU/quartusProject/utilities.v Line: 18
 Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "blue[3]" is stuck at GND File: C:/Users/dhhoy/3710-CPU/quartusProject/system_mapped1.v Line: 7
     Warning (13410): Pin "blue[7]" is stuck at GND File: C:/Users/dhhoy/3710-CPU/quartusProject/system_mapped1.v Line: 7
     Warning (13410): Pin "vga_sync" is stuck at GND File: C:/Users/dhhoy/3710-CPU/quartusProject/system_mapped1.v Line: 9
     Warning (13410): Pin "green[0]" is stuck at GND File: C:/Users/dhhoy/3710-CPU/quartusProject/system_mapped1.v Line: 6
@@ -2248,23 +2239,22 @@ Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "blue[0]" is stuck at GND File: C:/Users/dhhoy/3710-CPU/quartusProject/system_mapped1.v Line: 7
     Warning (13410): Pin "blue[1]" is stuck at GND File: C:/Users/dhhoy/3710-CPU/quartusProject/system_mapped1.v Line: 7
     Warning (13410): Pin "blue[2]" is stuck at GND File: C:/Users/dhhoy/3710-CPU/quartusProject/system_mapped1.v Line: 7
-    Warning (13410): Pin "blue[3]" is stuck at GND File: C:/Users/dhhoy/3710-CPU/quartusProject/system_mapped1.v Line: 7
 Info (286030): Timing-Driven Synthesis is running
 Info (17049): 13 registers lost all their fanouts during netlist optimizations.
 Info (144001): Generated suppressed messages file C:/Users/dhhoy/3710-CPU/quartusProject/GPU.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 28260 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 28195 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 2 input pins
     Info (21059): Implemented 29 output pins
-    Info (21061): Implemented 28080 logic cells
+    Info (21061): Implemented 28015 logic cells
     Info (21064): Implemented 128 RAM segments
     Info (21062): Implemented 21 DSP elements
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 109 warnings
-    Info: Peak virtual memory: 5124 megabytes
-    Info: Processing ended: Fri Nov 29 18:03:32 2024
-    Info: Elapsed time: 00:02:11
-    Info: Total CPU time (on all processors): 00:02:41
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 108 warnings
+    Info: Peak virtual memory: 5107 megabytes
+    Info: Processing ended: Sat Nov 30 01:00:14 2024
+    Info: Elapsed time: 00:00:45
+    Info: Total CPU time (on all processors): 00:01:22
 
 
 +------------------------------------------+
