@@ -1,17 +1,17 @@
-Fitter Status : Successful - Tue Nov 26 20:41:27 2024
+Fitter Status : Successful - Fri Nov 29 18:11:04 2024
 Quartus Prime Version : 23.1std.1 Build 993 05/14/2024 SC Lite Edition
 Revision Name : GPU
 Top-level Entity Name : system_mapped1
 Family : Cyclone V
 Device : 5CSEMA5F31C6
 Timing Models : Final
-Logic utilization (in ALMs) : 2,223 / 32,070 ( 7 % )
-Total registers : 499
-Total pins : 28 / 457 ( 6 % )
+Logic utilization (in ALMs) : 12,413 / 32,070 ( 39 % )
+Total registers : 7789
+Total pins : 31 / 457 ( 7 % )
 Total virtual pins : 0
 Total block memory bits : 1,048,576 / 4,065,280 ( 26 % )
 Total RAM Blocks : 128 / 397 ( 32 % )
-Total DSP Blocks : 13 / 87 ( 15 % )
+Total DSP Blocks : 21 / 87 ( 24 % )
 Total HSSI RX PCSs : 0
 Total HSSI PMA RX Deserializers : 0
 Total HSSI TX PCSs : 0

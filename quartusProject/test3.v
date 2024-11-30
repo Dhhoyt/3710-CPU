@@ -4,9 +4,8 @@ module test3;
 	 wire [15:0] leds;
 	 
 	 system_mapped1 sm(
-	   .clock(clock), .reset(reset),
-      .switches(switches),
-      .leds(leds)
+	   .clock(clock), .reset(reset)
+
 	  );
 	  
     initial begin

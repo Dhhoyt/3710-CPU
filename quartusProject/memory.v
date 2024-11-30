@@ -7,7 +7,7 @@ module memory
 
     reg [15:0] ram[2**16-1:0];
     initial begin
-        $readmemh("C:/Users/dhhoy/3710-CPU/quartusProject/instruction_ram.data", ram);
+        $readmemb("C:/Users/dhhoy/3710-CPU/quartusProject/data_files/data.txt", ram);
     end
 
     // Port A
@@ -26,17 +26,17 @@ module memory
                 end
         end
 
-    // // Port B
-    // always @(posedge clock)
-    //     begin
-    //         if (write_enable_b)
-    //             begin
-    //                 ram[address_b] <= write_data_b;
-    //                 read_data_b <= write_data_b;
-    //             end
-    //         else
-    //             begin
-    //                 read_data_b <= ram[address_b];
-    //             end
-    //     end
+    // Port B
+   always @(negedge clock)
+       begin
+           if (write_enable_b)
+               begin
+                   ram[address_b] <= write_data_b;
+                   read_data_b <= write_data_b;
+               end
+           else
+               begin
+                    read_data_b <= ram[address_b];
+                end
+         end
 endmodule

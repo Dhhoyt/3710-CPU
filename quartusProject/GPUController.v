@@ -35,6 +35,7 @@ localparam FLAGS_SELECT    = 2'b10;
 reg [15:0] flags;
 wire buffer_select = flags[1];
 reg started_v_sync;
+reg last_hsync;
 
 wire [8:0] reading_index;
 reg add_reading, write_distance, write_texture;
@@ -45,11 +46,13 @@ reg [8:0] loading_index;
 
 reg [1:0] address_select;
 
-wire [15:0] loading_distance_address = buffer_select ? loading_index + DISTANCE_2_OFFSET : loading_index + DISTANCE_1_OFFSET;
-wire [15:0] loading_texture_address  = buffer_select ? loading_index + TEXTURE_2_OFFSET : loading_index + TEXTURE_1_OFFSET;
+wire [15:0] loading_distance_address = buffer_select ? {7'b0000000, loading_index} + DISTANCE_2_OFFSET : {7'b0000000, loading_index} + DISTANCE_1_OFFSET;
+wire [15:0] loading_texture_address  = buffer_select ? {7'b0000000, loading_index} + TEXTURE_2_OFFSET : {7'b0000000, loading_index} + TEXTURE_1_OFFSET;
  
 reg [15:0] distances [319:0];
 reg [15:0] textures  [319:0];
+
+reg reset_started_v_sync, last_v_sync;
 
 assign write_data = flags | 16'h0001; // For when we want to write  
 
@@ -107,17 +110,20 @@ always @ (*) begin
 	endcase
 end
 
-always @ (negedge h_sync) begin
-	started_v_sync <= 1;
-end
-
 always @ (posedge clk) begin
 	if (~clr) begin
 		loading_index <= 0;
 		state <= WAITING;
 		started_v_sync <= 0;
-		loading_index <= 0;
+		last_v_sync <= 1;
+		flags <= 0;
 	end else begin
+	   if (last_v_sync == 0 && v_sync == 1)
+			last_v_sync <= 1;
+		else if (last_v_sync == 1 && v_sync == 0) begin
+			last_v_sync <= 0;
+			started_v_sync <= 1;
+		end
 		if (write_distance)
 			distances[loading_index] <= read_data;
 		if (write_texture)
@@ -128,7 +134,8 @@ always @ (posedge clk) begin
 			flags <= read_data;
 		if (reset_loading_index)
 			loading_index <= 0;
-		started_v_sync <= 0;
+		if (reset_started_v_sync)
+			started_v_sync <= 0;
 		state <= next_state;
 	end
 end 
@@ -141,10 +148,12 @@ always @ (*) begin
 	store_flags <= 0;
 	reset_loading_index <= 0;
 	write_enable <= 0;
+	reset_started_v_sync <= 1;
 	case(state)
 		WAITING: 
 			begin
 				reset_loading_index <= 1;
+				reset_started_v_sync <= 0;
 			end
 		READING_DISTANCE:
 			begin
@@ -159,6 +168,7 @@ always @ (*) begin
 			end
 		READING_FLAGS:
 			begin
+				address_select <= FLAGS_SELECT;
 				store_flags <= 1;
 				reset_loading_index <= 1;
 			end
