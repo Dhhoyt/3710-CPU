@@ -22,8 +22,8 @@
 `define JOYSTICK_Y_ADDR $65534
 `define GPU_FLAG_ADDR $65535
 
-`define WALLS_ADDR $8193 #RAM_START + 1
-`define WALLS_COUNT $3
+`define WALLS_ADDR $8192 #RAM_START + 1
+`define WALLS_COUNT $2
 `define MAX_FIXED_VAL $32767
 
 
@@ -31,7 +31,7 @@
 # FUNCTION main entry point
 .FUN_MAIN
 	#init stuff
-	MOVW $$5 %r4 # player angle 
+	MOVW $$-1 %r4 # player angle 
 	MOVW $$3 %r8 # player X
 	MOVW $$3 %r9 # player Y
 	MOVI $1  %r6 # Frame buffer ID
@@ -142,16 +142,6 @@
 
 @ #preloaded ram values
 IMMEDIATE
-$$1
-$$1
-$$1
-$$5
-$0
-$$1
-$$5
-$$5
-$$5
-$0
 $$5
 $$5
 $$5

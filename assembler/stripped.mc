@@ -20,7 +20,7 @@ ADD %r8 %r0
 ADD %r9 %r1 
 LODP %r8 %r9 
 LODR %r0 %r1 
-MOVI $1 %r0 
+MOVI $0 %r0 
 LUI $32 %r0 
 MOVI $0 %r1 
 MOVI $255 %rC 
@@ -36,7 +36,7 @@ MOV %r2 %rC
 TXUV %rD 
 ADDI $5 %r0 
 ADDI $1 %r1 
-CMPI $2 %r1 
+CMPI $4 %r1 
 BLT .RAY_CAST_LOOP 
 CMPI $0 %r6 
 BNE .BUFFER_1 

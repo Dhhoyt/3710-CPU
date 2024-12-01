@@ -82,7 +82,7 @@ ADD %r9 %r1
 LODP %r8 %r9 # load player position
 LODR %r0 %r1 # load ray position
 
-MOVI $1 %r0
+MOVI $0 %r0
 LUI $32 %r0
 MOVI $0 %r1 # i = r1 = 0
 MOVI $255 %rC
@@ -104,7 +104,7 @@ TXUV %rD # new texture UV
 .CONTINUE_LOOP
 ADDI $5 %r0 # add struct size to wall pointer
 ADDI $1 %r1 # count up
-CMPI $2 %r1
+CMPI $4 %r1
 BLT .RAY_CAST_LOOP #do again if theres more walls to check
 .END_RAY_CAST
 

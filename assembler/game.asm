@@ -22,8 +22,8 @@
 `define JOYSTICK_Y_ADDR $65534
 `define GPU_FLAG_ADDR $65535
 
-`define WALLS_ADDR $8193 #RAM_START + 1
-`define WALLS_COUNT $2
+`define WALLS_ADDR $8192 #same as RAM_START
+`define WALLS_COUNT $4
 `define MAX_FIXED_VAL $32767
 
 
