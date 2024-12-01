@@ -7,7 +7,7 @@ module memory
 
     reg [15:0] ram[2**16-1:0];
     initial begin
-        $readmemh("../assembler/game.dat", ram);
+        $readmemh("/home/casey/Documents/School/ECE3710/3710-CPU/assembler/3test.hex", ram);
     end
 
     // Port A

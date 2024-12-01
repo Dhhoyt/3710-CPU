@@ -31,7 +31,7 @@
 # FUNCTION main entry point
 .FUN_MAIN
 	#init stuff
-	MOVW $$0 %r4 # player angle
+	MOVW $$1 %r4 # player angle
 	MOVW $$3 %r8 # player X
 	MOVW $$3 %r9 # player Y
 	MOVI $1  %r6 # Frame buffer ID
@@ -41,20 +41,20 @@
 		# do the player motion before rendering 
 		#MOVW `JOYSTICK_X_ADDR %r0
 		#LOAD %r1 %r0 # load joystick delta
-		MOVI $1 %r1 # temp set angle delta to the smallest possible value, a slow rotation hopefully
-		ADD %r1 %r4 # add to player angle
+		# MOVI $1 %r1 # temp set angle delta to the smallest possible value, a slow rotation hopefully
+		# ADD %r1 %r4 # add to player angle
 
 		#MOVW `JOYSTICK_Y_ADDR %r0 # load joystick Y delta
 		#LOAD %r3 %r0
-		MOVW $$0 %r3 # temp add nothing to the player position
-		MOV %r4 %r1 # duplicate player angle
-		MOV %r4 %r2 # duplicate player angle
-		COS %r1
-		SIN %r2
-		MUL %r3 %r1 # multiply cos and sin by the Y delta
-		MUL %r3 %r2
-		ADD %r1 %r8 # add the cos to X
-		ADD %r2 %r9	# add the sin to Y
+		# MOVW $$0 %r3 # temp add nothing to the player position
+		# MOV %r4 %r1 # duplicate player angle
+		# MOV %r4 %r2 # duplicate player angle
+		# COS %r1
+		# SIN %r2
+		# MUL %r3 %r1 # multiply cos and sin by the Y delta
+		# MUL %r3 %r2
+		# ADD %r1 %r8 # add the cos to X
+		# ADD %r2 %r9	# add the sin to Y
 		
 		#set column angle to the left of screen
 		MOVW `FOV_HALF %r1

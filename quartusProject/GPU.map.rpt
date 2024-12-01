@@ -1,5 +1,5 @@
 Analysis & Synthesis report for GPU
-Sat Nov 30 07:45:14 2024
+Sun Dec  1 10:55:17 2024
 Quartus Prime Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
 
 
@@ -121,7 +121,7 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +---------------------------------+------------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Sat Nov 30 07:45:14 2024          ;
+; Analysis & Synthesis Status     ; Successful - Sun Dec  1 10:55:17 2024          ;
 ; Quartus Prime Version           ; 23.1std.1 Build 993 05/14/2024 SC Lite Edition ;
 ; Revision Name                   ; GPU                                            ;
 ; Top-level Entity Name           ; system_mapped1                                 ;
@@ -237,65 +237,65 @@ https://fpgasoftware.intel.com/eula.
 ; Number detected on machine ; 8           ;
 ; Maximum allowed            ; 4           ;
 ;                            ;             ;
-; Average used               ; 1.17        ;
+; Average used               ; 1.27        ;
 ; Maximum used               ; 4           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;  11.1%      ;
-;     Processor 3            ;   3.0%      ;
-;     Processor 4            ;   2.6%      ;
+;     Processor 2            ;  12.6%      ;
+;     Processor 3            ;  10.5%      ;
+;     Processor 4            ;   3.4%      ;
 +----------------------------+-------------+
 
 
-+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                                                                                                  ;
-+------------------------------------------------------------------+-----------------+-------------------------------------------------------+--------------------------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path                                 ; Used in Netlist ; File Type                                             ; File Name with Absolute Path                                                                     ; Library ;
-+------------------------------------------------------------------+-----------------+-------------------------------------------------------+--------------------------------------------------------------------------------------------------+---------+
-; sqrt32to16.v                                                     ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/sqrt32to16.v                        ;         ;
-; rayCast.v                                                        ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/rayCast.v                           ;         ;
-; sin_cos.v                                                        ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/sin_cos.v                           ;         ;
-; GPUController.v                                                  ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/GPUController.v                     ;         ;
-; vgaController.v                                                  ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/vgaController.v                     ;         ;
-; utilities.v                                                      ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/utilities.v                         ;         ;
-; system_mapped1.v                                                 ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/system_mapped1.v                    ;         ;
-; memory.v                                                         ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/memory.v                            ;         ;
-; gpuLookup.v                                                      ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/gpuLookup.v                         ;         ;
-; GPU.v                                                            ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/GPU.v                               ;         ;
-; datapath.v                                                       ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/datapath.v                          ;         ;
-; cpu.v                                                            ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/cpu.v                               ;         ;
-; controller.v                                                     ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/controller.v                        ;         ;
-; clockDivider.v                                                   ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/clockDivider.v                      ;         ;
-; /home/casey/Documents/School/ECE3710/3710-CPU/assembler/game.dat ; yes             ; Auto-Found Unspecified File                           ; /home/casey/Documents/School/ECE3710/3710-CPU/assembler/game.dat                                 ;         ;
-; data_files/sin_lut.hex                                           ; yes             ; Auto-Found Hexadecimal (Intel-Format) File            ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/data_files/sin_lut.hex              ;         ;
-; textureROM.v                                                     ; yes             ; Auto-Found Verilog HDL File                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/textureROM.v                        ;         ;
-; data_files/texture.dat                                           ; yes             ; Auto-Found Unspecified File                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/data_files/texture.dat              ;         ;
-; altsyncram.tdf                                                   ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/altsyncram.tdf                ;         ;
-; stratix_ram_block.inc                                            ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/stratix_ram_block.inc         ;         ;
-; lpm_mux.inc                                                      ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/lpm_mux.inc                   ;         ;
-; lpm_decode.inc                                                   ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/lpm_decode.inc                ;         ;
-; aglobal231.inc                                                   ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/aglobal231.inc                ;         ;
-; a_rdenreg.inc                                                    ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/a_rdenreg.inc                 ;         ;
-; altrom.inc                                                       ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/altrom.inc                    ;         ;
-; altram.inc                                                       ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/altram.inc                    ;         ;
-; altdpram.inc                                                     ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/altdpram.inc                  ;         ;
-; db/altsyncram_cr52.tdf                                           ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/altsyncram_cr52.tdf              ;         ;
-; db/GPU.ram0_memory_e411fb78.hdl.mif                              ; yes             ; Auto-Generated Auto-Found Memory Initialization File  ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/GPU.ram0_memory_e411fb78.hdl.mif ;         ;
-; db/decode_dla.tdf                                                ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/decode_dla.tdf                   ;         ;
-; db/mux_chb.tdf                                                   ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/mux_chb.tdf                      ;         ;
-; lpm_divide.tdf                                                   ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/lpm_divide.tdf                ;         ;
-; abs_divider.inc                                                  ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/abs_divider.inc               ;         ;
-; sign_div_unsign.inc                                              ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/sign_div_unsign.inc           ;         ;
-; db/lpm_divide_2ro.tdf                                            ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/lpm_divide_2ro.tdf               ;         ;
-; db/abs_divider_bdg.tdf                                           ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/abs_divider_bdg.tdf              ;         ;
-; db/alt_u_div_63f.tdf                                             ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/alt_u_div_63f.tdf                ;         ;
-; db/lpm_abs_4p9.tdf                                               ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/lpm_abs_4p9.tdf                  ;         ;
-; db/lpm_abs_bp9.tdf                                               ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/lpm_abs_bp9.tdf                  ;         ;
-; db/lpm_divide_6dm.tdf                                            ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/lpm_divide_6dm.tdf               ;         ;
-; db/sign_div_unsign_cnh.tdf                                       ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/sign_div_unsign_cnh.tdf          ;         ;
-; db/alt_u_div_u2f.tdf                                             ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/alt_u_div_u2f.tdf                ;         ;
-+------------------------------------------------------------------+-----------------+-------------------------------------------------------+--------------------------------------------------------------------------------------------------+---------+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                                                     ;
++-------------------------------------+-----------------+-------------------------------------------------------+--------------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path    ; Used in Netlist ; File Type                                             ; File Name with Absolute Path                                                                     ; Library ;
++-------------------------------------+-----------------+-------------------------------------------------------+--------------------------------------------------------------------------------------------------+---------+
+; ../assembler/3test.hex              ; yes             ; User Hexadecimal (Intel-Format) File                  ; /home/casey/Documents/School/ECE3710/3710-CPU/assembler/3test.hex                                ;         ;
+; sqrt32to16.v                        ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/sqrt32to16.v                        ;         ;
+; rayCast.v                           ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/rayCast.v                           ;         ;
+; sin_cos.v                           ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/sin_cos.v                           ;         ;
+; GPUController.v                     ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/GPUController.v                     ;         ;
+; vgaController.v                     ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/vgaController.v                     ;         ;
+; utilities.v                         ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/utilities.v                         ;         ;
+; system_mapped1.v                    ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/system_mapped1.v                    ;         ;
+; memory.v                            ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/memory.v                            ;         ;
+; gpuLookup.v                         ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/gpuLookup.v                         ;         ;
+; GPU.v                               ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/GPU.v                               ;         ;
+; datapath.v                          ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/datapath.v                          ;         ;
+; cpu.v                               ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/cpu.v                               ;         ;
+; controller.v                        ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/controller.v                        ;         ;
+; clockDivider.v                      ; yes             ; User Verilog HDL File                                 ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/clockDivider.v                      ;         ;
+; data_files/sin_lut.hex              ; yes             ; Auto-Found Hexadecimal (Intel-Format) File            ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/data_files/sin_lut.hex              ;         ;
+; textureROM.v                        ; yes             ; Auto-Found Verilog HDL File                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/textureROM.v                        ;         ;
+; data_files/texture.dat              ; yes             ; Auto-Found Unspecified File                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/data_files/texture.dat              ;         ;
+; altsyncram.tdf                      ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/altsyncram.tdf                ;         ;
+; stratix_ram_block.inc               ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/stratix_ram_block.inc         ;         ;
+; lpm_mux.inc                         ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/lpm_mux.inc                   ;         ;
+; lpm_decode.inc                      ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/lpm_decode.inc                ;         ;
+; aglobal231.inc                      ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/aglobal231.inc                ;         ;
+; a_rdenreg.inc                       ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/a_rdenreg.inc                 ;         ;
+; altrom.inc                          ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/altrom.inc                    ;         ;
+; altram.inc                          ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/altram.inc                    ;         ;
+; altdpram.inc                        ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/altdpram.inc                  ;         ;
+; db/altsyncram_cr52.tdf              ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/altsyncram_cr52.tdf              ;         ;
+; db/GPU.ram0_memory_e411fb78.hdl.mif ; yes             ; Auto-Generated Auto-Found Memory Initialization File  ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/GPU.ram0_memory_e411fb78.hdl.mif ;         ;
+; db/decode_dla.tdf                   ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/decode_dla.tdf                   ;         ;
+; db/mux_chb.tdf                      ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/mux_chb.tdf                      ;         ;
+; lpm_divide.tdf                      ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/lpm_divide.tdf                ;         ;
+; abs_divider.inc                     ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/abs_divider.inc               ;         ;
+; sign_div_unsign.inc                 ; yes             ; Megafunction                                          ; /home/casey/intelFPGA_lite/23.1std/quartus/libraries/megafunctions/sign_div_unsign.inc           ;         ;
+; db/lpm_divide_2ro.tdf               ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/lpm_divide_2ro.tdf               ;         ;
+; db/abs_divider_bdg.tdf              ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/abs_divider_bdg.tdf              ;         ;
+; db/alt_u_div_63f.tdf                ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/alt_u_div_63f.tdf                ;         ;
+; db/lpm_abs_4p9.tdf                  ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/lpm_abs_4p9.tdf                  ;         ;
+; db/lpm_abs_bp9.tdf                  ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/lpm_abs_bp9.tdf                  ;         ;
+; db/lpm_divide_6dm.tdf               ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/lpm_divide_6dm.tdf               ;         ;
+; db/sign_div_unsign_cnh.tdf          ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/sign_div_unsign_cnh.tdf          ;         ;
+; db/alt_u_div_u2f.tdf                ; yes             ; Auto-Generated Megafunction                           ; /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/db/alt_u_div_u2f.tdf                ;         ;
++-------------------------------------+-----------------+-------------------------------------------------------+--------------------------------------------------------------------------------------------------+---------+
 
 
 +-----------------------------------------------------------+
@@ -1903,7 +1903,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:36     ;
+; Top            ; 00:00:45     ;
 +----------------+--------------+
 
 
@@ -1913,7 +1913,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
-    Info: Processing started: Sat Nov 30 07:42:25 2024
+    Info: Processing started: Sun Dec  1 10:52:15 2024
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off GPU -c GPU
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info (12021): Found 2 design units, including 2 entities, in source file sqrt32to16.v
@@ -1965,6 +1965,8 @@ Info (12021): Found 1 design units, including 1 entities, in source file control
     Info (12023): Found entity 1: controller File: /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/controller.v Line: 4
 Info (12021): Found 1 design units, including 1 entities, in source file clockDivider.v
     Info (12023): Found entity 1: clockDivider File: /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/clockDivider.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file test4.v
+    Info (12023): Found entity 1: test4 File: /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/test4.v Line: 1
 Warning (10222): Verilog HDL Parameter Declaration warning at gpuLookup.v(11): Parameter Declaration in module "gpuLookup" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/gpuLookup.v Line: 11
 Info (12127): Elaborating entity "system_mapped1" for the top level hierarchy
 Info (12128): Elaborating entity "cpu" for hierarchy "cpu:cpu1" File: /home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/system_mapped1.v Line: 26
@@ -2249,10 +2251,10 @@ Info (21057): Implemented 28193 device resources after synthesis - the final res
     Info (21064): Implemented 128 RAM segments
     Info (21062): Implemented 21 DSP elements
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 107 warnings
-    Info: Peak virtual memory: 677 megabytes
-    Info: Processing ended: Sat Nov 30 07:45:14 2024
-    Info: Elapsed time: 00:02:49
-    Info: Total CPU time (on all processors): 00:03:17
+    Info: Peak virtual memory: 719 megabytes
+    Info: Processing ended: Sun Dec  1 10:55:17 2024
+    Info: Elapsed time: 00:03:02
+    Info: Total CPU time (on all processors): 00:03:37
 
 
 +------------------------------------------+
