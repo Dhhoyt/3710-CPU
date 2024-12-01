@@ -104,7 +104,7 @@ TXUV %rD # new texture UV
 .CONTINUE_LOOP
 ADDI $5 %r0 # add struct size to wall pointer
 ADDI $1 %r1 # count up
-CMPI $4 %r1
+CMPI $9 %r1
 BLT .RAY_CAST_LOOP #do again if theres more walls to check
 .END_RAY_CAST
 
@@ -180,11 +180,36 @@ $$5
 $0
 $$1
 $$5
-$$5
+$$2
 $$5
 $0
+$$2
 $$5
+$$2
+$$7
+$0
+$$2
+$$7
 $$5
+$$7
+$0
+$$5
+$$7
+$$5
+$$4
+$0
+$$6
+$$5
+$$6
+$$2
+$0
+$$6
+$$2
+$$5
+$$2
+$0
+$$5
+$$2
 $$5
 $$1
 $0
@@ -193,6 +218,4 @@ $$1
 $$1
 $$1
 $0
-
-#etc
 

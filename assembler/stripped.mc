@@ -36,7 +36,7 @@ MOV %r2 %rC
 TXUV %rD 
 ADDI $5 %r0 
 ADDI $1 %r1 
-CMPI $4 %r1 
+CMPI $9 %r1 
 BLT .RAY_CAST_LOOP 
 CMPI $0 %r6 
 BNE .BUFFER_1 
