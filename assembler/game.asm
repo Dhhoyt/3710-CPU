@@ -23,7 +23,7 @@
 `define GPU_FLAG_ADDR $65535
 
 `define WALLS_ADDR $8193 #RAM_START + 1
-`define WALLS_COUNT $4
+`define WALLS_COUNT $2
 `define MAX_FIXED_VAL $32767
 
 
@@ -31,7 +31,7 @@
 # FUNCTION main entry point
 .FUN_MAIN
 	#init stuff
-	MOVW $$1 %r4 # player angle
+	MOVW $$0 %r4 # player angle
 	MOVW $$3 %r8 # player X
 	MOVW $$3 %r9 # player Y
 	MOVI $1  %r6 # Frame buffer ID
@@ -41,8 +41,8 @@
 		# do the player motion before rendering 
 		#MOVW `JOYSTICK_X_ADDR %r0
 		#LOAD %r1 %r0 # load joystick delta
-		# MOVI $1 %r1 # temp set angle delta to the smallest possible value, a slow rotation hopefully
-		# ADD %r1 %r4 # add to player angle
+		MOVI $1 %r1 # temp set angle delta to the smallest possible value, a slow rotation hopefully
+		ADD %r1 %r4 # add to player angle
 
 		#MOVW `JOYSTICK_Y_ADDR %r0 # load joystick Y delta
 		#LOAD %r3 %r0
@@ -63,7 +63,44 @@
 		MOVI $0 %r5 # column count = 0
 		
 		.COL_LOOP
-			CALL .FUN_RAY_CAST
+			
+			# FUNCTION do the raycast with the hardcoded map of walls
+			# return distance in %rC, texture UVX in %rD
+			# input argument registers are preserved
+			.FUN_RAY_CAST # playerX:%r8, playerY:%r9, angle:%rB
+				MOV %rB %r0
+				MOV %rB %r1
+				COS %r0 # ray_dx = cos(angle) #TODO uncomment
+				SIN %r1 # ray_dy = sin(angle)
+				ADD %r8 %r0# move the direction vector to the player position
+				ADD %r9 %r1
+
+				LODP %r8 %r9 # load player position
+				LODR %r0 %r1 # load ray position
+
+				MOVW `WALLS_ADDR %r0 # put first wall address in %r0
+				MOVI $0 %r1  # i = r1 = 0
+				MOVW `MAX_FIXED_VAL %rC # maxDistance  = (max value)
+				MOVI $0 %rD # default texture UV
+				.RAY_CAST_LOOP
+				LODW %r0 #compute the intersection
+				BINT .INTERSECTION_FOUND
+				BUC .CONTINUE_LOOP # invalid intersection
+
+				.INTERSECTION_FOUND
+				DIST %r2 # get ray distance into %r2
+				CMP %rC %r2
+				BGT .CONTINUE_LOOP # do again if rC < r2
+				# here the wall is closer than the current max distance
+				MOV %r2 %rC #new closest distance
+				TXUV %rD # new texture UV
+
+				.CONTINUE_LOOP
+				ADDI $5 %r0 # add struct size to wall pointer 
+				ADDI $1 %r1 # count up
+				CMPI `WALLS_COUNT %r1
+				BLT .RAY_CAST_LOOP #do again if theres more walls to check
+			.END_RAY_CAST
 
 			CMPI $0 %r6 # pick the right buffer
 			BNE  .BUFFER_1
@@ -119,46 +156,6 @@
 
 .END_MAIN
 
-
-# FUNCTION do the raycast with the hardcoded map of walls
-# return distance in %rC, texture UVX in %rD
-# input argument registers are preserved
-.FUN_RAY_CAST # playerX:%r8, playerY:%r9, angle:%rB
-	MOV %rB %r0
-	MOV %rB %r1
-	COS %r0 # ray_dx = cos(angle)
-	SIN %r1 # ray_dy = sin(angle)
-	ADD %r8 %r0# move the direction vector to the player position
-	ADD %r9 %r1
-
-	LODP %r8 %r9 # load player position
-	LODR %r0 %r1 # load ray position
-
-	MOVW `WALLS_ADDR %r0 # put first wall address in %r0
-	MOVI $0 %r1  # i = r1 = 0
-	MOVW `MAX_FIXED_VAL %rC # maxDistance  = (max value)
-	MOVI $0 %rD # default texture UV
-	.RAY_CAST_LOOP
-	LODW %r0 #compute the intersection
-	BINT .INTERSECTION_FOUND
-	BUC .CONTINUE_LOOP # invalid intersection
-
-	.INTERSECTION_FOUND
-	DIST %r2 # get ray distance into %r2
-	CMP %rC %r2
-	BGT .CONTINUE_LOOP # do again if rC < r2
-	# here the wall is closer than the current max distance
-	MOV %r2 %rC #new closest distance
-	TXUV %rD # new texture UV
-
-	.CONTINUE_LOOP
-	ADDI $5 %r0 # add struct size to wall pointer 
-	ADDI $1 %r1 # count up
-	CMPI `WALLS_COUNT %r1
-	BLT .RAY_CAST_LOOP #do again if theres more walls to check
-
-	JUC %rA # return
-.END_RAY_CAST
 
 
 @ #preloaded ram values
