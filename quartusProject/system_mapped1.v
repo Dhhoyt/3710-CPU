@@ -1,5 +1,6 @@
 module system_mapped1(
     input wire clock, reset,
+    input wire rx,
     output wire h_sync,
     output wire v_sync,
     output wire [7:0] red,
@@ -15,7 +16,8 @@ module system_mapped1(
     wire cpu_write_enable, gpu_write_enable;
     wire [15:0] cpu_read_data, gpu_read_data;
 
-    
+    wire [7:0] IOData;
+
     cpu cpu1(
         .clock(clock), 
         .reset(reset), 
@@ -25,11 +27,16 @@ module system_mapped1(
         .memory_write_data(cpu_write_data)
     );
 
-    memory memory1(
+    uartrx uart(.clk50Mhz(clock),
+                .portRX(rx),
+                .data(IOData));
+
+    memoryMappedIO memoryAndIO(
         clock, 
         cpu_write_data, gpu_write_data,
         cpu_address, gpu_address,
         cpu_write_enable, gpu_write_enable,
+        IOData,
         cpu_read_data, gpu_read_data
     );
 

@@ -1,5 +1,5 @@
 Timing Analyzer report for GPU
-Sun Dec  1 11:10:54 2024
+Sun Dec  1 23:48:12 2024
 Quartus Prime Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
 
 
@@ -102,14 +102,14 @@ https://fpgasoftware.intel.com/eula.
 ; Number detected on machine ; 8           ;
 ; Maximum allowed            ; 4           ;
 ;                            ;             ;
-; Average used               ; 3.19        ;
+; Average used               ; 3.22        ;
 ; Maximum used               ; 4           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;  74.2%      ;
-;     Processor 3            ;  73.0%      ;
-;     Processor 4            ;  71.7%      ;
+;     Processor 2            ;  74.8%      ;
+;     Processor 3            ;  74.4%      ;
+;     Processor 4            ;  72.9%      ;
 +----------------------------+-------------+
 
 
@@ -119,6 +119,7 @@ https://fpgasoftware.intel.com/eula.
 ; Clock Name                                                               ; Type ; Period ; Frequency  ; Rise  ; Fall  ; Duty Cycle ; Divide by ; Multiply by ; Phase ; Offset ; Edge List ; Edge Shift ; Inverted ; Master ; Source ; Targets                                                                      ;
 +--------------------------------------------------------------------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+------------------------------------------------------------------------------+
 ; clock                                                                    ; Base ; 1.000  ; 1000.0 MHz ; 0.000 ; 0.500 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { clock }                                                                    ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; Base ; 1.000  ; 1000.0 MHz ; 0.000 ; 0.500 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { cpu:cpu1|controller:controller1|state.DECODE }                             ;
 ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; Base ; 1.000  ; 1000.0 MHz ; 0.000 ; 0.500 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] }  ;
 ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; Base ; 1.000  ; 1000.0 MHz ; 0.000 ; 0.500 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] } ;
 +--------------------------------------------------------------------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+------------------------------------------------------------------------------+
@@ -129,9 +130,10 @@ https://fpgasoftware.intel.com/eula.
 +------------+-----------------+--------------------------------------------------------------------------+------+
 ; Fmax       ; Restricted Fmax ; Clock Name                                                               ; Note ;
 +------------+-----------------+--------------------------------------------------------------------------+------+
-; 6.57 MHz   ; 6.57 MHz        ; clock                                                                    ;      ;
-; 99.34 MHz  ; 99.34 MHz       ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ;      ;
-; 100.62 MHz ; 100.62 MHz      ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ;      ;
+; 6.46 MHz   ; 6.46 MHz        ; clock                                                                    ;      ;
+; 81.47 MHz  ; 81.47 MHz       ; cpu:cpu1|controller:controller1|state.DECODE                             ;      ;
+; 102.48 MHz ; 102.48 MHz      ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ;      ;
+; 104.19 MHz ; 104.19 MHz      ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ;      ;
 +------------+-----------------+--------------------------------------------------------------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
@@ -147,21 +149,23 @@ HTML report is unavailable in plain text report export.
 +--------------------------------------------------------------------------+----------+---------------+
 ; Clock                                                                    ; Slack    ; End Point TNS ;
 +--------------------------------------------------------------------------+----------+---------------+
-; clock                                                                    ; -151.172 ; -136908.534   ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -8.734   ; -194.659      ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -6.298   ; -142.777      ;
+; clock                                                                    ; -153.765 ; -160495.326   ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; -8.886   ; -29.944       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -8.268   ; -199.793      ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -7.205   ; -193.445      ;
 +--------------------------------------------------------------------------+----------+---------------+
 
 
-+---------------------------------------------------------------------------------------------------+
-; Slow 1100mV 85C Model Hold Summary                                                                ;
-+--------------------------------------------------------------------------+--------+---------------+
-; Clock                                                                    ; Slack  ; End Point TNS ;
-+--------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -2.080 ; -26.874       ;
-; clock                                                                    ; -0.307 ; -1.235        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.109  ; 0.000         ;
-+--------------------------------------------------------------------------+--------+---------------+
++--------------------------------------------------------------------------------------------------+
+; Slow 1100mV 85C Model Hold Summary                                                               ;
++--------------------------------------------------------------------------+-------+---------------+
+; Clock                                                                    ; Slack ; End Point TNS ;
++--------------------------------------------------------------------------+-------+---------------+
+; clock                                                                    ; 0.366 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.979 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 1.792 ; 0.000         ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; 3.038 ; 0.000         ;
++--------------------------------------------------------------------------+-------+---------------+
 
 
 +---------------------------------------------------------------------------------------------------+
@@ -169,19 +173,19 @@ HTML report is unavailable in plain text report export.
 +--------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                    ; Slack  ; End Point TNS ;
 +--------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -6.078 ; -125.469      ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -3.642 ; -83.861       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -5.633 ; -110.839      ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -4.913 ; -85.336       ;
 +--------------------------------------------------------------------------+--------+---------------+
 
 
-+---------------------------------------------------------------------------------------------------+
-; Slow 1100mV 85C Model Removal Summary                                                             ;
-+--------------------------------------------------------------------------+--------+---------------+
-; Clock                                                                    ; Slack  ; End Point TNS ;
-+--------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -1.458 ; -6.196        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 3.712  ; 0.000         ;
-+--------------------------------------------------------------------------+--------+---------------+
++--------------------------------------------------------------------------------------------------+
+; Slow 1100mV 85C Model Removal Summary                                                            ;
++--------------------------------------------------------------------------+-------+---------------+
+; Clock                                                                    ; Slack ; End Point TNS ;
++--------------------------------------------------------------------------+-------+---------------+
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.957 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 2.061 ; 0.000         ;
++--------------------------------------------------------------------------+-------+---------------+
 
 
 +---------------------------------------------------------------------------------------------------+
@@ -189,9 +193,10 @@ HTML report is unavailable in plain text report export.
 +--------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                    ; Slack  ; End Point TNS ;
 +--------------------------------------------------------------------------+--------+---------------+
-; clock                                                                    ; -2.636 ; -30907.290    ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -0.113 ; -0.222        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.317  ; 0.000         ;
+; clock                                                                    ; -2.636 ; -30932.130    ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.013  ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.213  ; 0.000         ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; 0.221  ; 0.000         ;
 +--------------------------------------------------------------------------+--------+---------------+
 
 
@@ -206,9 +211,10 @@ No synchronizer chains to report.
 +------------+-----------------+--------------------------------------------------------------------------+------+
 ; Fmax       ; Restricted Fmax ; Clock Name                                                               ; Note ;
 +------------+-----------------+--------------------------------------------------------------------------+------+
-; 6.43 MHz   ; 6.43 MHz        ; clock                                                                    ;      ;
-; 100.46 MHz ; 100.46 MHz      ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ;      ;
-; 101.48 MHz ; 101.48 MHz      ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ;      ;
+; 6.31 MHz   ; 6.31 MHz        ; clock                                                                    ;      ;
+; 82.81 MHz  ; 82.81 MHz       ; cpu:cpu1|controller:controller1|state.DECODE                             ;      ;
+; 106.5 MHz  ; 106.5 MHz       ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ;      ;
+; 108.58 MHz ; 108.58 MHz      ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ;      ;
 +------------+-----------------+--------------------------------------------------------------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
@@ -218,21 +224,23 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +--------------------------------------------------------------------------+----------+---------------+
 ; Clock                                                                    ; Slack    ; End Point TNS ;
 +--------------------------------------------------------------------------+----------+---------------+
-; clock                                                                    ; -154.568 ; -133946.635   ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -8.710   ; -196.793      ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -6.329   ; -147.038      ;
+; clock                                                                    ; -157.379 ; -157714.110   ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; -8.870   ; -30.282       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -8.322   ; -202.231      ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -7.223   ; -194.893      ;
 +--------------------------------------------------------------------------+----------+---------------+
 
 
-+---------------------------------------------------------------------------------------------------+
-; Slow 1100mV 0C Model Hold Summary                                                                 ;
-+--------------------------------------------------------------------------+--------+---------------+
-; Clock                                                                    ; Slack  ; End Point TNS ;
-+--------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -1.934 ; -24.542       ;
-; clock                                                                    ; -0.606 ; -7.338        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.108  ; 0.000         ;
-+--------------------------------------------------------------------------+--------+---------------+
++--------------------------------------------------------------------------------------------------+
+; Slow 1100mV 0C Model Hold Summary                                                                ;
++--------------------------------------------------------------------------+-------+---------------+
+; Clock                                                                    ; Slack ; End Point TNS ;
++--------------------------------------------------------------------------+-------+---------------+
+; clock                                                                    ; 0.225 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.736 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 1.750 ; 0.000         ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; 3.154 ; 0.000         ;
++--------------------------------------------------------------------------+-------+---------------+
 
 
 +---------------------------------------------------------------------------------------------------+
@@ -240,19 +248,19 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +--------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                    ; Slack  ; End Point TNS ;
 +--------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -6.105 ; -127.369      ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -3.725 ; -87.919       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -5.716 ; -108.633      ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -4.757 ; -83.565       ;
 +--------------------------------------------------------------------------+--------+---------------+
 
 
-+---------------------------------------------------------------------------------------------------+
-; Slow 1100mV 0C Model Removal Summary                                                              ;
-+--------------------------------------------------------------------------+--------+---------------+
-; Clock                                                                    ; Slack  ; End Point TNS ;
-+--------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -1.315 ; -5.747        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 3.782  ; 0.000         ;
-+--------------------------------------------------------------------------+--------+---------------+
++--------------------------------------------------------------------------------------------------+
+; Slow 1100mV 0C Model Removal Summary                                                             ;
++--------------------------------------------------------------------------+-------+---------------+
+; Clock                                                                    ; Slack ; End Point TNS ;
++--------------------------------------------------------------------------+-------+---------------+
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.808 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 2.030 ; 0.000         ;
++--------------------------------------------------------------------------+-------+---------------+
 
 
 +---------------------------------------------------------------------------------------------------+
@@ -260,9 +268,10 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +--------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                    ; Slack  ; End Point TNS ;
 +--------------------------------------------------------------------------+--------+---------------+
-; clock                                                                    ; -2.636 ; -31147.229    ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -0.110 ; -0.218        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.365  ; 0.000         ;
+; clock                                                                    ; -2.636 ; -31189.085    ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.084  ; 0.000         ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; 0.221  ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.241  ; 0.000         ;
 +--------------------------------------------------------------------------+--------+---------------+
 
 
@@ -277,21 +286,23 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+---------+---------------+
 ; Clock                                                                    ; Slack   ; End Point TNS ;
 +--------------------------------------------------------------------------+---------+---------------+
-; clock                                                                    ; -84.064 ; -79368.854    ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -5.060  ; -104.402      ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -3.441  ; -66.312       ;
+; clock                                                                    ; -85.397 ; -94487.496    ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; -4.763  ; -14.396       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -4.610  ; -108.530      ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -3.857  ; -98.825       ;
 +--------------------------------------------------------------------------+---------+---------------+
 
 
-+---------------------------------------------------------------------------------------------------+
-; Fast 1100mV 85C Model Hold Summary                                                                ;
-+--------------------------------------------------------------------------+--------+---------------+
-; Clock                                                                    ; Slack  ; End Point TNS ;
-+--------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -1.320 ; -15.008       ;
-; clock                                                                    ; -0.017 ; -0.017        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.043  ; 0.000         ;
-+--------------------------------------------------------------------------+--------+---------------+
++--------------------------------------------------------------------------------------------------+
+; Fast 1100mV 85C Model Hold Summary                                                               ;
++--------------------------------------------------------------------------+-------+---------------+
+; Clock                                                                    ; Slack ; End Point TNS ;
++--------------------------------------------------------------------------+-------+---------------+
+; clock                                                                    ; 0.120 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.441 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.999 ; 0.000         ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; 1.516 ; 0.000         ;
++--------------------------------------------------------------------------+-------+---------------+
 
 
 +---------------------------------------------------------------------------------------------------+
@@ -299,19 +310,19 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                    ; Slack  ; End Point TNS ;
 +--------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -3.405 ; -66.201       ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -1.786 ; -34.052       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -3.227 ; -67.932       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -2.980 ; -48.423       ;
 +--------------------------------------------------------------------------+--------+---------------+
 
 
-+---------------------------------------------------------------------------------------------------+
-; Fast 1100mV 85C Model Removal Summary                                                             ;
-+--------------------------------------------------------------------------+--------+---------------+
-; Clock                                                                    ; Slack  ; End Point TNS ;
-+--------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -0.923 ; -3.807        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 2.176  ; 0.000         ;
-+--------------------------------------------------------------------------+--------+---------------+
++--------------------------------------------------------------------------------------------------+
+; Fast 1100mV 85C Model Removal Summary                                                            ;
++--------------------------------------------------------------------------+-------+---------------+
+; Clock                                                                    ; Slack ; End Point TNS ;
++--------------------------------------------------------------------------+-------+---------------+
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.700 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 1.540 ; 0.000         ;
++--------------------------------------------------------------------------+-------+---------------+
 
 
 +---------------------------------------------------------------------------------------------------+
@@ -319,9 +330,10 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                    ; Slack  ; End Point TNS ;
 +--------------------------------------------------------------------------+--------+---------------+
-; clock                                                                    ; -2.636 ; -27423.028    ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -0.055 ; -0.105        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.333  ; 0.000         ;
+; clock                                                                    ; -2.636 ; -27414.334    ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.079  ; 0.000         ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; 0.255  ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.285  ; 0.000         ;
 +--------------------------------------------------------------------------+--------+---------------+
 
 
@@ -336,21 +348,23 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+---------+---------------+
 ; Clock                                                                    ; Slack   ; End Point TNS ;
 +--------------------------------------------------------------------------+---------+---------------+
-; clock                                                                    ; -79.316 ; -70080.203    ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -4.639  ; -97.923       ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -3.126  ; -61.929       ;
+; clock                                                                    ; -80.653 ; -83587.579    ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; -4.357  ; -13.426       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -4.280  ; -102.020      ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -3.520  ; -91.042       ;
 +--------------------------------------------------------------------------+---------+---------------+
 
 
-+---------------------------------------------------------------------------------------------------+
-; Fast 1100mV 0C Model Hold Summary                                                                 ;
-+--------------------------------------------------------------------------+--------+---------------+
-; Clock                                                                    ; Slack  ; End Point TNS ;
-+--------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -1.155 ; -13.241       ;
-; clock                                                                    ; -0.074 ; -0.152        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.044  ; 0.000         ;
-+--------------------------------------------------------------------------+--------+---------------+
++--------------------------------------------------------------------------------------------------+
+; Fast 1100mV 0C Model Hold Summary                                                                ;
++--------------------------------------------------------------------------+-------+---------------+
+; Clock                                                                    ; Slack ; End Point TNS ;
++--------------------------------------------------------------------------+-------+---------------+
+; clock                                                                    ; 0.008 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.523 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.924 ; 0.000         ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; 1.530 ; 0.000         ;
++--------------------------------------------------------------------------+-------+---------------+
 
 
 +---------------------------------------------------------------------------------------------------+
@@ -358,19 +372,19 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                    ; Slack  ; End Point TNS ;
 +--------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -3.170 ; -62.613       ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -1.657 ; -32.909       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -2.756 ; -58.979       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -2.516 ; -40.516       ;
 +--------------------------------------------------------------------------+--------+---------------+
 
 
-+---------------------------------------------------------------------------------------------------+
-; Fast 1100mV 0C Model Removal Summary                                                              ;
-+--------------------------------------------------------------------------+--------+---------------+
-; Clock                                                                    ; Slack  ; End Point TNS ;
-+--------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -0.797 ; -3.325        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 2.156  ; 0.000         ;
-+--------------------------------------------------------------------------+--------+---------------+
++--------------------------------------------------------------------------------------------------+
+; Fast 1100mV 0C Model Removal Summary                                                             ;
++--------------------------------------------------------------------------+-------+---------------+
+; Clock                                                                    ; Slack ; End Point TNS ;
++--------------------------------------------------------------------------+-------+---------------+
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.553 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 1.404 ; 0.000         ;
++--------------------------------------------------------------------------+-------+---------------+
 
 
 +---------------------------------------------------------------------------------------------------+
@@ -378,9 +392,10 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                    ; Slack  ; End Point TNS ;
 +--------------------------------------------------------------------------+--------+---------------+
-; clock                                                                    ; -2.636 ; -27428.026    ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.038  ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.369  ; 0.000         ;
+; clock                                                                    ; -2.636 ; -27425.440    ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.171  ; 0.000         ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; 0.298  ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.326  ; 0.000         ;
 +--------------------------------------------------------------------------+--------+---------------+
 
 
@@ -390,20 +405,22 @@ No synchronizer chains to report.
 No synchronizer chains to report.
 
 
-+----------------------------------------------------------------------------------------------------------------------------------------------+
-; Multicorner Timing Analysis Summary                                                                                                          ;
-+---------------------------------------------------------------------------+-------------+---------+----------+---------+---------------------+
-; Clock                                                                     ; Setup       ; Hold    ; Recovery ; Removal ; Minimum Pulse Width ;
-+---------------------------------------------------------------------------+-------------+---------+----------+---------+---------------------+
-; Worst-case Slack                                                          ; -154.568    ; -2.080  ; -6.105   ; -1.458  ; -2.636              ;
-;  clock                                                                    ; -154.568    ; -0.606  ; N/A      ; N/A     ; -2.636              ;
-;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -8.734      ; 0.043   ; -6.105   ; 2.156   ; 0.317               ;
-;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -6.329      ; -2.080  ; -3.725   ; -1.458  ; -0.113              ;
-; Design-wide TNS                                                           ; -137245.97  ; -31.88  ; -215.288 ; -6.196  ; -31147.447          ;
-;  clock                                                                    ; -136908.534 ; -7.338  ; N/A      ; N/A     ; -31147.229          ;
-;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -196.793    ; 0.000   ; -127.369 ; 0.000   ; 0.000               ;
-;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -147.038    ; -26.874 ; -87.919  ; -6.196  ; -0.222              ;
-+---------------------------------------------------------------------------+-------------+---------+----------+---------+---------------------+
++--------------------------------------------------------------------------------------------------------------------------------------------+
+; Multicorner Timing Analysis Summary                                                                                                        ;
++---------------------------------------------------------------------------+-------------+-------+----------+---------+---------------------+
+; Clock                                                                     ; Setup       ; Hold  ; Recovery ; Removal ; Minimum Pulse Width ;
++---------------------------------------------------------------------------+-------------+-------+----------+---------+---------------------+
+; Worst-case Slack                                                          ; -157.379    ; 0.008 ; -5.716   ; 0.553   ; -2.636              ;
+;  clock                                                                    ; -157.379    ; 0.008 ; N/A      ; N/A     ; -2.636              ;
+;  cpu:cpu1|controller:controller1|state.DECODE                             ; -8.886      ; 1.516 ; N/A      ; N/A     ; 0.221               ;
+;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -8.322      ; 0.924 ; -4.913   ; 1.404   ; 0.013               ;
+;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -7.223      ; 0.441 ; -5.716   ; 0.553   ; 0.213               ;
+; Design-wide TNS                                                           ; -160918.508 ; 0.0   ; -196.175 ; 0.0     ; -31189.085          ;
+;  clock                                                                    ; -160495.326 ; 0.000 ; N/A      ; N/A     ; -31189.085          ;
+;  cpu:cpu1|controller:controller1|state.DECODE                             ; -30.282     ; 0.000 ; N/A      ; N/A     ; 0.000               ;
+;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -202.231    ; 0.000 ; -85.336  ; 0.000   ; 0.000               ;
+;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -194.893    ; 0.000 ; -110.839 ; 0.000   ; 0.000               ;
++---------------------------------------------------------------------------+-------------+-------+----------+---------+---------------------+
 
 
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -414,11 +431,6 @@ No synchronizer chains to report.
 ; h_sync    ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; v_sync    ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; red[0]    ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
-; red[1]    ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
-; red[2]    ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
-; red[3]    ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
-; red[4]    ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
-; red[5]    ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; red[6]    ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; red[7]    ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; green[2]  ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
@@ -430,9 +442,11 @@ No synchronizer chains to report.
 ; blue[6]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; vga_clock ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; vga_blank ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
-; blue[3]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
-; blue[7]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
-; vga_sync  ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; red[1]    ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; red[2]    ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; red[3]    ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; red[4]    ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; red[5]    ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; green[0]  ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; green[1]  ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; green[3]  ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
@@ -440,6 +454,9 @@ No synchronizer chains to report.
 ; blue[0]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; blue[1]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; blue[2]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; blue[3]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; blue[7]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; vga_sync  ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 +-----------+--------------+-------------------+-------------------------+-------------------------+---------------+---------------------+----------------+------------------+--------+------------------+------------------------+------------------------+--------------+---------------+-----------------+-------+---------------------+--------------------+---------------+-----------------+-------------+
 
 
@@ -450,6 +467,7 @@ No synchronizer chains to report.
 +-------+--------------+-----------------+-----------------+
 ; clock ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
 ; reset ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; rx    ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
 +-------+--------------+-----------------+-----------------+
 
 
@@ -461,11 +479,6 @@ No synchronizer chains to report.
 ; h_sync    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.52e-07 V                   ; 2.42 V              ; -0.0557 V           ; 0.175 V                              ; 0.114 V                              ; 4.5e-10 s                   ; 4.35e-10 s                  ; No                         ; No                         ; 2.32 V                      ; 3.52e-07 V                  ; 2.42 V             ; -0.0557 V          ; 0.175 V                             ; 0.114 V                             ; 4.5e-10 s                  ; 4.35e-10 s                 ; No                        ; No                        ;
 ; v_sync    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.6e-07 V                    ; 2.41 V              ; -0.0463 V           ; 0.201 V                              ; 0.131 V                              ; 4.61e-10 s                  ; 4.53e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.6e-07 V                   ; 2.41 V             ; -0.0463 V          ; 0.201 V                             ; 0.131 V                             ; 4.61e-10 s                 ; 4.53e-10 s                 ; No                        ; Yes                       ;
 ; red[0]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.52e-07 V                   ; 2.42 V              ; -0.0557 V           ; 0.175 V                              ; 0.114 V                              ; 4.5e-10 s                   ; 4.35e-10 s                  ; No                         ; No                         ; 2.32 V                      ; 3.52e-07 V                  ; 2.42 V             ; -0.0557 V          ; 0.175 V                             ; 0.114 V                             ; 4.5e-10 s                  ; 4.35e-10 s                 ; No                        ; No                        ;
-; red[1]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.6e-07 V                    ; 2.41 V              ; -0.0463 V           ; 0.201 V                              ; 0.131 V                              ; 4.61e-10 s                  ; 4.53e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.6e-07 V                   ; 2.41 V             ; -0.0463 V          ; 0.201 V                             ; 0.131 V                             ; 4.61e-10 s                 ; 4.53e-10 s                 ; No                        ; Yes                       ;
-; red[2]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
-; red[3]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
-; red[4]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.52e-07 V                   ; 2.42 V              ; -0.0568 V           ; 0.173 V                              ; 0.113 V                              ; 4.5e-10 s                   ; 4.35e-10 s                  ; No                         ; No                         ; 2.32 V                      ; 3.52e-07 V                  ; 2.42 V             ; -0.0568 V          ; 0.173 V                             ; 0.113 V                             ; 4.5e-10 s                  ; 4.35e-10 s                 ; No                        ; No                        ;
-; red[5]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
 ; red[6]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.6e-07 V                    ; 2.41 V              ; -0.0463 V           ; 0.201 V                              ; 0.131 V                              ; 4.61e-10 s                  ; 4.53e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.6e-07 V                   ; 2.41 V             ; -0.0463 V          ; 0.201 V                             ; 0.131 V                             ; 4.61e-10 s                 ; 4.53e-10 s                 ; No                        ; Yes                       ;
 ; red[7]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.6e-07 V                    ; 2.41 V              ; -0.0463 V           ; 0.201 V                              ; 0.131 V                              ; 4.61e-10 s                  ; 4.53e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.6e-07 V                   ; 2.41 V             ; -0.0463 V          ; 0.201 V                             ; 0.131 V                             ; 4.61e-10 s                 ; 4.53e-10 s                 ; No                        ; Yes                       ;
 ; green[2]  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
@@ -477,9 +490,11 @@ No synchronizer chains to report.
 ; blue[6]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
 ; vga_clock ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.52e-07 V                   ; 2.42 V              ; -0.0568 V           ; 0.173 V                              ; 0.113 V                              ; 4.5e-10 s                   ; 4.35e-10 s                  ; No                         ; No                         ; 2.32 V                      ; 3.52e-07 V                  ; 2.42 V             ; -0.0568 V          ; 0.173 V                             ; 0.113 V                             ; 4.5e-10 s                  ; 4.35e-10 s                 ; No                        ; No                        ;
 ; vga_blank ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
-; blue[3]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
-; blue[7]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
-; vga_sync  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.52e-07 V                   ; 2.42 V              ; -0.0568 V           ; 0.173 V                              ; 0.113 V                              ; 4.5e-10 s                   ; 4.35e-10 s                  ; No                         ; No                         ; 2.32 V                      ; 3.52e-07 V                  ; 2.42 V             ; -0.0568 V          ; 0.173 V                             ; 0.113 V                             ; 4.5e-10 s                  ; 4.35e-10 s                 ; No                        ; No                        ;
+; red[1]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.6e-07 V                    ; 2.41 V              ; -0.0463 V           ; 0.201 V                              ; 0.131 V                              ; 4.61e-10 s                  ; 4.53e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.6e-07 V                   ; 2.41 V             ; -0.0463 V          ; 0.201 V                             ; 0.131 V                             ; 4.61e-10 s                 ; 4.53e-10 s                 ; No                        ; Yes                       ;
+; red[2]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
+; red[3]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
+; red[4]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.52e-07 V                   ; 2.42 V              ; -0.0568 V           ; 0.173 V                              ; 0.113 V                              ; 4.5e-10 s                   ; 4.35e-10 s                  ; No                         ; No                         ; 2.32 V                      ; 3.52e-07 V                  ; 2.42 V             ; -0.0568 V          ; 0.173 V                             ; 0.113 V                             ; 4.5e-10 s                  ; 4.35e-10 s                 ; No                        ; No                        ;
+; red[5]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
 ; green[0]  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
 ; green[1]  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.6e-07 V                    ; 2.41 V              ; -0.0463 V           ; 0.201 V                              ; 0.131 V                              ; 4.61e-10 s                  ; 4.53e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.6e-07 V                   ; 2.41 V             ; -0.0463 V          ; 0.201 V                             ; 0.131 V                             ; 4.61e-10 s                 ; 4.53e-10 s                 ; No                        ; Yes                       ;
 ; green[3]  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.6e-07 V                    ; 2.41 V              ; -0.0463 V           ; 0.201 V                              ; 0.131 V                              ; 4.61e-10 s                  ; 4.53e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.6e-07 V                   ; 2.41 V             ; -0.0463 V          ; 0.201 V                             ; 0.131 V                             ; 4.61e-10 s                 ; 4.53e-10 s                 ; No                        ; Yes                       ;
@@ -487,6 +502,9 @@ No synchronizer chains to report.
 ; blue[0]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.52e-07 V                   ; 2.42 V              ; -0.0568 V           ; 0.173 V                              ; 0.113 V                              ; 4.5e-10 s                   ; 4.35e-10 s                  ; No                         ; No                         ; 2.32 V                      ; 3.52e-07 V                  ; 2.42 V             ; -0.0568 V          ; 0.173 V                             ; 0.113 V                             ; 4.5e-10 s                  ; 4.35e-10 s                 ; No                        ; No                        ;
 ; blue[1]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
 ; blue[2]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.6e-07 V                    ; 2.41 V              ; -0.0463 V           ; 0.201 V                              ; 0.131 V                              ; 4.61e-10 s                  ; 4.53e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.6e-07 V                   ; 2.41 V             ; -0.0463 V          ; 0.201 V                             ; 0.131 V                             ; 4.61e-10 s                 ; 4.53e-10 s                 ; No                        ; Yes                       ;
+; blue[3]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
+; blue[7]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.07e-07 V                   ; 2.36 V              ; -0.0231 V           ; 0.14 V                               ; 0.089 V                              ; 4.52e-10 s                  ; 4.35e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.07e-07 V                  ; 2.36 V             ; -0.0231 V          ; 0.14 V                              ; 0.089 V                             ; 4.52e-10 s                 ; 4.35e-10 s                 ; No                        ; Yes                       ;
+; vga_sync  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.52e-07 V                   ; 2.42 V              ; -0.0568 V           ; 0.173 V                              ; 0.113 V                              ; 4.5e-10 s                   ; 4.35e-10 s                  ; No                         ; No                         ; 2.32 V                      ; 3.52e-07 V                  ; 2.42 V             ; -0.0568 V          ; 0.173 V                             ; 0.113 V                             ; 4.5e-10 s                  ; 4.35e-10 s                 ; No                        ; No                        ;
 +-----------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
 
 
@@ -498,11 +516,6 @@ No synchronizer chains to report.
 ; h_sync    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.88e-05 V                   ; 2.39 V              ; -0.037 V            ; 0.188 V                              ; 0.158 V                              ; 4.67e-10 s                  ; 4.67e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.88e-05 V                  ; 2.39 V             ; -0.037 V           ; 0.188 V                             ; 0.158 V                             ; 4.67e-10 s                 ; 4.67e-10 s                 ; No                        ; Yes                       ;
 ; v_sync    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.96e-05 V                   ; 2.38 V              ; -0.0306 V           ; 0.23 V                               ; 0.206 V                              ; 4.83e-10 s                  ; 5.01e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.96e-05 V                  ; 2.38 V             ; -0.0306 V          ; 0.23 V                              ; 0.206 V                             ; 4.83e-10 s                 ; 5.01e-10 s                 ; No                        ; Yes                       ;
 ; red[0]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.88e-05 V                   ; 2.39 V              ; -0.037 V            ; 0.188 V                              ; 0.158 V                              ; 4.67e-10 s                  ; 4.67e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.88e-05 V                  ; 2.39 V             ; -0.037 V           ; 0.188 V                             ; 0.158 V                             ; 4.67e-10 s                 ; 4.67e-10 s                 ; No                        ; Yes                       ;
-; red[1]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.96e-05 V                   ; 2.38 V              ; -0.0306 V           ; 0.23 V                               ; 0.206 V                              ; 4.83e-10 s                  ; 5.01e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.96e-05 V                  ; 2.38 V             ; -0.0306 V          ; 0.23 V                              ; 0.206 V                             ; 4.83e-10 s                 ; 5.01e-10 s                 ; No                        ; Yes                       ;
-; red[2]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
-; red[3]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
-; red[4]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.88e-05 V                   ; 2.39 V              ; -0.0374 V           ; 0.189 V                              ; 0.158 V                              ; 4.66e-10 s                  ; 4.67e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.88e-05 V                  ; 2.39 V             ; -0.0374 V          ; 0.189 V                             ; 0.158 V                             ; 4.66e-10 s                 ; 4.67e-10 s                 ; No                        ; Yes                       ;
-; red[5]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
 ; red[6]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.96e-05 V                   ; 2.38 V              ; -0.0306 V           ; 0.23 V                               ; 0.206 V                              ; 4.83e-10 s                  ; 5.01e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.96e-05 V                  ; 2.38 V             ; -0.0306 V          ; 0.23 V                              ; 0.206 V                             ; 4.83e-10 s                 ; 5.01e-10 s                 ; No                        ; Yes                       ;
 ; red[7]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.96e-05 V                   ; 2.38 V              ; -0.0306 V           ; 0.23 V                               ; 0.206 V                              ; 4.83e-10 s                  ; 5.01e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.96e-05 V                  ; 2.38 V             ; -0.0306 V          ; 0.23 V                              ; 0.206 V                             ; 4.83e-10 s                 ; 5.01e-10 s                 ; No                        ; Yes                       ;
 ; green[2]  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
@@ -514,9 +527,11 @@ No synchronizer chains to report.
 ; blue[6]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
 ; vga_clock ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.88e-05 V                   ; 2.39 V              ; -0.0374 V           ; 0.189 V                              ; 0.158 V                              ; 4.66e-10 s                  ; 4.67e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.88e-05 V                  ; 2.39 V             ; -0.0374 V          ; 0.189 V                             ; 0.158 V                             ; 4.66e-10 s                 ; 4.67e-10 s                 ; No                        ; Yes                       ;
 ; vga_blank ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
-; blue[3]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
-; blue[7]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
-; vga_sync  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.88e-05 V                   ; 2.39 V              ; -0.0374 V           ; 0.189 V                              ; 0.158 V                              ; 4.66e-10 s                  ; 4.67e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.88e-05 V                  ; 2.39 V             ; -0.0374 V          ; 0.189 V                             ; 0.158 V                             ; 4.66e-10 s                 ; 4.67e-10 s                 ; No                        ; Yes                       ;
+; red[1]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.96e-05 V                   ; 2.38 V              ; -0.0306 V           ; 0.23 V                               ; 0.206 V                              ; 4.83e-10 s                  ; 5.01e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.96e-05 V                  ; 2.38 V             ; -0.0306 V          ; 0.23 V                              ; 0.206 V                             ; 4.83e-10 s                 ; 5.01e-10 s                 ; No                        ; Yes                       ;
+; red[2]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
+; red[3]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
+; red[4]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.88e-05 V                   ; 2.39 V              ; -0.0374 V           ; 0.189 V                              ; 0.158 V                              ; 4.66e-10 s                  ; 4.67e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.88e-05 V                  ; 2.39 V             ; -0.0374 V          ; 0.189 V                             ; 0.158 V                             ; 4.66e-10 s                 ; 4.67e-10 s                 ; No                        ; Yes                       ;
+; red[5]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
 ; green[0]  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
 ; green[1]  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.96e-05 V                   ; 2.38 V              ; -0.0306 V           ; 0.23 V                               ; 0.206 V                              ; 4.83e-10 s                  ; 5.01e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.96e-05 V                  ; 2.38 V             ; -0.0306 V          ; 0.23 V                              ; 0.206 V                             ; 4.83e-10 s                 ; 5.01e-10 s                 ; No                        ; Yes                       ;
 ; green[3]  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.96e-05 V                   ; 2.38 V              ; -0.0306 V           ; 0.23 V                               ; 0.206 V                              ; 4.83e-10 s                  ; 5.01e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.96e-05 V                  ; 2.38 V             ; -0.0306 V          ; 0.23 V                              ; 0.206 V                             ; 4.83e-10 s                 ; 5.01e-10 s                 ; No                        ; Yes                       ;
@@ -524,6 +539,9 @@ No synchronizer chains to report.
 ; blue[0]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.88e-05 V                   ; 2.39 V              ; -0.0374 V           ; 0.189 V                              ; 0.158 V                              ; 4.66e-10 s                  ; 4.67e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.88e-05 V                  ; 2.39 V             ; -0.0374 V          ; 0.189 V                             ; 0.158 V                             ; 4.66e-10 s                 ; 4.67e-10 s                 ; No                        ; Yes                       ;
 ; blue[1]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
 ; blue[2]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.96e-05 V                   ; 2.38 V              ; -0.0306 V           ; 0.23 V                               ; 0.206 V                              ; 4.83e-10 s                  ; 5.01e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.96e-05 V                  ; 2.38 V             ; -0.0306 V          ; 0.23 V                              ; 0.206 V                             ; 4.83e-10 s                 ; 5.01e-10 s                 ; No                        ; Yes                       ;
+; blue[3]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
+; blue[7]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.49e-05 V                   ; 2.34 V              ; -0.0118 V           ; 0.182 V                              ; 0.051 V                              ; 4.81e-10 s                  ; 4.83e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.49e-05 V                  ; 2.34 V             ; -0.0118 V          ; 0.182 V                             ; 0.051 V                             ; 4.81e-10 s                 ; 4.83e-10 s                 ; Yes                       ; Yes                       ;
+; vga_sync  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.88e-05 V                   ; 2.39 V              ; -0.0374 V           ; 0.189 V                              ; 0.158 V                              ; 4.66e-10 s                  ; 4.67e-10 s                  ; No                         ; Yes                        ; 2.32 V                      ; 3.88e-05 V                  ; 2.39 V             ; -0.0374 V          ; 0.189 V                             ; 0.158 V                             ; 4.66e-10 s                 ; 4.67e-10 s                 ; No                        ; Yes                       ;
 +-----------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
 
 
@@ -535,11 +553,6 @@ No synchronizer chains to report.
 ; h_sync    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.14e-06 V                   ; 2.91 V              ; -0.121 V            ; 0.326 V                              ; 0.297 V                              ; 2.74e-10 s                  ; 2.8e-10 s                   ; No                         ; No                         ; 2.75 V                      ; 4.14e-06 V                  ; 2.91 V             ; -0.121 V           ; 0.326 V                             ; 0.297 V                             ; 2.74e-10 s                 ; 2.8e-10 s                  ; No                        ; No                        ;
 ; v_sync    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.25e-06 V                   ; 2.9 V               ; -0.107 V            ; 0.378 V                              ; 0.16 V                               ; 2.87e-10 s                  ; 4.28e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 4.25e-06 V                  ; 2.9 V              ; -0.107 V           ; 0.378 V                             ; 0.16 V                              ; 2.87e-10 s                 ; 4.28e-10 s                 ; No                        ; No                        ;
 ; red[0]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.14e-06 V                   ; 2.91 V              ; -0.121 V            ; 0.326 V                              ; 0.297 V                              ; 2.74e-10 s                  ; 2.8e-10 s                   ; No                         ; No                         ; 2.75 V                      ; 4.14e-06 V                  ; 2.91 V             ; -0.121 V           ; 0.326 V                             ; 0.297 V                             ; 2.74e-10 s                 ; 2.8e-10 s                  ; No                        ; No                        ;
-; red[1]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.25e-06 V                   ; 2.9 V               ; -0.107 V            ; 0.378 V                              ; 0.16 V                               ; 2.87e-10 s                  ; 4.28e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 4.25e-06 V                  ; 2.9 V              ; -0.107 V           ; 0.378 V                             ; 0.16 V                              ; 2.87e-10 s                 ; 4.28e-10 s                 ; No                        ; No                        ;
-; red[2]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
-; red[3]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
-; red[4]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.14e-06 V                   ; 2.91 V              ; -0.119 V            ; 0.326 V                              ; 0.298 V                              ; 2.74e-10 s                  ; 2.8e-10 s                   ; No                         ; No                         ; 2.75 V                      ; 4.14e-06 V                  ; 2.91 V             ; -0.119 V           ; 0.326 V                             ; 0.298 V                             ; 2.74e-10 s                 ; 2.8e-10 s                  ; No                        ; No                        ;
-; red[5]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
 ; red[6]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.25e-06 V                   ; 2.9 V               ; -0.107 V            ; 0.378 V                              ; 0.16 V                               ; 2.87e-10 s                  ; 4.28e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 4.25e-06 V                  ; 2.9 V              ; -0.107 V           ; 0.378 V                             ; 0.16 V                              ; 2.87e-10 s                 ; 4.28e-10 s                 ; No                        ; No                        ;
 ; red[7]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.25e-06 V                   ; 2.9 V               ; -0.107 V            ; 0.378 V                              ; 0.16 V                               ; 2.87e-10 s                  ; 4.28e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 4.25e-06 V                  ; 2.9 V              ; -0.107 V           ; 0.378 V                             ; 0.16 V                              ; 2.87e-10 s                 ; 4.28e-10 s                 ; No                        ; No                        ;
 ; green[2]  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
@@ -551,9 +564,11 @@ No synchronizer chains to report.
 ; blue[6]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
 ; vga_clock ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.14e-06 V                   ; 2.91 V              ; -0.119 V            ; 0.326 V                              ; 0.298 V                              ; 2.74e-10 s                  ; 2.8e-10 s                   ; No                         ; No                         ; 2.75 V                      ; 4.14e-06 V                  ; 2.91 V             ; -0.119 V           ; 0.326 V                             ; 0.298 V                             ; 2.74e-10 s                 ; 2.8e-10 s                  ; No                        ; No                        ;
 ; vga_blank ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
-; blue[3]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
-; blue[7]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
-; vga_sync  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.14e-06 V                   ; 2.91 V              ; -0.119 V            ; 0.326 V                              ; 0.298 V                              ; 2.74e-10 s                  ; 2.8e-10 s                   ; No                         ; No                         ; 2.75 V                      ; 4.14e-06 V                  ; 2.91 V             ; -0.119 V           ; 0.326 V                             ; 0.298 V                             ; 2.74e-10 s                 ; 2.8e-10 s                  ; No                        ; No                        ;
+; red[1]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.25e-06 V                   ; 2.9 V               ; -0.107 V            ; 0.378 V                              ; 0.16 V                               ; 2.87e-10 s                  ; 4.28e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 4.25e-06 V                  ; 2.9 V              ; -0.107 V           ; 0.378 V                             ; 0.16 V                              ; 2.87e-10 s                 ; 4.28e-10 s                 ; No                        ; No                        ;
+; red[2]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
+; red[3]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
+; red[4]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.14e-06 V                   ; 2.91 V              ; -0.119 V            ; 0.326 V                              ; 0.298 V                              ; 2.74e-10 s                  ; 2.8e-10 s                   ; No                         ; No                         ; 2.75 V                      ; 4.14e-06 V                  ; 2.91 V             ; -0.119 V           ; 0.326 V                             ; 0.298 V                             ; 2.74e-10 s                 ; 2.8e-10 s                  ; No                        ; No                        ;
+; red[5]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
 ; green[0]  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
 ; green[1]  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.25e-06 V                   ; 2.9 V               ; -0.107 V            ; 0.378 V                              ; 0.16 V                               ; 2.87e-10 s                  ; 4.28e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 4.25e-06 V                  ; 2.9 V              ; -0.107 V           ; 0.378 V                             ; 0.16 V                              ; 2.87e-10 s                 ; 4.28e-10 s                 ; No                        ; No                        ;
 ; green[3]  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.25e-06 V                   ; 2.9 V               ; -0.107 V            ; 0.378 V                              ; 0.16 V                               ; 2.87e-10 s                  ; 4.28e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 4.25e-06 V                  ; 2.9 V              ; -0.107 V           ; 0.378 V                             ; 0.16 V                              ; 2.87e-10 s                 ; 4.28e-10 s                 ; No                        ; No                        ;
@@ -561,6 +576,9 @@ No synchronizer chains to report.
 ; blue[0]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.14e-06 V                   ; 2.91 V              ; -0.119 V            ; 0.326 V                              ; 0.298 V                              ; 2.74e-10 s                  ; 2.8e-10 s                   ; No                         ; No                         ; 2.75 V                      ; 4.14e-06 V                  ; 2.91 V             ; -0.119 V           ; 0.326 V                             ; 0.298 V                             ; 2.74e-10 s                 ; 2.8e-10 s                  ; No                        ; No                        ;
 ; blue[1]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
 ; blue[2]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.25e-06 V                   ; 2.9 V               ; -0.107 V            ; 0.378 V                              ; 0.16 V                               ; 2.87e-10 s                  ; 4.28e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 4.25e-06 V                  ; 2.9 V              ; -0.107 V           ; 0.378 V                             ; 0.16 V                              ; 2.87e-10 s                 ; 4.28e-10 s                 ; No                        ; No                        ;
+; blue[3]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
+; blue[7]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 3.54e-06 V                   ; 2.81 V              ; -0.0578 V           ; 0.303 V                              ; 0.28 V                               ; 2.93e-10 s                  ; 3.01e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 3.54e-06 V                  ; 2.81 V             ; -0.0578 V          ; 0.303 V                             ; 0.28 V                              ; 2.93e-10 s                 ; 3.01e-10 s                 ; No                        ; No                        ;
+; vga_sync  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 4.14e-06 V                   ; 2.91 V              ; -0.119 V            ; 0.326 V                              ; 0.298 V                              ; 2.74e-10 s                  ; 2.8e-10 s                   ; No                         ; No                         ; 2.75 V                      ; 4.14e-06 V                  ; 2.91 V             ; -0.119 V           ; 0.326 V                             ; 0.298 V                             ; 2.74e-10 s                 ; 2.8e-10 s                  ; No                        ; No                        ;
 +-----------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
 
 
@@ -572,11 +590,6 @@ No synchronizer chains to report.
 ; h_sync    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000242 V                   ; 2.86 V              ; -0.0814 V           ; 0.36 V                               ; 0.156 V                              ; 3e-10 s                     ; 4.34e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000242 V                  ; 2.86 V             ; -0.0814 V          ; 0.36 V                              ; 0.156 V                             ; 3e-10 s                    ; 4.34e-10 s                 ; No                        ; No                        ;
 ; v_sync    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000247 V                   ; 2.85 V              ; -0.0711 V           ; 0.204 V                              ; 0.181 V                              ; 4.55e-10 s                  ; 4.49e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000247 V                  ; 2.85 V             ; -0.0711 V          ; 0.204 V                             ; 0.181 V                             ; 4.55e-10 s                 ; 4.49e-10 s                 ; No                        ; No                        ;
 ; red[0]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000242 V                   ; 2.86 V              ; -0.0814 V           ; 0.36 V                               ; 0.156 V                              ; 3e-10 s                     ; 4.34e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000242 V                  ; 2.86 V             ; -0.0814 V          ; 0.36 V                              ; 0.156 V                             ; 3e-10 s                    ; 4.34e-10 s                 ; No                        ; No                        ;
-; red[1]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000247 V                   ; 2.85 V              ; -0.0711 V           ; 0.204 V                              ; 0.181 V                              ; 4.55e-10 s                  ; 4.49e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000247 V                  ; 2.85 V             ; -0.0711 V          ; 0.204 V                             ; 0.181 V                             ; 4.55e-10 s                 ; 4.49e-10 s                 ; No                        ; No                        ;
-; red[2]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
-; red[3]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
-; red[4]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000242 V                   ; 2.86 V              ; -0.0805 V           ; 0.358 V                              ; 0.156 V                              ; 3.01e-10 s                  ; 4.34e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000242 V                  ; 2.86 V             ; -0.0805 V          ; 0.358 V                             ; 0.156 V                             ; 3.01e-10 s                 ; 4.34e-10 s                 ; No                        ; No                        ;
-; red[5]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
 ; red[6]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000247 V                   ; 2.85 V              ; -0.0711 V           ; 0.204 V                              ; 0.181 V                              ; 4.55e-10 s                  ; 4.49e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000247 V                  ; 2.85 V             ; -0.0711 V          ; 0.204 V                             ; 0.181 V                             ; 4.55e-10 s                 ; 4.49e-10 s                 ; No                        ; No                        ;
 ; red[7]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000247 V                   ; 2.85 V              ; -0.0711 V           ; 0.204 V                              ; 0.181 V                              ; 4.55e-10 s                  ; 4.49e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000247 V                  ; 2.85 V             ; -0.0711 V          ; 0.204 V                             ; 0.181 V                             ; 4.55e-10 s                 ; 4.49e-10 s                 ; No                        ; No                        ;
 ; green[2]  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
@@ -588,9 +601,11 @@ No synchronizer chains to report.
 ; blue[6]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
 ; vga_clock ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000242 V                   ; 2.86 V              ; -0.0805 V           ; 0.358 V                              ; 0.156 V                              ; 3.01e-10 s                  ; 4.34e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000242 V                  ; 2.86 V             ; -0.0805 V          ; 0.358 V                             ; 0.156 V                             ; 3.01e-10 s                 ; 4.34e-10 s                 ; No                        ; No                        ;
 ; vga_blank ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
-; blue[3]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
-; blue[7]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
-; vga_sync  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000242 V                   ; 2.86 V              ; -0.0805 V           ; 0.358 V                              ; 0.156 V                              ; 3.01e-10 s                  ; 4.34e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000242 V                  ; 2.86 V             ; -0.0805 V          ; 0.358 V                             ; 0.156 V                             ; 3.01e-10 s                 ; 4.34e-10 s                 ; No                        ; No                        ;
+; red[1]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000247 V                   ; 2.85 V              ; -0.0711 V           ; 0.204 V                              ; 0.181 V                              ; 4.55e-10 s                  ; 4.49e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000247 V                  ; 2.85 V             ; -0.0711 V          ; 0.204 V                             ; 0.181 V                             ; 4.55e-10 s                 ; 4.49e-10 s                 ; No                        ; No                        ;
+; red[2]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
+; red[3]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
+; red[4]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000242 V                   ; 2.86 V              ; -0.0805 V           ; 0.358 V                              ; 0.156 V                              ; 3.01e-10 s                  ; 4.34e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000242 V                  ; 2.86 V             ; -0.0805 V          ; 0.358 V                             ; 0.156 V                             ; 3.01e-10 s                 ; 4.34e-10 s                 ; No                        ; No                        ;
+; red[5]    ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
 ; green[0]  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
 ; green[1]  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000247 V                   ; 2.85 V              ; -0.0711 V           ; 0.204 V                              ; 0.181 V                              ; 4.55e-10 s                  ; 4.49e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000247 V                  ; 2.85 V             ; -0.0711 V          ; 0.204 V                             ; 0.181 V                             ; 4.55e-10 s                 ; 4.49e-10 s                 ; No                        ; No                        ;
 ; green[3]  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000247 V                   ; 2.85 V              ; -0.0711 V           ; 0.204 V                              ; 0.181 V                              ; 4.55e-10 s                  ; 4.49e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000247 V                  ; 2.85 V             ; -0.0711 V          ; 0.204 V                             ; 0.181 V                             ; 4.55e-10 s                 ; 4.49e-10 s                 ; No                        ; No                        ;
@@ -598,6 +613,9 @@ No synchronizer chains to report.
 ; blue[0]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000242 V                   ; 2.86 V              ; -0.0805 V           ; 0.358 V                              ; 0.156 V                              ; 3.01e-10 s                  ; 4.34e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000242 V                  ; 2.86 V             ; -0.0805 V          ; 0.358 V                             ; 0.156 V                             ; 3.01e-10 s                 ; 4.34e-10 s                 ; No                        ; No                        ;
 ; blue[1]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
 ; blue[2]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000247 V                   ; 2.85 V              ; -0.0711 V           ; 0.204 V                              ; 0.181 V                              ; 4.55e-10 s                  ; 4.49e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000247 V                  ; 2.85 V             ; -0.0711 V          ; 0.204 V                             ; 0.181 V                             ; 4.55e-10 s                 ; 4.49e-10 s                 ; No                        ; No                        ;
+; blue[3]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
+; blue[7]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000213 V                   ; 2.79 V              ; -0.0324 V           ; 0.139 V                              ; 0.119 V                              ; 4.42e-10 s                  ; 4.33e-10 s                  ; No                         ; Yes                        ; 2.75 V                      ; 0.000213 V                  ; 2.79 V             ; -0.0324 V          ; 0.139 V                             ; 0.119 V                             ; 4.42e-10 s                 ; 4.33e-10 s                 ; No                        ; Yes                       ;
+; vga_sync  ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.75 V                       ; 0.000242 V                   ; 2.86 V              ; -0.0805 V           ; 0.358 V                              ; 0.156 V                              ; 3.01e-10 s                  ; 4.34e-10 s                  ; No                         ; No                         ; 2.75 V                      ; 0.000242 V                  ; 2.86 V             ; -0.0805 V          ; 0.358 V                             ; 0.156 V                             ; 3.01e-10 s                 ; 4.34e-10 s                 ; No                        ; No                        ;
 +-----------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
 
 
@@ -606,15 +624,22 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+--------------+----------+----------+----------+
 ; From Clock                                                               ; To Clock                                                                 ; RR Paths     ; FR Paths ; RF Paths ; FF Paths ;
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+--------------+----------+----------+----------+
-; clock                                                                    ; clock                                                                    ; > 2147483647 ; 11749    ; 588049   ; 0        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; clock                                                                    ; 1481         ; 1446     ; 0        ; 0        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; clock                                                                    ; 0            ; 30       ; 0        ; 0        ;
-; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 145          ; 0        ; 0        ; 0        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 20           ; 20       ; 0        ; 0        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 25           ; 25       ; 0        ; 0        ;
-; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 139      ; 0        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 16       ; 16       ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 25       ; 25       ;
+; clock                                                                    ; clock                                                                    ; > 2147483647 ; 11554    ; 588433   ; 0        ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; clock                                                                    ; 278          ; 272      ; 0        ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; clock                                                                    ; 1994         ; 1958     ; 0        ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; clock                                                                    ; 0            ; 31       ; 0        ; 0        ;
+; clock                                                                    ; cpu:cpu1|controller:controller1|state.DECODE                             ; 21           ; 0        ; 0        ; 0        ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|controller:controller1|state.DECODE                             ; 1            ; 1        ; 0        ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|controller:controller1|state.DECODE                             ; 2            ; 2        ; 0        ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|controller:controller1|state.DECODE                             ; 1            ; 1        ; 0        ; 0        ;
+; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 150          ; 0        ; 0        ; 0        ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 1            ; 1        ; 0        ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 21           ; 21       ; 0        ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 26           ; 26       ; 0        ; 0        ;
+; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 144      ; 0        ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 1        ; 1        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 17       ; 17       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 26       ; 26       ;
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+--------------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -624,15 +649,22 @@ Entries labeled "false path" only account for clock-to-clock false paths and not
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+--------------+----------+----------+----------+
 ; From Clock                                                               ; To Clock                                                                 ; RR Paths     ; FR Paths ; RF Paths ; FF Paths ;
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+--------------+----------+----------+----------+
-; clock                                                                    ; clock                                                                    ; > 2147483647 ; 11749    ; 588049   ; 0        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; clock                                                                    ; 1481         ; 1446     ; 0        ; 0        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; clock                                                                    ; 0            ; 30       ; 0        ; 0        ;
-; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 145          ; 0        ; 0        ; 0        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 20           ; 20       ; 0        ; 0        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 25           ; 25       ; 0        ; 0        ;
-; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 139      ; 0        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 16       ; 16       ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 25       ; 25       ;
+; clock                                                                    ; clock                                                                    ; > 2147483647 ; 11554    ; 588433   ; 0        ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; clock                                                                    ; 278          ; 272      ; 0        ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; clock                                                                    ; 1994         ; 1958     ; 0        ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; clock                                                                    ; 0            ; 31       ; 0        ; 0        ;
+; clock                                                                    ; cpu:cpu1|controller:controller1|state.DECODE                             ; 21           ; 0        ; 0        ; 0        ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|controller:controller1|state.DECODE                             ; 1            ; 1        ; 0        ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|controller:controller1|state.DECODE                             ; 2            ; 2        ; 0        ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|controller:controller1|state.DECODE                             ; 1            ; 1        ; 0        ; 0        ;
+; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 150          ; 0        ; 0        ; 0        ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 1            ; 1        ; 0        ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 21           ; 21       ; 0        ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 26           ; 26       ; 0        ; 0        ;
+; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 144      ; 0        ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 1        ; 1        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 17       ; 17       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 26       ; 26       ;
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+--------------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -642,9 +674,10 @@ Entries labeled "false path" only account for clock-to-clock false paths and not
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+----------+----------+----------+----------+
 ; From Clock                                                               ; To Clock                                                                 ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+----------+----------+----------+----------+
-; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 44       ; 0        ; 0        ; 0        ;
+; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 15       ; 0        ; 0        ; 0        ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 30       ; 30       ; 0        ; 0        ;
 ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 5        ; 5        ; 0        ; 0        ;
-; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0        ; 0        ; 24       ; 0        ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0        ; 0        ; 25       ; 25       ;
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+----------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -654,9 +687,10 @@ Entries labeled "false path" only account for clock-to-clock false paths and not
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+----------+----------+----------+----------+
 ; From Clock                                                               ; To Clock                                                                 ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+----------+----------+----------+----------+
-; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 44       ; 0        ; 0        ; 0        ;
+; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 15       ; 0        ; 0        ; 0        ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 30       ; 30       ; 0        ; 0        ;
 ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 5        ; 5        ; 0        ; 0        ;
-; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0        ; 0        ; 24       ; 0        ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0        ; 0        ; 25       ; 25       ;
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+----------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -680,8 +714,8 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 +---------------------------------+-------+------+
 ; Illegal Clocks                  ; 0     ; 0    ;
 ; Unconstrained Clocks            ; 0     ; 0    ;
-; Unconstrained Input Ports       ; 1     ; 1    ;
-; Unconstrained Input Port Paths  ; 7352  ; 7352 ;
+; Unconstrained Input Ports       ; 2     ; 2    ;
+; Unconstrained Input Port Paths  ; 7354  ; 7354 ;
 ; Unconstrained Output Ports      ; 19    ; 19   ;
 ; Unconstrained Output Port Paths ; 2639  ; 2639 ;
 +---------------------------------+-------+------+
@@ -693,6 +727,7 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 ; Target                                                                   ; Clock                                                                    ; Type ; Status      ;
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+------+-------------+
 ; clock                                                                    ; clock                                                                    ; Base ; Constrained ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|controller:controller1|state.DECODE                             ; Base ; Constrained ;
 ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; Base ; Constrained ;
 ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; Base ; Constrained ;
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+------+-------------+
@@ -704,6 +739,7 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 ; Input Port ; Comment                                                                              ;
 +------------+--------------------------------------------------------------------------------------+
 ; reset      ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; rx         ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
 +------------+--------------------------------------------------------------------------------------+
 
 
@@ -740,6 +776,7 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 ; Input Port ; Comment                                                                              ;
 +------------+--------------------------------------------------------------------------------------+
 ; reset      ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; rx         ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
 +------------+--------------------------------------------------------------------------------------+
 
 
@@ -776,17 +813,18 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 Info: *******************************************************************
 Info: Running Quartus Prime Timing Analyzer
     Info: Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
-    Info: Processing started: Sun Dec  1 11:10:05 2024
+    Info: Processing started: Sun Dec  1 23:47:20 2024
 Info: Command: quartus_sta GPU -c GPU
 Info: qsta_default_script.tcl version: #1
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info (21077): Low junction temperature is 0 degrees C
 Info (21077): High junction temperature is 85 degrees C
-Warning (335093): The Timing Analyzer is analyzing 35 combinational loops as latches. For more details, run the Check Timing command in the Timing Analyzer or view the "User-Specified and Inferred Latches" table in the Analysis & Synthesis report.
+Warning (335093): The Timing Analyzer is analyzing 36 combinational loops as latches. For more details, run the Check Timing command in the Timing Analyzer or view the "User-Specified and Inferred Latches" table in the Analysis & Synthesis report.
 Critical Warning (332012): Synopsys Design Constraints File file not found: 'GPU.sdc'. A Synopsys Design Constraints File is required by the Timing Analyzer to get proper timing constraints. Without it, the Compiler will not properly optimize the design.
 Info (332142): No user constrained base clocks found in the design. Calling "derive_clocks -period 1.0"
 Info (332105): Deriving Clocks
     Info (332105): create_clock -period 1.000 -name clock clock
+    Info (332105): create_clock -period 1.000 -name cpu:cpu1|controller:controller1|state.DECODE cpu:cpu1|controller:controller1|state.DECODE
     Info (332105): create_clock -period 1.000 -name cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]
     Info (332105): create_clock -period 1.000 -name cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]
 Info (332143): No user constrained clock uncertainty found in the design. Calling "derive_clock_uncertainty"
@@ -795,140 +833,152 @@ Info: Found TIMING_ANALYZER_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
 Info: Analyzing Slow 1100mV 85C Model
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -151.172
+Info (332146): Worst-case setup slack is -153.765
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):  -151.172         -136908.534 clock 
-    Info (332119):    -8.734            -194.659 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):    -6.298            -142.777 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case hold slack is -2.080
+    Info (332119):  -153.765         -160495.326 clock 
+    Info (332119):    -8.886             -29.944 cpu:cpu1|controller:controller1|state.DECODE 
+    Info (332119):    -8.268            -199.793 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):    -7.205            -193.445 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case hold slack is 0.366
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.080             -26.874 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):    -0.307              -1.235 clock 
-    Info (332119):     0.109               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-Info (332146): Worst-case recovery slack is -6.078
+    Info (332119):     0.366               0.000 clock 
+    Info (332119):     0.979               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     1.792               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     3.038               0.000 cpu:cpu1|controller:controller1|state.DECODE 
+Info (332146): Worst-case recovery slack is -5.633
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -6.078            -125.469 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):    -3.642             -83.861 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case removal slack is -1.458
+    Info (332119):    -5.633            -110.839 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):    -4.913             -85.336 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+Info (332146): Worst-case removal slack is 0.957
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -1.458              -6.196 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     3.712               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     0.957               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     2.061               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636          -30907.290 clock 
-    Info (332119):    -0.113              -0.222 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     0.317               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):    -2.636          -30932.130 clock 
+    Info (332119):     0.013               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     0.213               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     0.221               0.000 cpu:cpu1|controller:controller1|state.DECODE 
 Info: Analyzing Slow 1100mV 0C Model
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -154.568
+Info (332146): Worst-case setup slack is -157.379
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):  -154.568         -133946.635 clock 
-    Info (332119):    -8.710            -196.793 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):    -6.329            -147.038 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case hold slack is -1.934
+    Info (332119):  -157.379         -157714.110 clock 
+    Info (332119):    -8.870             -30.282 cpu:cpu1|controller:controller1|state.DECODE 
+    Info (332119):    -8.322            -202.231 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):    -7.223            -194.893 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case hold slack is 0.225
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -1.934             -24.542 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):    -0.606              -7.338 clock 
-    Info (332119):     0.108               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-Info (332146): Worst-case recovery slack is -6.105
+    Info (332119):     0.225               0.000 clock 
+    Info (332119):     0.736               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     1.750               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     3.154               0.000 cpu:cpu1|controller:controller1|state.DECODE 
+Info (332146): Worst-case recovery slack is -5.716
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -6.105            -127.369 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):    -3.725             -87.919 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case removal slack is -1.315
+    Info (332119):    -5.716            -108.633 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):    -4.757             -83.565 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+Info (332146): Worst-case removal slack is 0.808
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -1.315              -5.747 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     3.782               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     0.808               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     2.030               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636          -31147.229 clock 
-    Info (332119):    -0.110              -0.218 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     0.365               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):    -2.636          -31189.085 clock 
+    Info (332119):     0.084               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     0.221               0.000 cpu:cpu1|controller:controller1|state.DECODE 
+    Info (332119):     0.241               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
 Info: Analyzing Fast 1100mV 85C Model
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -84.064
+Info (332146): Worst-case setup slack is -85.397
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):   -84.064          -79368.854 clock 
-    Info (332119):    -5.060            -104.402 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):    -3.441             -66.312 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case hold slack is -1.320
+    Info (332119):   -85.397          -94487.496 clock 
+    Info (332119):    -4.763             -14.396 cpu:cpu1|controller:controller1|state.DECODE 
+    Info (332119):    -4.610            -108.530 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):    -3.857             -98.825 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case hold slack is 0.120
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -1.320             -15.008 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):    -0.017              -0.017 clock 
-    Info (332119):     0.043               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-Info (332146): Worst-case recovery slack is -3.405
+    Info (332119):     0.120               0.000 clock 
+    Info (332119):     0.441               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     0.999               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     1.516               0.000 cpu:cpu1|controller:controller1|state.DECODE 
+Info (332146): Worst-case recovery slack is -3.227
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -3.405             -66.201 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):    -1.786             -34.052 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case removal slack is -0.923
+    Info (332119):    -3.227             -67.932 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):    -2.980             -48.423 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+Info (332146): Worst-case removal slack is 0.700
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.923              -3.807 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     2.176               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     0.700               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     1.540               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636          -27423.028 clock 
-    Info (332119):    -0.055              -0.105 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     0.333               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):    -2.636          -27414.334 clock 
+    Info (332119):     0.079               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     0.255               0.000 cpu:cpu1|controller:controller1|state.DECODE 
+    Info (332119):     0.285               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
 Info: Analyzing Fast 1100mV 0C Model
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -79.316
+Info (332146): Worst-case setup slack is -80.653
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):   -79.316          -70080.203 clock 
-    Info (332119):    -4.639             -97.923 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):    -3.126             -61.929 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case hold slack is -1.155
+    Info (332119):   -80.653          -83587.579 clock 
+    Info (332119):    -4.357             -13.426 cpu:cpu1|controller:controller1|state.DECODE 
+    Info (332119):    -4.280            -102.020 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):    -3.520             -91.042 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case hold slack is 0.008
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -1.155             -13.241 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):    -0.074              -0.152 clock 
-    Info (332119):     0.044               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-Info (332146): Worst-case recovery slack is -3.170
+    Info (332119):     0.008               0.000 clock 
+    Info (332119):     0.523               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     0.924               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     1.530               0.000 cpu:cpu1|controller:controller1|state.DECODE 
+Info (332146): Worst-case recovery slack is -2.756
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -3.170             -62.613 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):    -1.657             -32.909 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case removal slack is -0.797
+    Info (332119):    -2.756             -58.979 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):    -2.516             -40.516 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+Info (332146): Worst-case removal slack is 0.553
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.797              -3.325 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     2.156               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     0.553               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     1.404               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636          -27428.026 clock 
-    Info (332119):     0.038               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     0.369               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):    -2.636          -27425.440 clock 
+    Info (332119):     0.171               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     0.298               0.000 cpu:cpu1|controller:controller1|state.DECODE 
+    Info (332119):     0.326               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
 Info: Quartus Prime Timing Analyzer was successful. 0 errors, 6 warnings
-    Info: Peak virtual memory: 1295 megabytes
-    Info: Processing ended: Sun Dec  1 11:10:54 2024
-    Info: Elapsed time: 00:00:49
+    Info: Peak virtual memory: 1298 megabytes
+    Info: Processing ended: Sun Dec  1 23:48:12 2024
+    Info: Elapsed time: 00:00:52
     Info: Total CPU time (on all processors): 00:02:16
 
 

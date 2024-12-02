@@ -77,7 +77,7 @@ inst_codes : dict[str,str] = {
     'ADDCI': '7',
     'MOV':   'D',
     'MOVI':  'D',
-    'MUL':   'E',
+    'MUL':   'C',
     'MULI':  'E',
     'SUB':   '9',
     'SUBI':  '9',
@@ -86,8 +86,8 @@ inst_codes : dict[str,str] = {
     'CMP':   'B',
     'CMPI':  'B',
 
-    'COS':   'F',
-    'SIN':   'E',
+    'COS':   'E',
+    'SIN':   'F',
 
     'SHIFT_TYPE': '8',
     'LSH':   '4',

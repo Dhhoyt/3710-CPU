@@ -7,7 +7,7 @@ module memory
 
     reg [15:0] ram[2**16-1:0];
     initial begin
-        $readmemh("C:/Users/dhhoy/3710-CPU/assembler/game.dat", ram);
+        $readmemh("/home/casey/Documents/School/ECE3710/3710-CPU/assembler/game.dat", ram);
     end
 
     // Port A
@@ -16,8 +16,7 @@ module memory
             if (write_enable_a)
                 begin
                     ram[address_a] <= write_data_a;
-                    // TODO: Why?
-                    // To make it combinational?
+                    // below is pass through logic that was in the template
                     read_data_a <= write_data_a;
                 end
             else
@@ -40,3 +39,6 @@ module memory
                 end
          end
 endmodule
+
+
+

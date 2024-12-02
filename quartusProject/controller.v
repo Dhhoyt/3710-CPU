@@ -46,6 +46,7 @@ module controller
 	 parameter OPERATION_RAYCAST = 4'b1110; //14
 
     parameter OPERATION_EXTRA_ADD = 4'b0101;
+    parameter OPERATION_EXTRA_MUL = 4'b1100;
     parameter OPERATION_EXTRA_SUB = 4'b1001;
     parameter OPERATION_EXTRA_CMP = 4'b1011;
     parameter OPERATION_EXTRA_AND = 4'b0001;
@@ -103,6 +104,7 @@ module controller
 	 parameter EXECUTE_LODW5 = 6'd34;
 	 parameter EXECUTE_DIST  = 6'd35;
 	 parameter EXECUTE_TXUV  = 6'd36;
+     parameter EXECUTE_MUL   = 6'd37;
 	 
     parameter ALU_A_PROGRAM_COUNTER = 2'b00;
     parameter ALU_A_SOURCE = 2'b01;
@@ -142,6 +144,7 @@ module controller
     parameter OR = 3'b100;
     parameter XOR = 3'b101;
     parameter SHIFT = 3'b110;
+    parameter MULTIPLY = 3'b111;
 	 
 	 parameter X1 = 3'b110;
 	 parameter Y1 = 3'b110;
@@ -186,8 +189,9 @@ module controller
                                         OPERATION_EXTRA_OR: state_next <= EXECUTE_OR;
                                         OPERATION_EXTRA_XOR: state_next <= EXECUTE_XOR;
                                         OPERATION_EXTRA_MOV: state_next <= EXECUTE_MOV;
-													 OPERATION_EXTRA_SIN: state_next <= EXECUTE_SIN;
-													 OPERATION_EXTRA_COS: state_next <= EXECUTE_COS;
+										OPERATION_EXTRA_SIN: state_next <= EXECUTE_SIN;
+										OPERATION_EXTRA_COS: state_next <= EXECUTE_COS;
+                                        OPERATION_EXTRA_MUL: state_next <= EXECUTE_MUL;
                                         default: state_next <= FETCH;
                                     endcase
                                 end
@@ -241,6 +245,7 @@ module controller
                 EXECUTE_BCOND: state_next <= FETCH;
                 EXECUTE_JCOND: state_next <= FETCH;
                 EXECUTE_JAL: state_next <= FETCH;
+                EXECUTE_MUL: state_next <= FETCH;
 					 
 					 EXECUTE_LODP: state_next <= FETCH;
 					 
@@ -333,6 +338,15 @@ module controller
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= SUBTRACT;
                         status_write_enable <= 1;
+                    end
+                EXECUTE_MUL:
+                    begin
+                        alu_a_select <= ALU_A_SOURCE;
+                        alu_b_select <= ALU_B_DESTINATION;
+                        alu_operation <= MULTIPLY;
+
+                        register_write_enable <= 1;
+                        register_write_data_select <= REGISTER_WRITE_ALU_D;
                     end
                 EXECUTE_CMP:
                     begin

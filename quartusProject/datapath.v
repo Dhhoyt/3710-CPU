@@ -223,12 +223,17 @@ module alu
     parameter OR = 3'b100;
     parameter XOR = 3'b101;
     parameter SHIFT = 3'b110;
+    parameter MULTIPLY = 3'b111;
+
 
     // For carry/borrow detection
     reg [16:0] t;
     wire [16:0] ae = {1'b0, a};
     wire [16:0] be = {1'b0, b};
     wire overflow_detect = (a[15] == b[15]) && (d[15] != a[15]);
+
+    // for mul
+    reg [31:0] mulResult;
 
     always @(*)
         begin
@@ -237,7 +242,9 @@ module alu
             flag <= 0;
             zero <= 0; 
             negative <= 0;
+            mulResult = 0; 
             t = 0;
+            
 
             case (f)
                 ADD: 
@@ -280,6 +287,11 @@ module alu
                 SHIFT:
                     begin
                         d <= a[0] ? b << 1 : b >> 1;
+                    end
+                MULTIPLY:
+                    begin
+                        mulResult = $signed(a) * $signed(b);
+                        d = mulResult[23:8];
                     end
                 default:
                     begin

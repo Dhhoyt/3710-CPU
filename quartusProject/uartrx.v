@@ -4,7 +4,7 @@
 module uartrx#(parameter BAUD_RATE=9650) (
 	input clk50Mhz,
 	input portRX,
-	output reg [7:0] data);
+	output reg [7:0] data = 86);
 
 
 	parameter CLKS_PER_BIT = 50000000 / BAUD_RATE;
