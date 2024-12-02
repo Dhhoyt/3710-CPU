@@ -39,9 +39,9 @@
 	
 	.FRAME_LOOP
 		# do the player motion before rendering 
-		#MOVW `JOYSTICK_X_ADDR %r0
-		#LOAD %r1 %r0 # load joystick delta
-		MOVI $1 %r1 # temp set angle delta to the smallest possible value, a slow rotation hopefully
+		MOVW `JOYSTICK_X_ADDR %r0
+		LOAD %r1 %r0 # load joystick delta
+		SUBI $8 %r1
 		ADD %r1 %r4 # add to player angle
 
 		#MOVW `JOYSTICK_Y_ADDR %r0 # load joystick Y delta

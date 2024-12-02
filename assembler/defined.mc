@@ -42,9 +42,10 @@ MOVI $1 %r6 # Frame buffer ID
 
 .FRAME_LOOP
 # do the player motion before rendering
-#MOVW $65533 %r0
-#LOAD %r1 %r0 # load joystick delta
-MOVI $1 %r1 # temp set angle delta to the smallest possible value, a slow rotation hopefully
+MOVI $253 %r0
+LUI $255 %r0
+LOAD %r1 %r0 # load joystick delta
+SUBI $8 %r1
 ADD %r1 %r4 # add to player angle
 
 #MOVW $65534 %r0 # load joystick Y delta

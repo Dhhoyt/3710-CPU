@@ -16,8 +16,7 @@ module memory
             if (write_enable_a)
                 begin
                     ram[address_a] <= write_data_a;
-                    // TODO: Why?
-                    // To make it combinational?
+                    // below is pass through logic that was in the template
                     read_data_a <= write_data_a;
                 end
             else
@@ -40,3 +39,6 @@ module memory
                 end
          end
 endmodule
+
+
+

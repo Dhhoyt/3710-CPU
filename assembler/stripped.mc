@@ -5,7 +5,10 @@ LUI $3 %r8
 MOVI $0 %r9 
 LUI $3 %r9 
 MOVI $1 %r6 
-MOVI $1 %r1 
+MOVI $253 %r0 
+LUI $255 %r0 
+LOAD %r1 %r0 
+SUBI $8 %r1 
 ADD %r1 %r4 
 MOVI $64 %r1 
 LUI $1 %r1 
