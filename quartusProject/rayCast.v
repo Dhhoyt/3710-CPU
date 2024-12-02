@@ -65,6 +65,6 @@ module rayCast(
 	
 	wire [15:0] unchecked_wall_distance = (unchecked_u_distance * u * 64) >> 24;
 
-	assign uv_x = intersection ? unchecked_wall_distance >> 2 : 0;
+	assign uv_x = intersection ? unchecked_wall_distance : 0;
 
 endmodule

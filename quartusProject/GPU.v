@@ -192,7 +192,7 @@ assign vga_clock = ~vga_clk_en;
 vgaContoller vga_cont(
 	.clk(clk),
 	.en(vga_clk_en),
-	.clr(clr), 
+	.clr(1'b1), 
 	.h_sync(h_sync), 
 	.v_sync(v_sync), 
 	.in_display(vga_blank), 

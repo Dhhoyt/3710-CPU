@@ -9,7 +9,7 @@ module sin_cos(
 
     initial begin
         // Include generated lookup table values here
-        $readmemh("/home/casey/Documents/School/ECE3710/3710-CPU/quartusProject/data_files/sin_lut.hex", sin_lut);
+        $readmemh("C:/Users/dhhoy/3710-CPU//quartusProject/data_files/sin_lut.hex", sin_lut);
     end
     wire [10:0] norm_angle = angle[10:0];
     wire [8:0] lut_index = angle[8:0];
