@@ -1,8 +1,5 @@
 module test4;
-    reg clock, reset;
-	 reg [15:0] switches;
-	 
-	 reg rx;
+    reg reset;
 	 
 	 // Testbench uses a 50 MHz clock
 	// Want to interface to 9600 baud UART
@@ -11,6 +8,11 @@ module test4;
 	parameter BAUD_RATE         = 9600;
 	parameter c_BIT_PERIOD      = 104166667;
 	
+	reg r_Clock = 0;
+	reg r_Tx_DV = 0;
+	wire w_Tx_Done;
+	reg r_Rx_Serial;
+
 	// Takes in input byte and serializes it 
 	task UART_WRITE_BYTE;
 		input [7:0] i_Data;
@@ -36,25 +38,37 @@ module test4;
 		 end
 	endtask // UART_WRITE_BYTE
 
-	reg r_Clock = 0;
-	reg r_Tx_DV = 0;
-	wire w_Tx_Done;
-	reg r_Rx_Serial;
-	wire [7:0] w_Rx_Byte;
+
 	 
-	 system_mapped1 sm(
-	   .clock(clock), .reset(reset),
-		.rx(rx)
-	  );
+	system_mapped1 sm(
+		.clock(r_Clock), .reset(reset),
+		.rx(r_Rx_Serial)
+	);
 	  
-    initial begin
-		 clock = 1'b0;
-       forever #1 clock = ~clock;
-    end
+    always
+		#(c_CLOCK_PERIOD_NS/2) r_Clock <= !r_Clock;
 
     initial begin
         reset = 1'b0;
-        #20;
+		r_Rx_Serial <= 1'b1;
+
+		#(c_CLOCK_PERIOD_NS * 5);
+
         reset = 1'b1;
-   end
+
+		forever begin
+			// Send a command to the UART (exercise Rx)
+			@(posedge r_Clock);
+			UART_WRITE_BYTE(8'h00);
+			@(posedge r_Clock);
+
+			#(c_CLOCK_PERIOD_NS * 100);
+			
+			@(posedge r_Clock);
+			UART_WRITE_BYTE(8'hff);
+			@(posedge r_Clock);
+
+			#(c_CLOCK_PERIOD_NS * 100);
+		end
+	end
 endmodule

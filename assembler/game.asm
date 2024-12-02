@@ -31,7 +31,7 @@
 # FUNCTION main entry point
 .FUN_MAIN
 	#init stuff
-	MOVW $$0 %r4 # player angle
+	MOVW $$3 %r4 # player angle
 	MOVW $$3 %r8 # player X
 	MOVW $$3 %r9 # player Y
 	MOVI $1  %r6 # Frame buffer ID
@@ -41,20 +41,21 @@
 		# do the player motion before rendering 
 		MOVW `JOYSTICK_X_ADDR %r0
 		LOAD %r1 %r0 # load joystick delta
-		SUBI $8 %r1
+	    SUBI $8 %r1 # 8 - %r1 , invert axis
 		ADD %r1 %r4 # add to player angle
 
-		#MOVW `JOYSTICK_Y_ADDR %r0 # load joystick Y delta
-		#LOAD %r3 %r0
-		# MOVW $$0 %r3 # temp add nothing to the player position
-		# MOV %r4 %r1 # duplicate player angle
-		# MOV %r4 %r2 # duplicate player angle
-		# COS %r1
-		# SIN %r2
-		# MUL %r3 %r1 # multiply cos and sin by the Y delta
-		# MUL %r3 %r2
-		# ADD %r1 %r8 # add the cos to X
-		# ADD %r2 %r9	# add the sin to Y
+		MOVW `JOYSTICK_Y_ADDR %r0 # load joystick Y delta
+		LOAD %r3 %r0
+		# MOVW $9 %r3 # temp small delta
+		ADDI $-8 %r3
+		MOV %r4 %r1 # duplicate player angle
+		MOV %r4 %r2 # duplicate player angle
+		COS %r1
+		SIN %r2
+		MUL %r3 %r1 # multiply cos and sin by the Y delta
+		MUL %r3 %r2
+		ADD %r1 %r8 # add the cos to X
+		ADD %r2 %r9	# add the sin to Y
 		
 		#set column angle to the left of screen
 		MOVW `FOV_HALF %r1
@@ -70,8 +71,8 @@
 			.FUN_RAY_CAST # playerX:%r8, playerY:%r9, angle:%rB
 				MOV %rB %r0
 				MOV %rB %r1
-				COS %r0 # ray_dx = cos(angle) #TODO uncomment
-				SIN %r1 # ray_dy = sin(angle)
+				SIN %r0 # ray_dx = sin(angle) #TODO uncomment
+				COS %r1 # ray_dy = cos(angle)
 				ADD %r8 %r0# move the direction vector to the player position
 				ADD %r9 %r1
 

@@ -1,5 +1,5 @@
 Timing Analyzer report for GPU
-Sun Dec  1 17:59:10 2024
+Sun Dec  1 23:48:12 2024
 Quartus Prime Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
 
 
@@ -102,14 +102,14 @@ https://fpgasoftware.intel.com/eula.
 ; Number detected on machine ; 8           ;
 ; Maximum allowed            ; 4           ;
 ;                            ;             ;
-; Average used               ; 3.16        ;
+; Average used               ; 3.22        ;
 ; Maximum used               ; 4           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;  76.5%      ;
-;     Processor 3            ;  70.6%      ;
-;     Processor 4            ;  69.0%      ;
+;     Processor 2            ;  74.8%      ;
+;     Processor 3            ;  74.4%      ;
+;     Processor 4            ;  72.9%      ;
 +----------------------------+-------------+
 
 
@@ -130,10 +130,10 @@ https://fpgasoftware.intel.com/eula.
 +------------+-----------------+--------------------------------------------------------------------------+------+
 ; Fmax       ; Restricted Fmax ; Clock Name                                                               ; Note ;
 +------------+-----------------+--------------------------------------------------------------------------+------+
-; 6.53 MHz   ; 6.53 MHz        ; clock                                                                    ;      ;
-; 87.11 MHz  ; 87.11 MHz       ; cpu:cpu1|controller:controller1|state.DECODE                             ;      ;
-; 99.68 MHz  ; 99.68 MHz       ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ;      ;
-; 112.18 MHz ; 112.18 MHz      ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ;      ;
+; 6.46 MHz   ; 6.46 MHz        ; clock                                                                    ;      ;
+; 81.47 MHz  ; 81.47 MHz       ; cpu:cpu1|controller:controller1|state.DECODE                             ;      ;
+; 102.48 MHz ; 102.48 MHz      ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ;      ;
+; 104.19 MHz ; 104.19 MHz      ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ;      ;
 +------------+-----------------+--------------------------------------------------------------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
@@ -149,10 +149,10 @@ HTML report is unavailable in plain text report export.
 +--------------------------------------------------------------------------+----------+---------------+
 ; Clock                                                                    ; Slack    ; End Point TNS ;
 +--------------------------------------------------------------------------+----------+---------------+
-; clock                                                                    ; -152.182 ; -176834.154   ;
-; cpu:cpu1|controller:controller1|state.DECODE                             ; -8.635   ; -28.954       ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -8.590   ; -197.118      ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -7.192   ; -179.269      ;
+; clock                                                                    ; -153.765 ; -160495.326   ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; -8.886   ; -29.944       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -8.268   ; -199.793      ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -7.205   ; -193.445      ;
 +--------------------------------------------------------------------------+----------+---------------+
 
 
@@ -161,10 +161,10 @@ HTML report is unavailable in plain text report export.
 +--------------------------------------------------------------------------+-------+---------------+
 ; Clock                                                                    ; Slack ; End Point TNS ;
 +--------------------------------------------------------------------------+-------+---------------+
-; clock                                                                    ; 0.339 ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.729 ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 1.786 ; 0.000         ;
-; cpu:cpu1|controller:controller1|state.DECODE                             ; 2.709 ; 0.000         ;
+; clock                                                                    ; 0.366 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.979 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 1.792 ; 0.000         ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; 3.038 ; 0.000         ;
 +--------------------------------------------------------------------------+-------+---------------+
 
 
@@ -173,8 +173,8 @@ HTML report is unavailable in plain text report export.
 +--------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                    ; Slack  ; End Point TNS ;
 +--------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -5.355 ; -98.439       ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -3.931 ; -82.492       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -5.633 ; -110.839      ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -4.913 ; -85.336       ;
 +--------------------------------------------------------------------------+--------+---------------+
 
 
@@ -183,8 +183,8 @@ HTML report is unavailable in plain text report export.
 +--------------------------------------------------------------------------+-------+---------------+
 ; Clock                                                                    ; Slack ; End Point TNS ;
 +--------------------------------------------------------------------------+-------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.854 ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 2.207 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.957 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 2.061 ; 0.000         ;
 +--------------------------------------------------------------------------+-------+---------------+
 
 
@@ -193,10 +193,10 @@ HTML report is unavailable in plain text report export.
 +--------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                    ; Slack  ; End Point TNS ;
 +--------------------------------------------------------------------------+--------+---------------+
-; clock                                                                    ; -2.636 ; -30930.517    ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.121  ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.207  ; 0.000         ;
-; cpu:cpu1|controller:controller1|state.DECODE                             ; 0.324  ; 0.000         ;
+; clock                                                                    ; -2.636 ; -30932.130    ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.013  ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.213  ; 0.000         ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; 0.221  ; 0.000         ;
 +--------------------------------------------------------------------------+--------+---------------+
 
 
@@ -211,10 +211,10 @@ No synchronizer chains to report.
 +------------+-----------------+--------------------------------------------------------------------------+------+
 ; Fmax       ; Restricted Fmax ; Clock Name                                                               ; Note ;
 +------------+-----------------+--------------------------------------------------------------------------+------+
-; 6.38 MHz   ; 6.38 MHz        ; clock                                                                    ;      ;
-; 89.99 MHz  ; 89.99 MHz       ; cpu:cpu1|controller:controller1|state.DECODE                             ;      ;
-; 102.56 MHz ; 102.56 MHz      ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ;      ;
-; 116.23 MHz ; 116.23 MHz      ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ;      ;
+; 6.31 MHz   ; 6.31 MHz        ; clock                                                                    ;      ;
+; 82.81 MHz  ; 82.81 MHz       ; cpu:cpu1|controller:controller1|state.DECODE                             ;      ;
+; 106.5 MHz  ; 106.5 MHz       ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ;      ;
+; 108.58 MHz ; 108.58 MHz      ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ;      ;
 +------------+-----------------+--------------------------------------------------------------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
@@ -224,10 +224,10 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +--------------------------------------------------------------------------+----------+---------------+
 ; Clock                                                                    ; Slack    ; End Point TNS ;
 +--------------------------------------------------------------------------+----------+---------------+
-; clock                                                                    ; -155.848 ; -173430.942   ;
-; cpu:cpu1|controller:controller1|state.DECODE                             ; -8.592   ; -29.236       ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -8.504   ; -197.006      ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -7.125   ; -179.900      ;
+; clock                                                                    ; -157.379 ; -157714.110   ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; -8.870   ; -30.282       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -8.322   ; -202.231      ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -7.223   ; -194.893      ;
 +--------------------------------------------------------------------------+----------+---------------+
 
 
@@ -236,10 +236,10 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +--------------------------------------------------------------------------+-------+---------------+
 ; Clock                                                                    ; Slack ; End Point TNS ;
 +--------------------------------------------------------------------------+-------+---------------+
-; clock                                                                    ; 0.303 ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.668 ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 1.654 ; 0.000         ;
-; cpu:cpu1|controller:controller1|state.DECODE                             ; 2.792 ; 0.000         ;
+; clock                                                                    ; 0.225 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.736 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 1.750 ; 0.000         ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; 3.154 ; 0.000         ;
 +--------------------------------------------------------------------------+-------+---------------+
 
 
@@ -248,8 +248,8 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +--------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                    ; Slack  ; End Point TNS ;
 +--------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -5.390 ; -94.903       ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -3.723 ; -77.854       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -5.716 ; -108.633      ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -4.757 ; -83.565       ;
 +--------------------------------------------------------------------------+--------+---------------+
 
 
@@ -258,8 +258,8 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +--------------------------------------------------------------------------+-------+---------------+
 ; Clock                                                                    ; Slack ; End Point TNS ;
 +--------------------------------------------------------------------------+-------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.531 ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 2.007 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.808 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 2.030 ; 0.000         ;
 +--------------------------------------------------------------------------+-------+---------------+
 
 
@@ -268,10 +268,10 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +--------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                    ; Slack  ; End Point TNS ;
 +--------------------------------------------------------------------------+--------+---------------+
-; clock                                                                    ; -2.636 ; -31167.937    ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.169  ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.185  ; 0.000         ;
-; cpu:cpu1|controller:controller1|state.DECODE                             ; 0.322  ; 0.000         ;
+; clock                                                                    ; -2.636 ; -31189.085    ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.084  ; 0.000         ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; 0.221  ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.241  ; 0.000         ;
 +--------------------------------------------------------------------------+--------+---------------+
 
 
@@ -286,10 +286,10 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+---------+---------------+
 ; Clock                                                                    ; Slack   ; End Point TNS ;
 +--------------------------------------------------------------------------+---------+---------------+
-; clock                                                                    ; -84.383 ; -106471.226   ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -5.204  ; -110.016      ;
-; cpu:cpu1|controller:controller1|state.DECODE                             ; -4.704  ; -14.154       ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -4.207  ; -91.887       ;
+; clock                                                                    ; -85.397 ; -94487.496    ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; -4.763  ; -14.396       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -4.610  ; -108.530      ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -3.857  ; -98.825       ;
 +--------------------------------------------------------------------------+---------+---------------+
 
 
@@ -298,10 +298,10 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+-------+---------------+
 ; Clock                                                                    ; Slack ; End Point TNS ;
 +--------------------------------------------------------------------------+-------+---------------+
-; clock                                                                    ; 0.180 ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.314 ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 1.188 ; 0.000         ;
-; cpu:cpu1|controller:controller1|state.DECODE                             ; 1.480 ; 0.000         ;
+; clock                                                                    ; 0.120 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.441 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.999 ; 0.000         ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; 1.516 ; 0.000         ;
 +--------------------------------------------------------------------------+-------+---------------+
 
 
@@ -310,8 +310,8 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                    ; Slack  ; End Point TNS ;
 +--------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -2.694 ; -58.212       ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -2.185 ; -45.320       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -3.227 ; -67.932       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -2.980 ; -48.423       ;
 +--------------------------------------------------------------------------+--------+---------------+
 
 
@@ -320,8 +320,8 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+-------+---------------+
 ; Clock                                                                    ; Slack ; End Point TNS ;
 +--------------------------------------------------------------------------+-------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.655 ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 1.710 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.700 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 1.540 ; 0.000         ;
 +--------------------------------------------------------------------------+-------+---------------+
 
 
@@ -330,10 +330,10 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                    ; Slack  ; End Point TNS ;
 +--------------------------------------------------------------------------+--------+---------------+
-; clock                                                                    ; -2.636 ; -27431.009    ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.119  ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.228  ; 0.000         ;
-; cpu:cpu1|controller:controller1|state.DECODE                             ; 0.334  ; 0.000         ;
+; clock                                                                    ; -2.636 ; -27414.334    ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.079  ; 0.000         ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; 0.255  ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.285  ; 0.000         ;
 +--------------------------------------------------------------------------+--------+---------------+
 
 
@@ -348,10 +348,10 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+---------+---------------+
 ; Clock                                                                    ; Slack   ; End Point TNS ;
 +--------------------------------------------------------------------------+---------+---------------+
-; clock                                                                    ; -79.785 ; -94046.685    ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -4.702  ; -102.224      ;
-; cpu:cpu1|controller:controller1|state.DECODE                             ; -4.285  ; -13.126       ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -3.737  ; -84.188       ;
+; clock                                                                    ; -80.653 ; -83587.579    ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; -4.357  ; -13.426       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -4.280  ; -102.020      ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -3.520  ; -91.042       ;
 +--------------------------------------------------------------------------+---------+---------------+
 
 
@@ -360,10 +360,10 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+-------+---------------+
 ; Clock                                                                    ; Slack ; End Point TNS ;
 +--------------------------------------------------------------------------+-------+---------------+
-; clock                                                                    ; 0.047 ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.430 ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 1.030 ; 0.000         ;
-; cpu:cpu1|controller:controller1|state.DECODE                             ; 1.484 ; 0.000         ;
+; clock                                                                    ; 0.008 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.523 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.924 ; 0.000         ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; 1.530 ; 0.000         ;
 +--------------------------------------------------------------------------+-------+---------------+
 
 
@@ -372,8 +372,8 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                    ; Slack  ; End Point TNS ;
 +--------------------------------------------------------------------------+--------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -2.491 ; -49.372       ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -1.783 ; -36.589       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -2.756 ; -58.979       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -2.516 ; -40.516       ;
 +--------------------------------------------------------------------------+--------+---------------+
 
 
@@ -382,8 +382,8 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+-------+---------------+
 ; Clock                                                                    ; Slack ; End Point TNS ;
 +--------------------------------------------------------------------------+-------+---------------+
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.442 ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 1.442 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.553 ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 1.404 ; 0.000         ;
 +--------------------------------------------------------------------------+-------+---------------+
 
 
@@ -392,10 +392,10 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+--------+---------------+
 ; Clock                                                                    ; Slack  ; End Point TNS ;
 +--------------------------------------------------------------------------+--------+---------------+
-; clock                                                                    ; -2.636 ; -27433.531    ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.204  ; 0.000         ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.272  ; 0.000         ;
-; cpu:cpu1|controller:controller1|state.DECODE                             ; 0.374  ; 0.000         ;
+; clock                                                                    ; -2.636 ; -27425.440    ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0.171  ; 0.000         ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; 0.298  ; 0.000         ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 0.326  ; 0.000         ;
 +--------------------------------------------------------------------------+--------+---------------+
 
 
@@ -410,16 +410,16 @@ No synchronizer chains to report.
 +---------------------------------------------------------------------------+-------------+-------+----------+---------+---------------------+
 ; Clock                                                                     ; Setup       ; Hold  ; Recovery ; Removal ; Minimum Pulse Width ;
 +---------------------------------------------------------------------------+-------------+-------+----------+---------+---------------------+
-; Worst-case Slack                                                          ; -155.848    ; 0.047 ; -5.390   ; 0.442   ; -2.636              ;
-;  clock                                                                    ; -155.848    ; 0.047 ; N/A      ; N/A     ; -2.636              ;
-;  cpu:cpu1|controller:controller1|state.DECODE                             ; -8.635      ; 1.480 ; N/A      ; N/A     ; 0.322               ;
-;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -8.590      ; 1.030 ; -3.931   ; 1.442   ; 0.119               ;
-;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -7.192      ; 0.314 ; -5.390   ; 0.442   ; 0.185               ;
-; Design-wide TNS                                                           ; -177239.495 ; 0.0   ; -180.931 ; 0.0     ; -31167.937          ;
-;  clock                                                                    ; -176834.154 ; 0.000 ; N/A      ; N/A     ; -31167.937          ;
-;  cpu:cpu1|controller:controller1|state.DECODE                             ; -29.236     ; 0.000 ; N/A      ; N/A     ; 0.000               ;
-;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -197.118    ; 0.000 ; -82.492  ; 0.000   ; 0.000               ;
-;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -179.900    ; 0.000 ; -98.439  ; 0.000   ; 0.000               ;
+; Worst-case Slack                                                          ; -157.379    ; 0.008 ; -5.716   ; 0.553   ; -2.636              ;
+;  clock                                                                    ; -157.379    ; 0.008 ; N/A      ; N/A     ; -2.636              ;
+;  cpu:cpu1|controller:controller1|state.DECODE                             ; -8.886      ; 1.516 ; N/A      ; N/A     ; 0.221               ;
+;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -8.322      ; 0.924 ; -4.913   ; 1.404   ; 0.013               ;
+;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -7.223      ; 0.441 ; -5.716   ; 0.553   ; 0.213               ;
+; Design-wide TNS                                                           ; -160918.508 ; 0.0   ; -196.175 ; 0.0     ; -31189.085          ;
+;  clock                                                                    ; -160495.326 ; 0.000 ; N/A      ; N/A     ; -31189.085          ;
+;  cpu:cpu1|controller:controller1|state.DECODE                             ; -30.282     ; 0.000 ; N/A      ; N/A     ; 0.000               ;
+;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; -202.231    ; 0.000 ; -85.336  ; 0.000   ; 0.000               ;
+;  cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; -194.893    ; 0.000 ; -110.839 ; 0.000   ; 0.000               ;
 +---------------------------------------------------------------------------+-------------+-------+----------+---------+---------------------+
 
 
@@ -624,22 +624,22 @@ No synchronizer chains to report.
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+--------------+----------+----------+----------+
 ; From Clock                                                               ; To Clock                                                                 ; RR Paths     ; FR Paths ; RF Paths ; FF Paths ;
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+--------------+----------+----------+----------+
-; clock                                                                    ; clock                                                                    ; > 2147483647 ; 11593    ; 588433   ; 0        ;
+; clock                                                                    ; clock                                                                    ; > 2147483647 ; 11554    ; 588433   ; 0        ;
 ; cpu:cpu1|controller:controller1|state.DECODE                             ; clock                                                                    ; 278          ; 272      ; 0        ; 0        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; clock                                                                    ; 1481         ; 1446     ; 0        ; 0        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; clock                                                                    ; 0            ; 30       ; 0        ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; clock                                                                    ; 1994         ; 1958     ; 0        ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; clock                                                                    ; 0            ; 31       ; 0        ; 0        ;
 ; clock                                                                    ; cpu:cpu1|controller:controller1|state.DECODE                             ; 21           ; 0        ; 0        ; 0        ;
 ; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|controller:controller1|state.DECODE                             ; 1            ; 1        ; 0        ; 0        ;
 ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|controller:controller1|state.DECODE                             ; 2            ; 2        ; 0        ; 0        ;
 ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|controller:controller1|state.DECODE                             ; 1            ; 1        ; 0        ; 0        ;
-; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 144          ; 0        ; 0        ; 0        ;
+; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 150          ; 0        ; 0        ; 0        ;
 ; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 1            ; 1        ; 0        ; 0        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 20           ; 20       ; 0        ; 0        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 25           ; 25       ; 0        ; 0        ;
-; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 138      ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 21           ; 21       ; 0        ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 26           ; 26       ; 0        ; 0        ;
+; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 144      ; 0        ;
 ; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 1        ; 1        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 16       ; 16       ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 25       ; 25       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 17       ; 17       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 26       ; 26       ;
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+--------------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -649,22 +649,22 @@ Entries labeled "false path" only account for clock-to-clock false paths and not
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+--------------+----------+----------+----------+
 ; From Clock                                                               ; To Clock                                                                 ; RR Paths     ; FR Paths ; RF Paths ; FF Paths ;
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+--------------+----------+----------+----------+
-; clock                                                                    ; clock                                                                    ; > 2147483647 ; 11593    ; 588433   ; 0        ;
+; clock                                                                    ; clock                                                                    ; > 2147483647 ; 11554    ; 588433   ; 0        ;
 ; cpu:cpu1|controller:controller1|state.DECODE                             ; clock                                                                    ; 278          ; 272      ; 0        ; 0        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; clock                                                                    ; 1481         ; 1446     ; 0        ; 0        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; clock                                                                    ; 0            ; 30       ; 0        ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; clock                                                                    ; 1994         ; 1958     ; 0        ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; clock                                                                    ; 0            ; 31       ; 0        ; 0        ;
 ; clock                                                                    ; cpu:cpu1|controller:controller1|state.DECODE                             ; 21           ; 0        ; 0        ; 0        ;
 ; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|controller:controller1|state.DECODE                             ; 1            ; 1        ; 0        ; 0        ;
 ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|controller:controller1|state.DECODE                             ; 2            ; 2        ; 0        ; 0        ;
 ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|controller:controller1|state.DECODE                             ; 1            ; 1        ; 0        ; 0        ;
-; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 144          ; 0        ; 0        ; 0        ;
+; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 150          ; 0        ; 0        ; 0        ;
 ; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 1            ; 1        ; 0        ; 0        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 20           ; 20       ; 0        ; 0        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 25           ; 25       ; 0        ; 0        ;
-; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 138      ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 21           ; 21       ; 0        ; 0        ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 26           ; 26       ; 0        ; 0        ;
+; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 144      ; 0        ;
 ; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 1        ; 1        ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 16       ; 16       ;
-; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 25       ; 25       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 17       ; 17       ;
+; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0            ; 0        ; 26       ; 26       ;
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+--------------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -675,9 +675,9 @@ Entries labeled "false path" only account for clock-to-clock false paths and not
 ; From Clock                                                               ; To Clock                                                                 ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+----------+----------+----------+----------+
 ; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 15       ; 0        ; 0        ; 0        ;
-; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 29       ; 29       ; 0        ; 0        ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 30       ; 30       ; 0        ; 0        ;
 ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 5        ; 5        ; 0        ; 0        ;
-; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0        ; 0        ; 24       ; 24       ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0        ; 0        ; 25       ; 25       ;
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+----------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -688,9 +688,9 @@ Entries labeled "false path" only account for clock-to-clock false paths and not
 ; From Clock                                                               ; To Clock                                                                 ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+----------+----------+----------+----------+
 ; clock                                                                    ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 15       ; 0        ; 0        ; 0        ;
-; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 29       ; 29       ; 0        ; 0        ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 30       ; 30       ; 0        ; 0        ;
 ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]  ; 5        ; 5        ; 0        ; 0        ;
-; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0        ; 0        ; 24       ; 24       ;
+; cpu:cpu1|controller:controller1|state.DECODE                             ; cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] ; 0        ; 0        ; 25       ; 25       ;
 +--------------------------------------------------------------------------+--------------------------------------------------------------------------+----------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -715,7 +715,7 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 ; Illegal Clocks                  ; 0     ; 0    ;
 ; Unconstrained Clocks            ; 0     ; 0    ;
 ; Unconstrained Input Ports       ; 2     ; 2    ;
-; Unconstrained Input Port Paths  ; 7353  ; 7353 ;
+; Unconstrained Input Port Paths  ; 7354  ; 7354 ;
 ; Unconstrained Output Ports      ; 19    ; 19   ;
 ; Unconstrained Output Port Paths ; 2639  ; 2639 ;
 +---------------------------------+-------+------+
@@ -813,13 +813,13 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 Info: *******************************************************************
 Info: Running Quartus Prime Timing Analyzer
     Info: Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
-    Info: Processing started: Sun Dec  1 17:58:14 2024
+    Info: Processing started: Sun Dec  1 23:47:20 2024
 Info: Command: quartus_sta GPU -c GPU
 Info: qsta_default_script.tcl version: #1
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info (21077): Low junction temperature is 0 degrees C
 Info (21077): High junction temperature is 85 degrees C
-Warning (335093): The Timing Analyzer is analyzing 35 combinational loops as latches. For more details, run the Check Timing command in the Timing Analyzer or view the "User-Specified and Inferred Latches" table in the Analysis & Synthesis report.
+Warning (335093): The Timing Analyzer is analyzing 36 combinational loops as latches. For more details, run the Check Timing command in the Timing Analyzer or view the "User-Specified and Inferred Latches" table in the Analysis & Synthesis report.
 Critical Warning (332012): Synopsys Design Constraints File file not found: 'GPU.sdc'. A Synopsys Design Constraints File is required by the Timing Analyzer to get proper timing constraints. Without it, the Compiler will not properly optimize the design.
 Info (332142): No user constrained base clocks found in the design. Calling "derive_clocks -period 1.0"
 Info (332105): Deriving Clocks
@@ -833,152 +833,152 @@ Info: Found TIMING_ANALYZER_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
 Info: Analyzing Slow 1100mV 85C Model
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -152.182
+Info (332146): Worst-case setup slack is -153.765
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):  -152.182         -176834.154 clock 
-    Info (332119):    -8.635             -28.954 cpu:cpu1|controller:controller1|state.DECODE 
-    Info (332119):    -8.590            -197.118 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):    -7.192            -179.269 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case hold slack is 0.339
+    Info (332119):  -153.765         -160495.326 clock 
+    Info (332119):    -8.886             -29.944 cpu:cpu1|controller:controller1|state.DECODE 
+    Info (332119):    -8.268            -199.793 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):    -7.205            -193.445 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case hold slack is 0.366
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.339               0.000 clock 
-    Info (332119):     0.729               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     1.786               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):     2.709               0.000 cpu:cpu1|controller:controller1|state.DECODE 
-Info (332146): Worst-case recovery slack is -5.355
+    Info (332119):     0.366               0.000 clock 
+    Info (332119):     0.979               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     1.792               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     3.038               0.000 cpu:cpu1|controller:controller1|state.DECODE 
+Info (332146): Worst-case recovery slack is -5.633
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -5.355             -98.439 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):    -3.931             -82.492 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-Info (332146): Worst-case removal slack is 0.854
+    Info (332119):    -5.633            -110.839 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):    -4.913             -85.336 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+Info (332146): Worst-case removal slack is 0.957
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.854               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     2.207               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     0.957               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     2.061               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636          -30930.517 clock 
-    Info (332119):     0.121               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):     0.207               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     0.324               0.000 cpu:cpu1|controller:controller1|state.DECODE 
+    Info (332119):    -2.636          -30932.130 clock 
+    Info (332119):     0.013               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     0.213               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     0.221               0.000 cpu:cpu1|controller:controller1|state.DECODE 
 Info: Analyzing Slow 1100mV 0C Model
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -155.848
+Info (332146): Worst-case setup slack is -157.379
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):  -155.848         -173430.942 clock 
-    Info (332119):    -8.592             -29.236 cpu:cpu1|controller:controller1|state.DECODE 
-    Info (332119):    -8.504            -197.006 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):    -7.125            -179.900 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case hold slack is 0.303
+    Info (332119):  -157.379         -157714.110 clock 
+    Info (332119):    -8.870             -30.282 cpu:cpu1|controller:controller1|state.DECODE 
+    Info (332119):    -8.322            -202.231 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):    -7.223            -194.893 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case hold slack is 0.225
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.303               0.000 clock 
-    Info (332119):     0.668               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     1.654               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):     2.792               0.000 cpu:cpu1|controller:controller1|state.DECODE 
-Info (332146): Worst-case recovery slack is -5.390
+    Info (332119):     0.225               0.000 clock 
+    Info (332119):     0.736               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     1.750               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     3.154               0.000 cpu:cpu1|controller:controller1|state.DECODE 
+Info (332146): Worst-case recovery slack is -5.716
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -5.390             -94.903 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):    -3.723             -77.854 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-Info (332146): Worst-case removal slack is 0.531
+    Info (332119):    -5.716            -108.633 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):    -4.757             -83.565 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+Info (332146): Worst-case removal slack is 0.808
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.531               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     2.007               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     0.808               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     2.030               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636          -31167.937 clock 
-    Info (332119):     0.169               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):     0.185               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     0.322               0.000 cpu:cpu1|controller:controller1|state.DECODE 
+    Info (332119):    -2.636          -31189.085 clock 
+    Info (332119):     0.084               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     0.221               0.000 cpu:cpu1|controller:controller1|state.DECODE 
+    Info (332119):     0.241               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
 Info: Analyzing Fast 1100mV 85C Model
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -84.383
+Info (332146): Worst-case setup slack is -85.397
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):   -84.383         -106471.226 clock 
-    Info (332119):    -5.204            -110.016 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):    -4.704             -14.154 cpu:cpu1|controller:controller1|state.DECODE 
-    Info (332119):    -4.207             -91.887 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case hold slack is 0.180
+    Info (332119):   -85.397          -94487.496 clock 
+    Info (332119):    -4.763             -14.396 cpu:cpu1|controller:controller1|state.DECODE 
+    Info (332119):    -4.610            -108.530 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):    -3.857             -98.825 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case hold slack is 0.120
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.180               0.000 clock 
-    Info (332119):     0.314               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     1.188               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):     1.480               0.000 cpu:cpu1|controller:controller1|state.DECODE 
-Info (332146): Worst-case recovery slack is -2.694
+    Info (332119):     0.120               0.000 clock 
+    Info (332119):     0.441               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     0.999               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     1.516               0.000 cpu:cpu1|controller:controller1|state.DECODE 
+Info (332146): Worst-case recovery slack is -3.227
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.694             -58.212 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):    -2.185             -45.320 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-Info (332146): Worst-case removal slack is 0.655
+    Info (332119):    -3.227             -67.932 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):    -2.980             -48.423 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+Info (332146): Worst-case removal slack is 0.700
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.655               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     1.710               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     0.700               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     1.540               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636          -27431.009 clock 
-    Info (332119):     0.119               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):     0.228               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     0.334               0.000 cpu:cpu1|controller:controller1|state.DECODE 
+    Info (332119):    -2.636          -27414.334 clock 
+    Info (332119):     0.079               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     0.255               0.000 cpu:cpu1|controller:controller1|state.DECODE 
+    Info (332119):     0.285               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
 Info: Analyzing Fast 1100mV 0C Model
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -79.785
+Info (332146): Worst-case setup slack is -80.653
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):   -79.785          -94046.685 clock 
-    Info (332119):    -4.702            -102.224 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):    -4.285             -13.126 cpu:cpu1|controller:controller1|state.DECODE 
-    Info (332119):    -3.737             -84.188 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-Info (332146): Worst-case hold slack is 0.047
+    Info (332119):   -80.653          -83587.579 clock 
+    Info (332119):    -4.357             -13.426 cpu:cpu1|controller:controller1|state.DECODE 
+    Info (332119):    -4.280            -102.020 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):    -3.520             -91.042 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+Info (332146): Worst-case hold slack is 0.008
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.047               0.000 clock 
-    Info (332119):     0.430               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     1.030               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):     1.484               0.000 cpu:cpu1|controller:controller1|state.DECODE 
-Info (332146): Worst-case recovery slack is -2.491
+    Info (332119):     0.008               0.000 clock 
+    Info (332119):     0.523               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     0.924               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     1.530               0.000 cpu:cpu1|controller:controller1|state.DECODE 
+Info (332146): Worst-case recovery slack is -2.756
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.491             -49.372 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):    -1.783             -36.589 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-Info (332146): Worst-case removal slack is 0.442
+    Info (332119):    -2.756             -58.979 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):    -2.516             -40.516 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+Info (332146): Worst-case removal slack is 0.553
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.442               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     1.442               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     0.553               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
+    Info (332119):     1.404               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636          -27433.531 clock 
-    Info (332119):     0.204               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
-    Info (332119):     0.272               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
-    Info (332119):     0.374               0.000 cpu:cpu1|controller:controller1|state.DECODE 
+    Info (332119):    -2.636          -27425.440 clock 
+    Info (332119):     0.171               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] 
+    Info (332119):     0.298               0.000 cpu:cpu1|controller:controller1|state.DECODE 
+    Info (332119):     0.326               0.000 cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] 
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
 Info: Quartus Prime Timing Analyzer was successful. 0 errors, 6 warnings
-    Info: Peak virtual memory: 1293 megabytes
-    Info: Processing ended: Sun Dec  1 17:59:10 2024
-    Info: Elapsed time: 00:00:56
-    Info: Total CPU time (on all processors): 00:02:22
+    Info: Peak virtual memory: 1298 megabytes
+    Info: Processing ended: Sun Dec  1 23:48:12 2024
+    Info: Elapsed time: 00:00:52
+    Info: Total CPU time (on all processors): 00:02:16
 
 

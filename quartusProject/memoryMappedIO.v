@@ -19,14 +19,14 @@ module memoryMappedIO
 
 
 	always @(*) begin
-		if (address_a == 65533) muxReadDataA = IODataIn[7:4];
-		else if (address_a == 65534) muxReadDataA = IODataIn[3:0];
+		if (address_a == 65533) muxReadDataA = IODataIn[3:0];
+		else if (address_a == 65534) muxReadDataA = {12'd0, IODataIn[7:4]};
 		else muxReadDataA = readDataMemoryA;
 	end
 
 	always @(*) begin
-		if (address_b == 65533) muxReadDataB = IODataIn[7:4];
-		else if (address_b == 65534) muxReadDataB = IODataIn[3:0];
+		if (address_b == 65533) muxReadDataB = IODataIn[3:0];
+		else if (address_b == 65534) muxReadDataB = {12'd0, IODataIn[7:4]};
 		else muxReadDataB = readDataMemoryB;
 	end
 
