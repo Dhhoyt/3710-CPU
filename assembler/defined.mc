@@ -26,8 +26,6 @@
 
 
 
-
-
 # FUNCTION main entry point
 .FUN_MAIN
 #init stuff
@@ -38,7 +36,6 @@ LUI $3 %r8
 MOVI $0 %r9
 LUI $3 %r9
 MOVI $1 %r6 # Frame buffer ID
-
 
 .FRAME_LOOP
 # do the player motion before rendering
@@ -51,7 +48,6 @@ ADD %r1 %r4 # add to player angle
 MOVI $254 %r0
 LUI $255 %r0
 LOAD %r3 %r0
-# MOVW $9 %r3 # temp small delta
 ADDI $-8 %r3
 MOV %r4 %r1 # duplicate player angle
 MOV %r4 %r2 # duplicate player angle
@@ -59,8 +55,45 @@ COS %r0 %r1
 SIN %r0 %r2
 MUL %r3 %r1 # multiply cos and sin by the Y delta
 MUL %r3 %r2
-ADD %r1 %r8 # add the cos to X
-ADD %r2 %r9 # add the sin to Y
+
+ADD %r8 %r1 # move direction vector to player
+ADD %r9 %r2
+
+# Set up collision check by loading player position and movement direction
+LODP %r8 %r9 # Load current player position into raycast hardware
+LODR %r1 %r2 # Load movement vector into raycast hardware
+
+# Begin collision check loop for all walls
+MOVI $0 %r0
+LUI $32 %r0
+MOVI $0 %r7 # Initialize wall counter to 0
+
+.CHECK_WALLS
+LODW %r0 # Load current wall data into raycast hardware
+BINT .COLLISION_INTERSECTION_FOUND
+BUC .COLLISION_NO_INTERSECTION_FOUND
+
+.COLLISION_INTERSECTION_FOUND
+DIST %rE # Get distance to wall in current movement direction
+MOVI $51 %rF
+LUI $0 %rF
+CMP %rF %rE # Check if closer than ~0.05 units
+BLT .NO_MOVE # If too close, skip movement update
+
+.COLLISION_NO_INTERSECTION_FOUND
+ADDI $5 %r0 # Move to next wall (walls are 5 words apart)
+ADDI $1 %r7 # Increment wall counter
+CMPI $9 %r7 # Check if we've checked all walls
+BLT .CHECK_WALLS # If more walls to check, continue loop
+
+# No collisions detected, safe to move
+MOV %r1 %r8 # Update X position with movement vector
+MOV %r2 %r9 # Update Y position with movement vector
+# BUC .CONTINUE_GAME # Continue to rendering
+
+.NO_MOVE # Collision detected - don't update position
+# Position stays the same, fall through to continue
+.CONTINUE_GAME
 
 #set column angle to the left of screen
 MOVI $64 %r1
@@ -77,7 +110,7 @@ MOVI $0 %r5 # column count = 0
 .FUN_RAY_CAST # playerX:%r8, playerY:%r9, angle:%rB
 MOV %rB %r0
 MOV %rB %r1
-SIN %r0 %r0 # ray_dx = sin(angle) #TODO uncomment
+SIN %r0 %r0 # ray_dx = sin(angle)
 COS %r0 %r1 # ray_dy = cos(angle)
 ADD %r8 %r0# move the direction vector to the player position
 ADD %r9 %r1
@@ -167,12 +200,9 @@ STOR %r1 %r0 # set the flag
 # now switch which one we write to
 XORI $1 %r6 # switch frame buffer to write to
 
-
 BUC .FRAME_LOOP
 
 .END_MAIN
-
-
 
 @ #preloaded ram values
 IMMEDIATE
@@ -221,4 +251,3 @@ $$1
 $$1
 $$1
 $0
-

@@ -2,260 +2,84 @@
 Timing Analyzer Summary
 ------------------------------------------------------------
 
-Type  : Slow 1100mV 85C Model Setup 'clock'
-Slack : -153.765
-TNS   : -160495.326
-
-Type  : Slow 1100mV 85C Model Setup 'cpu:cpu1|controller:controller1|state.DECODE'
-Slack : -8.886
-TNS   : -29.944
-
-Type  : Slow 1100mV 85C Model Setup 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : -8.268
-TNS   : -199.793
-
-Type  : Slow 1100mV 85C Model Setup 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : -7.205
-TNS   : -193.445
-
-Type  : Slow 1100mV 85C Model Hold 'clock'
-Slack : 0.366
+Type  : Slow 1100mV 85C Model Setup 'altera_reserved_tck'
+Slack : 9.636
 TNS   : 0.000
 
-Type  : Slow 1100mV 85C Model Hold 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : 0.979
+Type  : Slow 1100mV 85C Model Hold 'altera_reserved_tck'
+Slack : 0.481
 TNS   : 0.000
 
-Type  : Slow 1100mV 85C Model Hold 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : 1.792
+Type  : Slow 1100mV 85C Model Recovery 'altera_reserved_tck'
+Slack : 27.395
 TNS   : 0.000
 
-Type  : Slow 1100mV 85C Model Hold 'cpu:cpu1|controller:controller1|state.DECODE'
-Slack : 3.038
+Type  : Slow 1100mV 85C Model Removal 'altera_reserved_tck'
+Slack : 0.834
 TNS   : 0.000
 
-Type  : Slow 1100mV 85C Model Recovery 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : -5.633
-TNS   : -110.839
-
-Type  : Slow 1100mV 85C Model Recovery 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : -4.913
-TNS   : -85.336
-
-Type  : Slow 1100mV 85C Model Removal 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : 0.957
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'altera_reserved_tck'
+Slack : 15.276
 TNS   : 0.000
 
-Type  : Slow 1100mV 85C Model Removal 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : 2.061
+Type  : Slow 1100mV 0C Model Setup 'altera_reserved_tck'
+Slack : 9.744
 TNS   : 0.000
 
-Type  : Slow 1100mV 85C Model Minimum Pulse Width 'clock'
-Slack : -2.636
-TNS   : -30932.130
-
-Type  : Slow 1100mV 85C Model Minimum Pulse Width 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : 0.013
+Type  : Slow 1100mV 0C Model Hold 'altera_reserved_tck'
+Slack : 0.443
 TNS   : 0.000
 
-Type  : Slow 1100mV 85C Model Minimum Pulse Width 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : 0.213
+Type  : Slow 1100mV 0C Model Recovery 'altera_reserved_tck'
+Slack : 27.660
 TNS   : 0.000
 
-Type  : Slow 1100mV 85C Model Minimum Pulse Width 'cpu:cpu1|controller:controller1|state.DECODE'
-Slack : 0.221
+Type  : Slow 1100mV 0C Model Removal 'altera_reserved_tck'
+Slack : 0.797
 TNS   : 0.000
 
-Type  : Slow 1100mV 0C Model Setup 'clock'
-Slack : -157.379
-TNS   : -157714.110
-
-Type  : Slow 1100mV 0C Model Setup 'cpu:cpu1|controller:controller1|state.DECODE'
-Slack : -8.870
-TNS   : -30.282
-
-Type  : Slow 1100mV 0C Model Setup 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : -8.322
-TNS   : -202.231
-
-Type  : Slow 1100mV 0C Model Setup 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : -7.223
-TNS   : -194.893
-
-Type  : Slow 1100mV 0C Model Hold 'clock'
-Slack : 0.225
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'altera_reserved_tck'
+Slack : 15.295
 TNS   : 0.000
 
-Type  : Slow 1100mV 0C Model Hold 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : 0.736
+Type  : Fast 1100mV 85C Model Setup 'altera_reserved_tck'
+Slack : 12.465
 TNS   : 0.000
 
-Type  : Slow 1100mV 0C Model Hold 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : 1.750
+Type  : Fast 1100mV 85C Model Hold 'altera_reserved_tck'
+Slack : 0.178
 TNS   : 0.000
 
-Type  : Slow 1100mV 0C Model Hold 'cpu:cpu1|controller:controller1|state.DECODE'
-Slack : 3.154
+Type  : Fast 1100mV 85C Model Recovery 'altera_reserved_tck'
+Slack : 29.015
 TNS   : 0.000
 
-Type  : Slow 1100mV 0C Model Recovery 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : -5.716
-TNS   : -108.633
-
-Type  : Slow 1100mV 0C Model Recovery 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : -4.757
-TNS   : -83.565
-
-Type  : Slow 1100mV 0C Model Removal 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : 0.808
+Type  : Fast 1100mV 85C Model Removal 'altera_reserved_tck'
+Slack : 0.413
 TNS   : 0.000
 
-Type  : Slow 1100mV 0C Model Removal 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : 2.030
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'altera_reserved_tck'
+Slack : 15.041
 TNS   : 0.000
 
-Type  : Slow 1100mV 0C Model Minimum Pulse Width 'clock'
-Slack : -2.636
-TNS   : -31189.085
-
-Type  : Slow 1100mV 0C Model Minimum Pulse Width 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : 0.084
+Type  : Fast 1100mV 0C Model Setup 'altera_reserved_tck'
+Slack : 12.918
 TNS   : 0.000
 
-Type  : Slow 1100mV 0C Model Minimum Pulse Width 'cpu:cpu1|controller:controller1|state.DECODE'
-Slack : 0.221
+Type  : Fast 1100mV 0C Model Hold 'altera_reserved_tck'
+Slack : 0.170
 TNS   : 0.000
 
-Type  : Slow 1100mV 0C Model Minimum Pulse Width 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : 0.241
+Type  : Fast 1100mV 0C Model Recovery 'altera_reserved_tck'
+Slack : 29.547
 TNS   : 0.000
 
-Type  : Fast 1100mV 85C Model Setup 'clock'
-Slack : -85.397
-TNS   : -94487.496
-
-Type  : Fast 1100mV 85C Model Setup 'cpu:cpu1|controller:controller1|state.DECODE'
-Slack : -4.763
-TNS   : -14.396
-
-Type  : Fast 1100mV 85C Model Setup 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : -4.610
-TNS   : -108.530
-
-Type  : Fast 1100mV 85C Model Setup 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : -3.857
-TNS   : -98.825
-
-Type  : Fast 1100mV 85C Model Hold 'clock'
-Slack : 0.120
+Type  : Fast 1100mV 0C Model Removal 'altera_reserved_tck'
+Slack : 0.367
 TNS   : 0.000
 
-Type  : Fast 1100mV 85C Model Hold 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : 0.441
-TNS   : 0.000
-
-Type  : Fast 1100mV 85C Model Hold 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : 0.999
-TNS   : 0.000
-
-Type  : Fast 1100mV 85C Model Hold 'cpu:cpu1|controller:controller1|state.DECODE'
-Slack : 1.516
-TNS   : 0.000
-
-Type  : Fast 1100mV 85C Model Recovery 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : -3.227
-TNS   : -67.932
-
-Type  : Fast 1100mV 85C Model Recovery 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : -2.980
-TNS   : -48.423
-
-Type  : Fast 1100mV 85C Model Removal 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : 0.700
-TNS   : 0.000
-
-Type  : Fast 1100mV 85C Model Removal 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : 1.540
-TNS   : 0.000
-
-Type  : Fast 1100mV 85C Model Minimum Pulse Width 'clock'
-Slack : -2.636
-TNS   : -27414.334
-
-Type  : Fast 1100mV 85C Model Minimum Pulse Width 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : 0.079
-TNS   : 0.000
-
-Type  : Fast 1100mV 85C Model Minimum Pulse Width 'cpu:cpu1|controller:controller1|state.DECODE'
-Slack : 0.255
-TNS   : 0.000
-
-Type  : Fast 1100mV 85C Model Minimum Pulse Width 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : 0.285
-TNS   : 0.000
-
-Type  : Fast 1100mV 0C Model Setup 'clock'
-Slack : -80.653
-TNS   : -83587.579
-
-Type  : Fast 1100mV 0C Model Setup 'cpu:cpu1|controller:controller1|state.DECODE'
-Slack : -4.357
-TNS   : -13.426
-
-Type  : Fast 1100mV 0C Model Setup 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : -4.280
-TNS   : -102.020
-
-Type  : Fast 1100mV 0C Model Setup 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : -3.520
-TNS   : -91.042
-
-Type  : Fast 1100mV 0C Model Hold 'clock'
-Slack : 0.008
-TNS   : 0.000
-
-Type  : Fast 1100mV 0C Model Hold 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : 0.523
-TNS   : 0.000
-
-Type  : Fast 1100mV 0C Model Hold 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : 0.924
-TNS   : 0.000
-
-Type  : Fast 1100mV 0C Model Hold 'cpu:cpu1|controller:controller1|state.DECODE'
-Slack : 1.530
-TNS   : 0.000
-
-Type  : Fast 1100mV 0C Model Recovery 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : -2.756
-TNS   : -58.979
-
-Type  : Fast 1100mV 0C Model Recovery 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : -2.516
-TNS   : -40.516
-
-Type  : Fast 1100mV 0C Model Removal 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : 0.553
-TNS   : 0.000
-
-Type  : Fast 1100mV 0C Model Removal 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : 1.404
-TNS   : 0.000
-
-Type  : Fast 1100mV 0C Model Minimum Pulse Width 'clock'
-Slack : -2.636
-TNS   : -27425.440
-
-Type  : Fast 1100mV 0C Model Minimum Pulse Width 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]'
-Slack : 0.171
-TNS   : 0.000
-
-Type  : Fast 1100mV 0C Model Minimum Pulse Width 'cpu:cpu1|controller:controller1|state.DECODE'
-Slack : 0.298
-TNS   : 0.000
-
-Type  : Fast 1100mV 0C Model Minimum Pulse Width 'cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]'
-Slack : 0.326
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'altera_reserved_tck'
+Slack : 15.077
 TNS   : 0.000
 
 ------------------------------------------------------------

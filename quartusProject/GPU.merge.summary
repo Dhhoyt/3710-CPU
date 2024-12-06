@@ -1,0 +1,17 @@
+Partition Merge Status : Successful - Thu Dec  5 21:56:31 2024
+Quartus Prime Version : 23.1std.1 Build 993 05/14/2024 SC Lite Edition
+Revision Name : GPU
+Top-level Entity Name : system_mapped1
+Family : Cyclone V
+Logic utilization (in ALMs) : N/A
+Total registers : 14208
+Total pins : 33
+Total virtual pins : 0
+Total block memory bits : 1,113,088
+Total DSP Blocks : 22
+Total HSSI RX PCSs : 0
+Total HSSI PMA RX Deserializers : 0
+Total HSSI TX PCSs : 0
+Total HSSI PMA TX Serializers : 0
+Total PLLs : 0
+Total DLLs : 0

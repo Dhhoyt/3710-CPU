@@ -20,8 +20,27 @@ COS %r0 %r1
 SIN %r0 %r2 
 MUL %r3 %r1 
 MUL %r3 %r2 
-ADD %r1 %r8 
-ADD %r2 %r9 
+ADD %r8 %r1 
+ADD %r9 %r2 
+LODP %r8 %r9 
+LODR %r1 %r2 
+MOVI $0 %r0 
+LUI $32 %r0 
+MOVI $0 %r7 
+LODW %r0 
+BINT .COLLISION_INTERSECTION_FOUND 
+BUC .COLLISION_NO_INTERSECTION_FOUND 
+DIST %rE 
+MOVI $51 %rF 
+LUI $0 %rF 
+CMP %rF %rE 
+BLT .NO_MOVE 
+ADDI $5 %r0 
+ADDI $1 %r7 
+CMPI $9 %r7 
+BLT .CHECK_WALLS 
+MOV %r1 %r8 
+MOV %r2 %r9 
 MOVI $64 %r1 
 LUI $1 %r1 
 MOV %r4 %rB 
