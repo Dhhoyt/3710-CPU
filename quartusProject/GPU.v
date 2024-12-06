@@ -56,6 +56,8 @@ assign reading_index = (column_internal - h_front_porch_width)/2 + LOOKAHEAD_COU
 reg [15:0] active_distances[LOOKAHEAD_COUNT - 1:0];
 wire [5:0] texture_uv_ys[LOOKAHEAD_COUNT - 1:0];
 reg [5:0] texture_uv_xs[LOOKAHEAD_COUNT - 1:0];	
+reg [1:0] texture_ids[LOOKAHEAD_COUNT - 1:0];	
+
 wire inside_wall[LOOKAHEAD_COUNT - 1:0];
 wire above_wall[LOOKAHEAD_COUNT - 1:0];
 
@@ -66,6 +68,7 @@ reg active_inside_wall;
 reg active_above_wall;
 reg [5:0] active_uv_x;
 reg [5:0] active_uv_y;
+reg [1:0] active_id;
 
 gpuLookup l0(.distance(active_distances[0]), .screen_y(real_row), .above_wall(above_wall[0]), .inside_wall(inside_wall[0]), .uv_y(texture_uv_ys[0]));
 gpuLookup l1(.distance(active_distances[1]), .screen_y(real_row), .above_wall(above_wall[1]), .inside_wall(inside_wall[1]), .uv_y(texture_uv_ys[1]));
@@ -79,7 +82,7 @@ gpuLookup l7(.distance(active_distances[7]), .screen_y(real_row), .above_wall(ab
 wire [7:0] color;
 
 textureROM texture_lookup(
-	.texture_id(texture[9:8]),
+	.texture_id(active_id),
 	.x(active_uv_x),
 	.y(active_uv_y),
 	.q(color)
@@ -98,35 +101,43 @@ always @ (posedge clk) begin
 			case (state)
 				LOOKAHEAD_1: begin
 									active_distances[0] <= distance;
-									texture_uv_xs[0] = texture[5:0];
+									texture_uv_xs[0] <= texture[5:0];
+									texture_ids[0] <= texture[9:8];
 								 end
 				LOOKAHEAD_2: begin
 									active_distances[1] <= distance;
-									texture_uv_xs[1] = texture[5:0];
+									texture_uv_xs[1] <= texture[5:0];
+									texture_ids[1] <= texture[9:8];
 								 end
 				LOOKAHEAD_3: begin
 									active_distances[2] <= distance;
-									texture_uv_xs[2] = texture[5:0];
+									texture_uv_xs[2] <= texture[5:0];
+									texture_ids[2] <= texture[9:8];
 								 end
 				LOOKAHEAD_4: begin
 									active_distances[3] <= distance;
-									texture_uv_xs[3] = texture[5:0];
+									texture_uv_xs[3] <= texture[5:0];
+									texture_ids[3] <= texture[9:8];
 								 end
 				LOOKAHEAD_5: begin
 									active_distances[4] <= distance;
-									texture_uv_xs[4] = texture[5:0];
+									texture_uv_xs[4] <= texture[5:0];
+									texture_ids[4] <= texture[9:8];
 								 end
 				LOOKAHEAD_6: begin
 									active_distances[5] <= distance;
-									texture_uv_xs[5] = texture[5:0];
+									texture_uv_xs[5] <= texture[5:0];
+									texture_ids[5] <= texture[9:8];
 								 end
 				LOOKAHEAD_7: begin
 									active_distances[6] <= distance;
-									texture_uv_xs[6] = texture[5:0];
+									texture_uv_xs[6] <= texture[5:0];
+									texture_ids[6] <= texture[9:8];
 								 end
 				LOOKAHEAD_8: begin
 									active_distances[7] <= distance;
-									texture_uv_xs[7] = texture[5:0];
+									texture_uv_xs[7] <= texture[5:0];
+									texture_ids[7] <= texture[9:8];
 								 end
 			endcase
 			state <= next_state;
@@ -142,6 +153,7 @@ always @ (*) begin
 							active_above_wall = above_wall[0];
 							active_uv_y = texture_uv_ys[0];
 							active_uv_x = texture_uv_xs[0];
+							active_id = texture_ids[0];
 						 end
 		LOOKAHEAD_2: begin
 							next_state = LOOKAHEAD_3;
@@ -149,6 +161,7 @@ always @ (*) begin
 							active_above_wall = above_wall[1];
 							active_uv_y = texture_uv_ys[1];
 							active_uv_x = texture_uv_xs[1];
+							active_id = texture_ids[1];
 						 end
 		LOOKAHEAD_3: begin
 							next_state = LOOKAHEAD_4;
@@ -156,6 +169,7 @@ always @ (*) begin
 							active_above_wall = above_wall[2];
 							active_uv_y = texture_uv_ys[2];
 							active_uv_x = texture_uv_xs[2];
+							active_id = texture_ids[2];
 						 end
 		LOOKAHEAD_4: begin
 							next_state = LOOKAHEAD_5;
@@ -163,6 +177,7 @@ always @ (*) begin
 							active_above_wall = above_wall[3];
 							active_uv_y = texture_uv_ys[3];
 							active_uv_x = texture_uv_xs[3];
+							active_id = texture_ids[3];
 						 end
 		LOOKAHEAD_5: begin
 							next_state = LOOKAHEAD_6;
@@ -170,6 +185,7 @@ always @ (*) begin
 							active_above_wall = above_wall[4];
 							active_uv_y = texture_uv_ys[4];
 							active_uv_x = texture_uv_xs[4];
+							active_id = texture_ids[4];
 						 end
 		LOOKAHEAD_6: begin
 							next_state = LOOKAHEAD_7;
@@ -177,6 +193,7 @@ always @ (*) begin
 							active_above_wall = above_wall[5];
 							active_uv_y = texture_uv_ys[5];
 							active_uv_x = texture_uv_xs[5];
+							active_id = texture_ids[5];
 						 end
 		LOOKAHEAD_7: begin
 							next_state = LOOKAHEAD_8;
@@ -184,6 +201,7 @@ always @ (*) begin
 							active_above_wall = above_wall[6];
 							active_uv_y = texture_uv_ys[6];
 							active_uv_x = texture_uv_xs[6];
+							active_id = texture_ids[6];
 						 end
 		LOOKAHEAD_8: begin
 							next_state = LOOKAHEAD_1;
@@ -191,11 +209,15 @@ always @ (*) begin
 							active_above_wall = above_wall[7];
 							active_uv_y = texture_uv_ys[7];
 							active_uv_x = texture_uv_xs[7];
+							active_id = texture_ids[7];
 						 end				 
 		default: begin
 						next_state = LOOKAHEAD_1;
 						active_inside_wall = 1'b1;
+						active_above_wall = 1'b0;
 						active_uv_y = 0;
+						active_uv_x = 0;
+						active_id = 0;
 					end
 	endcase
 end
