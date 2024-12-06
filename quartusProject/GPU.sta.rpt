@@ -1,5 +1,5 @@
 Timing Analyzer report for GPU
-Thu Dec  5 20:39:34 2024
+Thu Dec  5 22:35:30 2024
 Quartus Prime Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
 
 
@@ -97,19 +97,17 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------+-------------+
 ; Processors                 ; Number      ;
 +----------------------------+-------------+
-; Number detected on machine ; 12          ;
-; Maximum allowed            ; 6           ;
+; Number detected on machine ; 8           ;
+; Maximum allowed            ; 4           ;
 ;                            ;             ;
-; Average used               ; 3.83        ;
-; Maximum used               ; 6           ;
+; Average used               ; 3.28        ;
+; Maximum used               ; 4           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;  66.4%      ;
-;     Processor 3            ;  66.3%      ;
-;     Processor 4            ;  66.3%      ;
-;     Processor 5            ;  41.7%      ;
-;     Processor 6            ;  41.7%      ;
+;     Processor 2            ;  76.4%      ;
+;     Processor 3            ;  76.1%      ;
+;     Processor 4            ;  76.0%      ;
 +----------------------------+-------------+
 
 
@@ -143,7 +141,7 @@ HTML report is unavailable in plain text report export.
 +-------+----------+------------------+
 ; Clock ; Slack    ; End Point TNS    ;
 +-------+----------+------------------+
-; clock ; -153.331 ; -181251.882      ;
+; clock ; -153.433 ; -186565.761      ;
 +-------+----------+------------------+
 
 
@@ -152,7 +150,7 @@ HTML report is unavailable in plain text report export.
 +-------+-------+--------------------+
 ; Clock ; Slack ; End Point TNS      ;
 +-------+-------+--------------------+
-; clock ; 0.375 ; 0.000              ;
+; clock ; 0.315 ; 0.000              ;
 +-------+-------+--------------------+
 
 
@@ -173,7 +171,7 @@ No paths to report.
 +-------+--------+----------------------------------+
 ; Clock ; Slack  ; End Point TNS                    ;
 +-------+--------+----------------------------------+
-; clock ; -2.636 ; -31299.133                       ;
+; clock ; -2.636 ; -31300.429                       ;
 +-------+--------+----------------------------------+
 
 
@@ -198,7 +196,7 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +-------+----------+-----------------+
 ; Clock ; Slack    ; End Point TNS   ;
 +-------+----------+-----------------+
-; clock ; -156.998 ; -178727.577     ;
+; clock ; -156.946 ; -183046.408     ;
 +-------+----------+-----------------+
 
 
@@ -207,7 +205,7 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +-------+-------+-------------------+
 ; Clock ; Slack ; End Point TNS     ;
 +-------+-------+-------------------+
-; clock ; 0.378 ; 0.000             ;
+; clock ; 0.294 ; 0.000             ;
 +-------+-------+-------------------+
 
 
@@ -228,7 +226,7 @@ No paths to report.
 +-------+--------+---------------------------------+
 ; Clock ; Slack  ; End Point TNS                   ;
 +-------+--------+---------------------------------+
-; clock ; -2.636 ; -31543.466                      ;
+; clock ; -2.636 ; -31561.676                      ;
 +-------+--------+---------------------------------+
 
 
@@ -243,7 +241,7 @@ No synchronizer chains to report.
 +-------+---------+-------------------+
 ; Clock ; Slack   ; End Point TNS     ;
 +-------+---------+-------------------+
-; clock ; -85.087 ; -105170.649       ;
+; clock ; -84.968 ; -110000.933       ;
 +-------+---------+-------------------+
 
 
@@ -252,7 +250,7 @@ No synchronizer chains to report.
 +-------+-------+--------------------+
 ; Clock ; Slack ; End Point TNS      ;
 +-------+-------+--------------------+
-; clock ; 0.182 ; 0.000              ;
+; clock ; 0.180 ; 0.000              ;
 +-------+-------+--------------------+
 
 
@@ -273,7 +271,7 @@ No paths to report.
 +-------+--------+----------------------------------+
 ; Clock ; Slack  ; End Point TNS                    ;
 +-------+--------+----------------------------------+
-; clock ; -2.636 ; -27503.044                       ;
+; clock ; -2.636 ; -27492.887                       ;
 +-------+--------+----------------------------------+
 
 
@@ -288,7 +286,7 @@ No synchronizer chains to report.
 +-------+---------+------------------+
 ; Clock ; Slack   ; End Point TNS    ;
 +-------+---------+------------------+
-; clock ; -80.424 ; -93546.727       ;
+; clock ; -80.439 ; -97455.401       ;
 +-------+---------+------------------+
 
 
@@ -297,7 +295,7 @@ No synchronizer chains to report.
 +-------+-------+-------------------+
 ; Clock ; Slack ; End Point TNS     ;
 +-------+-------+-------------------+
-; clock ; 0.172 ; 0.000             ;
+; clock ; 0.171 ; 0.000             ;
 +-------+-------+-------------------+
 
 
@@ -318,7 +316,7 @@ No paths to report.
 +-------+--------+---------------------------------+
 ; Clock ; Slack  ; End Point TNS                   ;
 +-------+--------+---------------------------------+
-; clock ; -2.636 ; -27505.639                      ;
+; clock ; -2.636 ; -27499.336                      ;
 +-------+--------+---------------------------------+
 
 
@@ -333,10 +331,10 @@ No synchronizer chains to report.
 +------------------+-------------+-------+----------+---------+---------------------+
 ; Clock            ; Setup       ; Hold  ; Recovery ; Removal ; Minimum Pulse Width ;
 +------------------+-------------+-------+----------+---------+---------------------+
-; Worst-case Slack ; -156.998    ; 0.172 ; N/A      ; N/A     ; -2.636              ;
-;  clock           ; -156.998    ; 0.172 ; N/A      ; N/A     ; -2.636              ;
-; Design-wide TNS  ; -181251.882 ; 0.0   ; 0.0      ; 0.0     ; -31543.466          ;
-;  clock           ; -181251.882 ; 0.000 ; N/A      ; N/A     ; -31543.466          ;
+; Worst-case Slack ; -156.946    ; 0.171 ; N/A      ; N/A     ; -2.636              ;
+;  clock           ; -156.946    ; 0.171 ; N/A      ; N/A     ; -2.636              ;
+; Design-wide TNS  ; -186565.761 ; 0.0   ; 0.0      ; 0.0     ; -31561.676          ;
+;  clock           ; -186565.761 ; 0.000 ; N/A      ; N/A     ; -31561.676          ;
 +------------------+-------------+-------+----------+---------+---------------------+
 
 
@@ -377,19 +375,15 @@ No synchronizer chains to report.
 +-----------+--------------+-------------------+-------------------------+-------------------------+---------------+---------------------+----------------+------------------+--------+------------------+------------------------+------------------------+--------------+---------------+-----------------+-------+---------------------+--------------------+---------------+-----------------+-------------+
 
 
-+------------------------------------------------------------------------------+
-; Input Transition Times                                                       ;
-+---------------------------+--------------+-----------------+-----------------+
-; Pin                       ; I/O Standard ; 10-90 Rise Time ; 90-10 Fall Time ;
-+---------------------------+--------------+-----------------+-----------------+
-; clock                     ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
-; reset                     ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
-; rx                        ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
-; altera_reserved_tms       ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
-; altera_reserved_tck       ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
-; altera_reserved_tdi       ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
-; auto_stp_external_clock_0 ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
-+---------------------------+--------------+-----------------+-----------------+
++----------------------------------------------------------+
+; Input Transition Times                                   ;
++-------+--------------+-----------------+-----------------+
+; Pin   ; I/O Standard ; 10-90 Rise Time ; 90-10 Fall Time ;
++-------+--------------+-----------------+-----------------+
+; clock ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; reset ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; rx    ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
++-------+--------------+-----------------+-----------------+
 
 
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -545,7 +539,7 @@ No synchronizer chains to report.
 +------------+----------+--------------+----------+----------+----------+
 ; From Clock ; To Clock ; RR Paths     ; FR Paths ; RF Paths ; FF Paths ;
 +------------+----------+--------------+----------+----------+----------+
-; clock      ; clock    ; > 2147483647 ; 12597    ; 592151   ; 0        ;
+; clock      ; clock    ; > 2147483647 ; 12623    ; 592151   ; 0        ;
 +------------+----------+--------------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -555,7 +549,7 @@ Entries labeled "false path" only account for clock-to-clock false paths and not
 +------------+----------+--------------+----------+----------+----------+
 ; From Clock ; To Clock ; RR Paths     ; FR Paths ; RF Paths ; FF Paths ;
 +------------+----------+--------------+----------+----------+----------+
-; clock      ; clock    ; > 2147483647 ; 12597    ; 592151   ; 0        ;
+; clock      ; clock    ; > 2147483647 ; 12623    ; 592151   ; 0        ;
 +------------+----------+--------------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -595,16 +589,14 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 +--------+-------+------+-------------+
 
 
-+------------------------------------------------------------------------------------------------------------+
-; Unconstrained Input Ports                                                                                  ;
-+---------------------+--------------------------------------------------------------------------------------+
-; Input Port          ; Comment                                                                              ;
-+---------------------+--------------------------------------------------------------------------------------+
-; altera_reserved_tdi ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
-; altera_reserved_tms ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
-; reset               ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
-; rx                  ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
-+---------------------+--------------------------------------------------------------------------------------+
++---------------------------------------------------------------------------------------------------+
+; Unconstrained Input Ports                                                                         ;
++------------+--------------------------------------------------------------------------------------+
+; Input Port ; Comment                                                                              ;
++------------+--------------------------------------------------------------------------------------+
+; reset      ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; rx         ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
++------------+--------------------------------------------------------------------------------------+
 
 
 +-----------------------------------------------------------------------------------------------------+
@@ -643,16 +635,14 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 +-------------+---------------------------------------------------------------------------------------+
 
 
-+------------------------------------------------------------------------------------------------------------+
-; Unconstrained Input Ports                                                                                  ;
-+---------------------+--------------------------------------------------------------------------------------+
-; Input Port          ; Comment                                                                              ;
-+---------------------+--------------------------------------------------------------------------------------+
-; altera_reserved_tdi ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
-; altera_reserved_tms ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
-; reset               ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
-; rx                  ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
-+---------------------+--------------------------------------------------------------------------------------+
++---------------------------------------------------------------------------------------------------+
+; Unconstrained Input Ports                                                                         ;
++------------+--------------------------------------------------------------------------------------+
+; Input Port ; Comment                                                                              ;
++------------+--------------------------------------------------------------------------------------+
+; reset      ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; rx         ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
++------------+--------------------------------------------------------------------------------------+
 
 
 +-----------------------------------------------------------------------------------------------------+
@@ -697,11 +687,10 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 Info: *******************************************************************
 Info: Running Quartus Prime Timing Analyzer
     Info: Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
-    Info: Processing started: Thu Dec  5 20:38:58 2024
+    Info: Processing started: Thu Dec  5 22:34:20 2024
 Info: Command: quartus_sta GPU -c GPU
 Info: qsta_default_script.tcl version: #1
-Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
-Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
+Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info (21077): Low junction temperature is 0 degrees C
 Info (21077): High junction temperature is 85 degrees C
 Critical Warning (332012): Synopsys Design Constraints File file not found: 'GPU.sdc'. A Synopsys Design Constraints File is required by the Timing Analyzer to get proper timing constraints. Without it, the Compiler will not properly optimize the design.
@@ -714,114 +703,84 @@ Info: Found TIMING_ANALYZER_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
 Info: Analyzing Slow 1100mV 85C Model
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -153.331
+Info (332146): Worst-case setup slack is -153.433
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):  -153.331         -181251.882 clock 
-Info (332146): Worst-case hold slack is 0.375
+    Info (332119):  -153.433         -186565.761 clock 
+Info (332146): Worst-case hold slack is 0.315
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.375               0.000 clock 
+    Info (332119):     0.315               0.000 clock 
 Info (332140): No Recovery paths to report
 Info (332140): No Removal paths to report
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636          -31299.133 clock 
+    Info (332119):    -2.636          -31300.429 clock 
 Info: Analyzing Slow 1100mV 0C Model
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
-Warning (332060): Node: clock was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Register GPUController:gpu|GPU:gpu|vgaContoller:vga_cont|column_internal[5] is being clocked by clock
-Warning (332060): Node: cpu:cpu1|controller:controller1|state.DECODE was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_LODW5_660 is being clocked by cpu:cpu1|controller:controller1|state.DECODE
-Warning (332060): Node: cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_JCOND_758 is being clocked by cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]
-Warning (332060): Node: cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_LODW1_706 is being clocked by cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]
-Warning (332060): Node: auto_stp_external_clock_0 was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Register sld_signaltap:auto_signaltap_0|sld_signaltap_impl:sld_signaltap_body|sld_signaltap_implb:sld_signaltap_body|altsyncram:\stp_non_zero_ram_gen:stp_buffer_ram|altsyncram_oe84:auto_generated|ram_block1a0~porta_datain_reg36 is being clocked by auto_stp_external_clock_0
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -156.998
+Info (332146): Worst-case setup slack is -156.946
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):  -156.998         -178727.577 clock 
-Info (332146): Worst-case hold slack is 0.378
+    Info (332119):  -156.946         -183046.408 clock 
+Info (332146): Worst-case hold slack is 0.294
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.378               0.000 clock 
+    Info (332119):     0.294               0.000 clock 
 Info (332140): No Recovery paths to report
 Info (332140): No Removal paths to report
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636          -31543.466 clock 
+    Info (332119):    -2.636          -31561.676 clock 
 Info: Analyzing Fast 1100mV 85C Model
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
-Warning (332060): Node: clock was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Register GPUController:gpu|GPU:gpu|vgaContoller:vga_cont|column_internal[5] is being clocked by clock
-Warning (332060): Node: cpu:cpu1|controller:controller1|state.DECODE was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_LODW5_660 is being clocked by cpu:cpu1|controller:controller1|state.DECODE
-Warning (332060): Node: cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_JCOND_758 is being clocked by cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]
-Warning (332060): Node: cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_LODW1_706 is being clocked by cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]
-Warning (332060): Node: auto_stp_external_clock_0 was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Register sld_signaltap:auto_signaltap_0|sld_signaltap_impl:sld_signaltap_body|sld_signaltap_implb:sld_signaltap_body|altsyncram:\stp_non_zero_ram_gen:stp_buffer_ram|altsyncram_oe84:auto_generated|ram_block1a0~porta_datain_reg36 is being clocked by auto_stp_external_clock_0
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -85.087
+Info (332146): Worst-case setup slack is -84.968
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):   -85.087         -105170.649 clock 
-Info (332146): Worst-case hold slack is 0.182
+    Info (332119):   -84.968         -110000.933 clock 
+Info (332146): Worst-case hold slack is 0.180
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.182               0.000 clock 
+    Info (332119):     0.180               0.000 clock 
 Info (332140): No Recovery paths to report
 Info (332140): No Removal paths to report
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636          -27503.044 clock 
+    Info (332119):    -2.636          -27492.887 clock 
 Info: Analyzing Fast 1100mV 0C Model
-Warning (332060): Node: clock was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Register GPUController:gpu|GPU:gpu|vgaContoller:vga_cont|column_internal[5] is being clocked by clock
-Warning (332060): Node: cpu:cpu1|controller:controller1|state.DECODE was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_LODW5_660 is being clocked by cpu:cpu1|controller:controller1|state.DECODE
-Warning (332060): Node: cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12] was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_JCOND_758 is being clocked by cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[12]
-Warning (332060): Node: cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4] was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Latch cpu:cpu1|controller:controller1|state_next.EXECUTE_LODW1_706 is being clocked by cpu:cpu1|datapath:datapath1|flop_enable_reset:instruction_register|q[4]
-Warning (332060): Node: auto_stp_external_clock_0 was determined to be a clock but was found without an associated clock assignment.
-    Info (13166): Register sld_signaltap:auto_signaltap_0|sld_signaltap_impl:sld_signaltap_body|sld_signaltap_implb:sld_signaltap_body|altsyncram:\stp_non_zero_ram_gen:stp_buffer_ram|altsyncram_oe84:auto_generated|ram_block1a0~porta_datain_reg36 is being clocked by auto_stp_external_clock_0
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -80.424
+Info (332146): Worst-case setup slack is -80.439
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):   -80.424          -93546.727 clock 
-Info (332146): Worst-case hold slack is 0.172
+    Info (332119):   -80.439          -97455.401 clock 
+Info (332146): Worst-case hold slack is 0.171
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.172               0.000 clock 
+    Info (332119):     0.171               0.000 clock 
 Info (332140): No Recovery paths to report
 Info (332140): No Removal paths to report
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636          -27505.639 clock 
+    Info (332119):    -2.636          -27499.336 clock 
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
-Info: Quartus Prime Timing Analyzer was successful. 0 errors, 6 warnings
-    Info: Peak virtual memory: 5705 megabytes
-    Info: Processing ended: Thu Dec  5 20:39:34 2024
-    Info: Elapsed time: 00:00:36
-    Info: Total CPU time (on all processors): 00:01:49
+Info: Quartus Prime Timing Analyzer was successful. 0 errors, 5 warnings
+    Info: Peak virtual memory: 1381 megabytes
+    Info: Processing ended: Thu Dec  5 22:35:30 2024
+    Info: Elapsed time: 00:01:10
+    Info: Total CPU time (on all processors): 00:03:05
 
 
