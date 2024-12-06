@@ -41,11 +41,11 @@ def process_image(image_path):
 
 # Example usage
 if __name__ == "__main__":
-    image_path = "brick.png"  # Replace with your image path
+    image_path = "smallFace.png"  # Replace with your image path
     result = process_image(image_path)
     big_result = ""
     for i in result:
         for j in i:
             big_result += format(j, '08b') + "\n"
-    with open("texture.dat", 'w') as file:
+    with open("paint2_texture.dat", 'w') as file:
         file.write(big_result)

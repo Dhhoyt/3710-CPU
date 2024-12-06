@@ -1,13 +1,28 @@
+/*
+ * GPU Module
+ * 
+ * This module generates VGA-compatible video output for rendering a 3D scene with walls. 
+ * It employs 8 `gpuLookup` units in a round-robin pipeline, allowing a slow lookup 
+ * process to interleave across multiple columns for efficient parallel computation. 
+ * Each pipeline stage processes distance and texture data for a column, updating 
+ * active states (`inside_wall`, `above_wall`, UV coordinates) as the VGA scanline progresses.
+ * 
+ * A `textureROM` provides sampled texture colors based on computed UV coordinates, 
+ * while VGA timing (`h_sync`, `v_sync`) and pixel colors (`red`, `green`, `blue`) are 
+ * generated to drive the display. The module synchronizes operations using `row` and 
+ * `column` signals to maintain proper rendering and output timing.
+ */
+
 module GPU(
-    input wire clk,
-    input wire clr,
+   input wire clk,
+   input wire clr,
 	input wire [15:0] distance,
 	input wire [15:0] texture,
-    output wire h_sync,
-    output wire v_sync,
-    output wire [7:0] red,
-    output wire [7:0] green,
-    output wire [7:0] blue,
+   output wire h_sync,
+   output wire v_sync,
+	output wire [7:0] red,
+   output wire [7:0] green,
+   output wire [7:0] blue,
 	output wire [8:0] reading_index, // enough to address 320 addresses
 	output wire vga_clock,
 	output wire vga_sync,
@@ -64,6 +79,7 @@ gpuLookup l7(.distance(active_distances[7]), .screen_y(real_row), .above_wall(ab
 wire [7:0] color;
 
 textureROM texture_lookup(
+	.texture_id(texture[9:8]),
 	.x(active_uv_x),
 	.y(active_uv_y),
 	.q(color)

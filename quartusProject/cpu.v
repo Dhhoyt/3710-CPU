@@ -27,7 +27,7 @@ module cpu
     wire [1:0] memory_address_select;
 	 
 	 wire raycast_write_enable;
-	 wire [2:0] raycast_write_select;
+	 wire [3:0] raycast_write_select;
 	 
 	 wire [2:0] memory_offset;
 
