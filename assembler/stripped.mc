@@ -1,9 +1,9 @@
 MOVI $0 %r4 
 LUI $3 %r4 
 MOVI $0 %r8 
-LUI $3 %r8 
+LUI $4 %r8 
 MOVI $0 %r9 
-LUI $3 %r9 
+LUI $2 %r9 
 MOVI $1 %r6 
 MOVI $253 %r0 
 LUI $255 %r0 
@@ -37,7 +37,7 @@ CMP %rF %rE
 BLT .NO_MOVE 
 ADDI $5 %r0 
 ADDI $1 %r7 
-CMPI $9 %r7 
+CMPI $52 %r7 
 BLT .CHECK_WALLS 
 MOV %r1 %r8 
 MOV %r2 %r9 
@@ -70,7 +70,7 @@ MOV %r2 %rC
 TXUV %rD 
 ADDI $5 %r0 
 ADDI $1 %r1 
-CMPI $9 %r1 
+CMPI $52 %r1 
 BLT .RAY_CAST_LOOP 
 CMPI $0 %r6 
 BNE .BUFFER_1 
