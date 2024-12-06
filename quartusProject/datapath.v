@@ -18,7 +18,7 @@ module datapath
 	  input [2:0] register_write_data_select_extra,
 	  
 	  input raycast_write_enable,
-	  input [2:0] raycast_write_select,
+	  input [3:0] raycast_write_select,
 
      input [15:0] memory_read_data,
      input [1:0] memory_address_select,
@@ -177,20 +177,20 @@ module datapath
 			.sine(sin_value),
 			.cosine(cos_value)
 	  );
-	  reg [15:0] raycast_register[7:0];
+	  reg [15:0] raycast_register[8:0];
 	  
 	  always @ (posedge clock) begin
 			if (raycast_write_enable) begin
 			   case(raycast_write_select)
-				   3'b000: begin raycast_register[0] <= destination; raycast_register[1] <= source; end
-					3'b001: begin raycast_register[0] <= destination; raycast_register[1] <= source; end
-					3'b010: begin raycast_register[2] <= destination; raycast_register[3] <= source; end
-					3'b011: begin raycast_register[2] <= destination; raycast_register[3] <= source; end
-					3'b100: raycast_register[4] <= memory_read_data;
-					3'b101: raycast_register[5] <= memory_read_data;
-					3'b110: raycast_register[6] <= memory_read_data;
-					3'b111: raycast_register[7] <= memory_read_data;
-					default: raycast_register[raycast_write_select] <= memory_read_data;
+				   4'b0000: begin raycast_register[0] <= destination; raycast_register[1] <= source; end
+					4'b0001: begin raycast_register[0] <= destination; raycast_register[1] <= source; end
+					4'b0010: begin raycast_register[2] <= destination; raycast_register[3] <= source; end
+					4'b0011: begin raycast_register[2] <= destination; raycast_register[3] <= source; end
+					4'b0100: raycast_register[4] <= memory_read_data;
+					4'b0101: raycast_register[5] <= memory_read_data;
+					4'b0110: raycast_register[6] <= memory_read_data;
+					4'b0111: raycast_register[7] <= memory_read_data;
+					4'b1000: raycast_register[8] <= memory_read_data;	
 				endcase
 			end
 	  end
@@ -200,6 +200,7 @@ module datapath
 			raycast_register[2], raycast_register[3], 
 			raycast_register[4], raycast_register[5], 
 			raycast_register[6], raycast_register[7],
+			raycast_register[8],
 			intersection,
 			distance, tuvx
 	  );

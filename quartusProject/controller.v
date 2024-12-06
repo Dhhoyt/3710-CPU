@@ -1,6 +1,5 @@
 // Controller
-//
-// TODO:
+
 module controller 
     (input clock, reset,
 
@@ -25,8 +24,8 @@ module controller
      output reg [1:0] memory_address_select,
 	  output reg [2:0] memory_offset,
 	  output reg raycast_write_enable,
-	  output reg [2:0] raycast_write_select
-     );
+	  output reg [3:0] raycast_write_select
+);
 
     parameter OPERATION_RTYPE = 4'b0000; //0
     parameter OPERATION_ANDI = 4'b0001; //1
@@ -177,6 +176,7 @@ module controller
 													OPERATION_RAYCAST_LODW: state_next <= EXECUTE_LODW1;
 													OPERATION_RAYCAST_DIST: state_next <= EXECUTE_DIST;
 													OPERATION_RAYCAST_TXUV: state_next <= EXECUTE_TXUV;
+													default: state_next <= FETCH;
                                     endcase
                                 end
                             OPERATION_RTYPE:
@@ -524,6 +524,10 @@ module controller
 						  end
 					 EXECUTE_LODW5: // Placeholder for the part of the instruction to laod multiple textures
 					     begin
+						  		raycast_write_enable <= 1;
+								raycast_write_select <= 8;
+								memory_offset <= 4;
+								memory_address_select <= MEMORY_ADDRESS_DEST;
 								program_counter_write_enable <= 0;
 						  end
 					 EXECUTE_DIST:
