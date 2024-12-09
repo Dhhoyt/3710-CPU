@@ -21,7 +21,7 @@ module memory #(parameter DATA_WIDTH=16, parameter ADDR_WIDTH=16) (
 	reg [ADDR_WIDTH-1:0] addressAReg, addressBReg;
 
 	initial begin
-		$readmemh("/home/casey/Documents/School/ECE3710/quartusProjects/CPUMemory/raminit.dat", ram);
+		$readmemh("/home/jackson/repositories/3710-CPU/quartusProjects/CPUMemory/raminit.dat", ram);
 	end
 
 	//Port A
