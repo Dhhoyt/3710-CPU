@@ -89,7 +89,7 @@ files.
 - [x] Comment `system_mapped1.v`
 - [x] Comment `utilities.v`
 - [x] Comment `rayCast.v`
-- [ ] Comment `rayCastReg.v`
+- [x] Comment `rayCastReg.v`
 - [ ] Comment `sin_cos.v`
 - [ ] Comment `sqrt.v`
 - [ ] Comment `sqrt32to16.v`
