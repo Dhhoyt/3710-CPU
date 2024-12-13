@@ -91,7 +91,7 @@ files.
 - [x] Comment `rayCast.v`
 - [x] Comment `rayCastReg.v`
 - [x] Comment `sin_cos.v`
-- [ ] Comment `sqrt.v`
+- [x] Comment `sqrt.v`
 - [ ] Comment `sqrt32to16.v`
 - [ ] Comment `GPU.v`
 - [ ] Comment `GPUController.v`
