@@ -1,103 +1,106 @@
-// https://projectf.io/posts/square-root-in-verilog/
-
-/********************************************************************************
-* Square Root Calculator
+/*******************************************************************************
+* Ray Casting Register Controller
 *
-* This module implements a digit-by-digit binary square root calculator based on 
-* subtraction and shifts. It processes 16-bit inputs 2 bits at a time using a 
-* chain of trial subtraction stages.
+* This module manages the sequential loading and storage of ray casting parameters,
+* coordinating the intersection tests between rays and walls. It acts as a register
+* file and controller for the rayCast computation module.
 *
-* Algorithm:
-* 1. Input bits are processed in pairs from MSB to LSB, using "bring down" process
-* 2. At each stage, attempts trial subtraction to determine if current bit is 1 or 0
-* 3. Upper 4 bits of result (15:12) are always 0 since sqrt(65535) < 256
-* 4. Lower 12 bits (11:0) are computed through sequential trial subtractions
-* 
-* Example for input 0001 0001 (decimal 17):
-* Stage 1: Process bits 00 -> trial number = 01 -> succeeds -> first bit is 1
-* Stage 2: Process bits 01 -> trial number = 10 -> fails -> next bit is 0  
-* Stage 3: Process bits 00 -> trial number = 01 -> succeeds -> next bit is 1
-* Stage 4: Process bits 01 -> trial number = 01 -> fails -> final bit is 0
-* Result = 0100 (decimal 4, sqrt(17)=4 remainder 1)
-********************************************************************************/
+* Operation:
+* 1. Sequentially loads ray and wall coordinates through dual input ports
+* 2. Coordinates are loaded based on control signals and enables
+* 3. Triggers ray casting computation once parameters are loaded
+* 4. Stores and formats computation results for the graphics pipeline
+*
+* Key Features:
+* - Dual input ports (A/B) for efficient coordinate loading
+* - Fixed-point Q8.8 format for positions and directions  
+* - Control signals for managing different parameter types
+* - Automated result handling for failed intersection tests
+*******************************************************************************/
 
-module sqrt(
-    input wire [15:0] x,
-    output wire [15:0] res
+module rayCastReg (
+   input wire clk,
+   input wire a_en, b_en,         // Control enables for input ports A and B
+   input wire [15:0] a,           // X coordinate inputs (Q8.8)
+   input wire [15:0] b,           // Y coordinate inputs (Q8.8)
+   input wire [2:0] control_a,    // Parameter type selector for port A
+   input wire [2:0] control_b,    // Parameter type selector for port B 
+   output reg [15:0] ray_distance, // Distance to intersection for wall scaling
+   output reg [15:0] uv_x         // Texture coordinate for wall rendering
 );
+   // Storage registers for ray casting parameters, all in Q8.8 fixed-point
+   reg signed [15:0] player_x;     // Player/camera X position 
+   reg signed [15:0] player_y;     // Player/camera Y position
+   reg signed [15:0] ray_dx;       // Ray direction vector X component
+   reg signed [15:0] ray_dy;       // Ray direction vector Y component  
+   reg signed [15:0] wall_x1;      // Current wall segment start X
+   reg signed [15:0] wall_y1;      // Current wall segment start Y
+   reg signed [15:0] wall_x2;      // Current wall segment end X
+   reg signed [15:0] wall_y2;      // Current wall segment end Y
+   
+   // Parameter loading control codes - correspond to assembly instructions
+   localparam [2:0]
+       CTRL_PLAYER_POS = 3'b000,  // LODP - Load player position
+       CTRL_RAY_DIR    = 3'b001,  // LODR - Load ray direction
+       CTRL_WALL_START = 3'b010,  // Load wall start point
+       CTRL_WALL_END   = 3'b011,  // Load wall end point  
+       CTRL_WALL_PTR   = 3'b100;  // LODW - Load wall from memory
+       
+   // Interface signals with ray casting computation module
+   wire intersection_found;        // Valid intersection detected flag
+   wire [15:0] computed_distance; // Raw intersection distance result
+   wire [7:0] computed_uv;       // Raw texture coordinate result
+   wire [31:0] t_param, u_param; // Intersection parameters for validation
 
-// Upper 4 bits are always 0 since sqrt(65535) < 256
-assign res[15:12] = 4'b0000;
+   // Ray casting computation instance
+   rayCast ray_compute (
+       .x1(player_x),    // Ray origin X
+       .y1(player_y),    // Ray origin Y
+       .x2(ray_dx),      // Ray direction X 
+       .y2(ray_dy),      // Ray direction Y
+       .x3(wall_x1),     // Wall start X
+       .y3(wall_y1),     // Wall start Y
+       .x4(wall_x2),     // Wall end X
+       .y4(wall_y2),     // Wall end Y
+       .intersection(intersection_found),
+       .ray_distance(computed_distance),
+       .t(t_param),
+       .u(u_param),
+       .uv_x(computed_uv)
+   );
 
-// Storage for intermediate remainders between stages
-wire [15:0] diff [10:0];
+   // X coordinate loading logic
+   always @(posedge clk) begin
+       if (a_en) begin
+           case (control_a)
+               CTRL_PLAYER_POS: player_x <= a;  // Load player X position
+               CTRL_RAY_DIR:    ray_dx <= a;    // Load ray direction X
+               CTRL_WALL_START: wall_x1 <= a;   // Load wall start X
+               CTRL_WALL_END:   wall_x2 <= a;   // Load wall end X
+           endcase
+       end
+   end
 
-// Chain of 12 subtraction stages to compute each result bit
-// Each stage brings down 2 new bits and attempts subtraction
-// Format: (.brought_down = new bits, .x = previous remainder, 
-//          .existing_answer = partial result so far, 
-//          .res = new remainder, .subtract = new result bit)
+   // Y coordinate loading logic  
+   always @(posedge clk) begin
+       if (b_en) begin
+           case (control_b)
+               CTRL_PLAYER_POS: player_y <= b;  // Load player Y position
+               CTRL_RAY_DIR:    ray_dy <= b;    // Load ray direction Y
+               CTRL_WALL_START: wall_y1 <= b;   // Load wall start Y
+               CTRL_WALL_END:   wall_y2 <= b;   // Load wall end Y
+           endcase
+       end
+   end
 
-attemptSqrtSubtraction ass1 (.brought_down(x[15:14]), .x(8'b0),     .existing_answer(4'b0),      .res(diff[0]),  .subtract(res[11]));
-attemptSqrtSubtraction ass2 (.brought_down(x[13:12]), .x(diff[0]),  .existing_answer(res[11:11]), .res(diff[1]),  .subtract(res[10]));
-attemptSqrtSubtraction ass3 (.brought_down(x[11:10]), .x(diff[1]),  .existing_answer(res[11:10]), .res(diff[2]),  .subtract(res[9]));
-attemptSqrtSubtraction ass4 (.brought_down(x[9:8]),   .x(diff[2]),  .existing_answer(res[11:9]),  .res(diff[3]),  .subtract(res[8]));
-attemptSqrtSubtraction ass5 (.brought_down(x[7:6]),   .x(diff[3]),  .existing_answer(res[11:8]),  .res(diff[4]),  .subtract(res[7]));
-attemptSqrtSubtraction ass6 (.brought_down(x[5:4]),   .x(diff[4]),  .existing_answer(res[11:7]),  .res(diff[5]),  .subtract(res[6]));
-attemptSqrtSubtraction ass7 (.brought_down(x[3:2]),   .x(diff[5]),  .existing_answer(res[11:6]),  .res(diff[6]),  .subtract(res[5]));
-attemptSqrtSubtraction ass8 (.brought_down(x[1:0]),   .x(diff[6]),  .existing_answer(res[11:5]),  .res(diff[7]),  .subtract(res[4]));
-attemptSqrtSubtraction ass9 (.brought_down(2'b00),    .x(diff[7]),  .existing_answer(res[11:4]),  .res(diff[8]),  .subtract(res[3]));
-attemptSqrtSubtraction ass10(.brought_down(2'b00),    .x(diff[8]),  .existing_answer(res[11:3]),  .res(diff[9]),  .subtract(res[2]));
-attemptSqrtSubtraction ass11(.brought_down(2'b00),    .x(diff[9]),  .existing_answer(res[11:2]),  .res(diff[10]), .subtract(res[1]));
-attemptSqrtSubtraction ass12(.brought_down(2'b00),    .x(diff[10]), .existing_answer(res[11:1]),  .subtract(res[0]));
-
-endmodule
-
-/********************************************************************************
-* Square Root Trial Subtraction Stage
-*
-* This module implements one stage of the digit-by-digit square root algorithm,
-* computing one bit of the final result through a trial subtraction.
-*
-* Operation per stage:
-* 1. Forms minuend by appending 2 new input bits to previous remainder
-* 2. Forms trial subtrahend by appending '01' to current partial result 
-* 3. If minuend ≥ subtrahend:
-*    - Subtraction succeeds -> result bit is 1
-*    - Remainder = difference
-* 4. If minuend < subtrahend:
-*    - Subtraction fails -> result bit is 0
-*    - Remainder = minuend (keep original value)
-*
-* Example Stage:
-* Previous remainder = 0001, Brought down bits = 01, Existing answer = 100
-* Minuend = 000101 (previous_remainder + brought_down)
-* Subtrahend = 10001 (existing_answer + '01')
-* Since 000101 < 10001, subtraction fails
-* Therefore result bit = 0, remainder = 000101
-********************************************************************************/
-
-module attemptSqrtSubtraction(
-    input wire [1:0] brought_down,    // Two new bits from input number
-    input wire [15:0] x,              // Previous remainder
-    input wire [15:0] existing_answer, // Partial result computed so far 
-    output wire [15:0] res,           // New remainder for next stage
-    output wire subtract              // New result bit (1 if subtraction succeeds)
-);
-
-// Form number to subtract from by appending new bits to previous remainder
-wire [15:0] minuend = {x, brought_down};
-
-// Form trial value by appending '01' to existing partial result 
-wire [15:0] subtrahend = {existing_answer, 2'b01};
-
-// Determine if subtraction succeeds (result bit is 1) or fails (result bit is 0)
-assign subtract = minuend >= subtrahend;
-
-// Perform the trial subtraction
-wire [15:0] difference = minuend - subtrahend;
-
-// Select remainder based on whether subtraction succeeded
-assign res = subtract ? difference : minuend;
-
+   // Result processing and output formatting
+   always @(posedge clk) begin
+       if (intersection_found) begin
+           ray_distance <= computed_distance;          // Store valid distance
+           uv_x <= {8'b0, computed_uv};              // Format texture coordinate
+       end else begin
+           ray_distance <= 16'hFFFF;                  // Max distance if no hit
+           uv_x <= 16'h0000;                         // No texture if no hit
+       end
+   end
 endmodule
