@@ -88,7 +88,7 @@ files.
 - [x] Comment `cpu.v`
 - [x] Comment `system_mapped1.v`
 - [x] Comment `utilities.v`
-- [ ] Comment `rayCast.v`
+- [x] Comment `rayCast.v`
 - [ ] Comment `rayCastReg.v`
 - [ ] Comment `sin_cos.v`
 - [ ] Comment `sqrt.v`
