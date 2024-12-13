@@ -76,6 +76,7 @@ endmodule
 * Since 000101 < 10001, subtraction fails
 * Therefore result bit = 0, remainder = 000101
 ********************************************************************************/
+
 module attemptSqrtSubtraction(
     input wire [1:0] brought_down,    // Two new bits from input number
     input wire [15:0] x,              // Previous remainder
