@@ -90,7 +90,7 @@ files.
 - [x] Comment `utilities.v`
 - [x] Comment `rayCast.v`
 - [x] Comment `rayCastReg.v`
-- [ ] Comment `sin_cos.v`
+- [x] Comment `sin_cos.v`
 - [ ] Comment `sqrt.v`
 - [ ] Comment `sqrt32to16.v`
 - [ ] Comment `GPU.v`
