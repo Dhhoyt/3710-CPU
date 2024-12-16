@@ -1,3 +1,9 @@
+/*
+Dual port RAM module. The main memory of the CPU. Essentially
+just the quartus template, we use a negative clock edge for timing.
+
+*/
+
 module memory
     (input clock,
      input [15:0] write_data_a, write_data_b,

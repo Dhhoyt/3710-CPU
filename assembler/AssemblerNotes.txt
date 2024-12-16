@@ -43,7 +43,14 @@ start ram section with
 @
 DECIMAL
 
-Then list numbers 
+or 
+
+@
+IMMEDIATE
+
+Then list numbers. 
+
+IMMEDIATE mode allows numbers as in the Immediate Values section above.
 
 example:
 @ #preloaded ram values
