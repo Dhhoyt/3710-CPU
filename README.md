@@ -78,8 +78,32 @@ Specifically, the files are organized in the following way:
   - `rightShift.v`
   
 The assembly code for the project is contained in the `assembler`
-directory. TODO: write about the assembly directory, give a listing of
-files.
+directory. 
+- `assembler.py` is the main assembler we use to
+generate machine code for the CPU. It is a modified version of the
+class provided assembler. 
+- `AssemblerNotes.txt` contains some notes documenting our added 
+features, and some notes and conventions about how the assembler is supposed to
+be used.
+- `game.asm` is the main code to run the movement and wall
+calculation algorithm.
+- `build.sh` quickly compiles the code and loads it into the
+programming files, without having to recompile the whole Quartus
+project.
+
+
+The `docs` directory contains a few reference files and diagrams.
+- `map.png` is a line drawing of the playable map.
+- `memmap_layout.txt` documents all the reserved memory locations.
+
+The `Arduino` directory Contains the arduino code for the joystick
+adapter.
+
+The `MemoryTest` directory contains the early memory checkpoint
+verilog code.
+
+
+
 
 ## TODOs
 
@@ -104,14 +128,14 @@ files.
 - [ ] Comment `MemoryTest/CPUMemory.v`
 - [ ] Comment `MemoryTest/memory.v`
 - [ ] Paste abstract from report at the top
-- [ ] Document `assembler` directory.
-- [ ] `docs` directory
+- [x] Document `assembler` directory.
+- [x] `docs` directory
   - `ALUInstructionList.txt` still relevant?
   - Move `AssemblerNotes.txt` here or mention it here
   - Prolly move `instructionList.txt` here?
   - `memmap_layout.txt` still relevant?
   - Mention `Modules.jpg` and `overall.jpg` here
-- [ ] Handle `MemoryTest/` directory 
+- [x] Handle `MemoryTest/` directory 
   - MemoryTest files should be moved to quartusProject in my opinion
 
 ## User guide
