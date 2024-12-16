@@ -120,7 +120,7 @@ verilog code.
 - [ ] Comment `GPU.v`
 - [ ] Comment `GPUController.v`
 - [x] Comment `gpuLookup.v`
-- [ ] Comment `textureROM.v`
+- [x] Comment `textureROM.v`
 - [ ] Comment `vgaContoller.v`
 - [x] Comment `uartrx.v`
 - [x] Comment `memory.v`
