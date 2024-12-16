@@ -138,7 +138,7 @@ verilog code.
 - [x] Handle `MemoryTest/` directory 
   - MemoryTest files should be moved to quartusProject in my opinion
 
-## User guide
+## User Guide
 
 # Wolfenstein-Style 2.5D Renderer User Guide
 
