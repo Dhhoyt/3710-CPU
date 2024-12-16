@@ -139,3 +139,248 @@ verilog code.
   - MemoryTest files should be moved to quartusProject in my opinion
 
 ## User guide
+
+# Wolfenstein-Style 2.5 D Renderer User Guide
+
+This guide provides comprehensive instructions on how to set up, program, and operate the custom Wolfenstein-style 3D raycasting engine on a DE1-SoC FPGA system with an Arduino-based Nunchuk controller interface. It also covers troubleshooting, performance considerations, and maintenance guidelines.
+
+## Table of Contents
+1. [Introduction](#introduction)
+2. [System Requirements](#system-requirements)
+3. [Hardware Setup](#hardware-setup)
+4. [Software Installation](#software-installation)
+5. [Project Configuration](#project-configuration)
+6. [FPGA Programming](#fpga-programming)
+7. [Operation and Controls](#operation-and-controls)
+8. [Troubleshooting](#troubleshooting)
+9. [Performance Optimization](#performance-optimization)
+10. [Advanced Features](#advanced-features)
+11. [Safety and Maintenance](#safety-and-maintenance)
+12. [Support and Contact](#support-and-contact)
+
+---
+
+## Introduction
+
+The Wolfenstein-style 3D renderer is a hardware/software co-designed project that demonstrates how early 3D rendering techniques can be implemented on a modern FPGA platform. By leveraging a custom CPU, GPU pipeline, and memory-mapped I/O interfaces, the system efficiently transforms a 2D grid of walls into a compelling first-person perspective scene in real time.
+
+**Key Features:**
+- Real-time raycasting-based 3D environment rendering
+- Texture-mapped walls for enhanced visual detail
+- Smooth double-buffered VGA output
+- Responsive joystick (Nunchuk) input for player movement and orientation
+- Extensible architecture for future enhancements
+
+---
+
+## System Requirements
+
+### Hardware Requirements
+- **DE1-SoC FPGA Development Board** (Cyclone V device recommended)
+- **USB Type-B cable** (for FPGA programming and power)
+- **VGA-compatible display** (capable of 640x480@60Hz)
+- **Arduino Uno** (or compatible microcontroller board)
+- **Wii Nunchuk controller**
+- **VGA cable** (HD-15 connector)
+
+### Software Requirements
+- **Intel Quartus Prime Lite (v23.1 or compatible)** with Cyclone V support
+- **Arduino IDE** (latest version)
+- **WiiChuck Arduino library** (installable via Arduino Library Manager)
+- **USB Blaster drivers** (for FPGA programming)
+- **Serial Monitor** (optional, for debugging Arduino outputs)
+
+---
+
+## Hardware Setup
+
+1. **FPGA Board Setup**
+   - Connect the DE1-SoC board to your PC using the USB Type-B cable.
+   - Attach a VGA cable from the DE1-SoC VGA port to your display.
+   - If powering via USB, ensure the power switch on DE1-SoC is set to USB.  
+     If using an external adapter, connect it and switch to the appropriate power setting.
+   - Turn on the DE1-SoC board; ensure power and configuration LEDs indicate normal operation.
+
+2. **Arduino and Nunchuk Setup**
+   - Connect the Arduino Uno to your PC via USB.
+   - Wire the Wii Nunchuk to the Arduino as follows:
+     ```
+     Nunchuk Pin  | Arduino Pin
+     -------------|------------
+     VCC (3.3V)   | 3.3V
+     GND          | GND
+     SDA          | A4
+     SCL          | A5
+     ```
+   - Connect Arduino’s TX pin (D1) to the specified DE1-SoC GPIO pin (refer to project documentation for exact pin assignment).
+   - Confirm all connections are secure and shielded from noise.
+
+---
+
+## Software Installation
+
+1. **Quartus Prime:**
+   - Download from the Intel website.
+   - Install with Cyclone V support and the USB Blaster drivers.
+   - Restart your PC if prompted.
+
+2. **Arduino IDE:**
+   - Download and install the latest Arduino IDE.
+   - In the Arduino IDE, open “Library Manager” and install the “WiiChuck” library.
+   - Test the Arduino environment by uploading a simple “Blink” example to ensure everything is functioning correctly.
+
+---
+
+## Project Configuration
+
+1. **FPGA Project Setup:**
+   - Launch Quartus Prime.
+   - Open the provided project file `GPU.qpf`.
+   - Go to `Assignments -> Device` and confirm:
+     - Family: Cyclone V
+     - Device: 5CSEMA5F31C6 (or your specific model)
+   - Use the `Pin Planner` or `Assignment Editor` to verify all pin assignments match your hardware setup (VGA pins, GPIO for Arduino serial input, etc.).
+
+2. **Arduino Code Upload:**
+   - Open `nunchuk_interface.ino` in the Arduino IDE.
+   - Select “Arduino Uno” as the board and choose the correct COM port.
+   - Upload the sketch. The Arduino will now continuously read Nunchuk input and send data to the FPGA via the specified TX line.
+
+---
+
+## FPGA Programming
+
+1. **Compiling the Project:**
+   - In Quartus Prime, run the following steps:
+     - Analysis & Synthesis
+     - Fitter
+     - Assembler
+     - Timing Analysis
+   - Address any errors or warnings by reviewing messages and adjusting pin assignments or constraints as needed.
+
+2. **Programming the Device:**
+   - Connect the DE1-SoC via USB Blaster (already done via the same USB cable).
+   - Open the `Programmer` tool in Quartus.
+   - Select “USB-Blaster” as the hardware.
+   - Add the `.sof` configuration file generated by the Assembler.
+   - Check “Program/Configure” and click `Start`.
+   - Wait for the “100% Successful” message.
+
+---
+
+## Operation and Controls
+
+1. **Power-On Sequence:**
+   - Ensure the VGA display is connected and powered on.
+   - Power on the DE1-SoC and wait for configuration to complete.
+   - Verify that the VGA screen shows a startup pattern or blank display awaiting frame data.
+
+2. **System Initialization:**
+   - Press `KEY0` on the DE1-SoC board to reset the system.
+   - Confirm that the Arduino is running the Nunchuk interface code and that the Nunchuk is connected.
+
+3. **Movement and Rotation Controls:**
+   - Move the Nunchuk joystick forward/backward to move the player.
+   - Move the joystick left/right to rotate the player’s viewing angle.
+   - The rendered scene should update each frame to reflect the player’s motion.
+
+4. **Reset and Configuration Keys:**
+   - `KEY0`: System reset.
+   - Other keys currently unused but reserved for future features.
+
+5. **LED Indicators:**
+   - LEDs on the DE1-SoC may display debug patterns.
+   - Specific LED patterns indicate states (e.g., frame processing, memory access). Refer to project documentation for LED pattern meanings.
+
+---
+
+## Troubleshooting
+
+1. **No Display Output:**
+   - Check VGA cable and monitor compatibility (640x480@60Hz recommended).
+   - Press `KEY0` to reset.
+   - Reprogram the FPGA if needed.
+
+2. **Controller Not Responding:**
+   - Check Arduino-to-FPGA connection.
+   - Verify Nunchuk wiring and power.
+   - Re-upload Arduino code and reset Arduino.
+
+3. **Visual Artifacts or Flickering:**
+   - Check timing constraints and VGA signal integrity.
+   - Ensure double-buffering is working; poll GPU status registers before swapping.
+   - Reset system if needed.
+
+4. **Slow Performance:**
+   - Reduce resolution or texture complexity.
+   - Ensure no warnings during compilation that might indicate timing violations.
+
+---
+
+## Performance Optimization
+
+**Resolution and Texture Settings:**  
+- Default resolution: 320x240 with one ray per column (320 rays).
+- Textures: 64x64 pixels.
+- Lowering resolution or simplifying textures can increase frame rates.
+
+**Memory Layout:**
+```
+0x0000-0x7FFF: Program/Instruction Memory
+0x8000-0x9FFF: GPU Frame Buffers
+0xA000-0xAFFF: Wall Data
+0xC000-0xCFFF: Texture ROM
+0xFFFD: Joystick Horizontal
+0xFFFE: Joystick Vertical
+0xFFFF: GPU Status Register
+```
+
+**Suggested Improvements:**
+- Add hardware FIFOs for texture lookups.
+- Consider implementing interrupts to avoid constant polling of GPU status.
+
+---
+
+## Advanced Features
+
+**Custom Texture Loading:**
+1. Prepare 64x64 8-bit texture images.
+2. Use `texture_convert.py` (if provided) to convert raw images into memory initialization files.
+3. Update the ROM initialization within Quartus.
+
+**Dynamic Lighting or Additional Objects:**
+- Future code versions can integrate lighting calculations or sprite rendering by adding instructions or peripheral mappings.
+
+**Digital Twins or AR Applications:**
+- Adapt the ray intersection logic for other real-time geometric calculations in robotics, AR, or network planning.
+
+---
+
+## Safety and Maintenance
+
+**General Precautions:**
+- Use a stable power source.
+- Ensure proper grounding and ESD protection.
+- Avoid hot-plugging VGA or joystick connections while the system is powered.
+
+**Operating Conditions:**
+- Temperature: 0°C to 85°C
+- Non-condensing humidity
+- Adequate ventilation and no exposure to moisture.
+
+**Maintenance:**
+- Periodically re-check connections (especially Arduino wires).
+- Keep firmware and Quartus projects updated.
+- Perform routine verification with known stable builds.
+
+---
+
+## Support and Contact
+
+For additional help, feature requests, or bug reports:
+- Submit an issue on the project’s GitHub repository.
+- Contact the development team by email at `devteam@example.com`.
+
+---
+
+This user guide provides a comprehensive, uniform, and detailed reference for setting up, operating, and troubleshooting the Wolfenstein-style 3D renderer system. It covers every step, from initial hardware connections to advanced customization options, ensuring a smooth and instructive user experience.
