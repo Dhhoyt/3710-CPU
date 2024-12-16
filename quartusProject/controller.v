@@ -1,5 +1,23 @@
-// Controller
-
+/*
+ Controller for a 3-stage, non-pipelined, 16-bit CR16 CPU.
+ 
+ The controller is a Moore-style finite state machine. Given the
+ current state and relevant fields from the instruction register,
+ namely the operation code and operation code extra fields, it sets a
+ collection of output control lines appropriately and determines the
+ next state. Since the state machine is Moore-style, outputs are
+ determined entirely by the current state.
+ 
+ Output control signals include:
+ 
+ - ALU: mux selectors for the `a` and `b` inputs, and an operation selector
+ - Program counter: mux selector and write enable signal
+ - Status register: write enable signal
+ - Instruction register: write enable signal
+ - Register file: write data mux selector and write enable signals
+ - Memory: address mux selector, write enable, and offset signals
+ - Ray cast accelerator: mux selector and write enable
+ */
 module controller 
     (input clock, reset,
 
@@ -17,21 +35,20 @@ module controller
      output reg instruction_write_enable,
      
      output reg register_write_enable,
-     output reg [2:0] register_write_data_select,
-	  output reg [2:0] register_write_data_select_extra,
+     output reg [3:0] register_write_data_select,
 
      output reg memory_write_enable,
      output reg [1:0] memory_address_select,
-	  output reg [2:0] memory_offset,
-	  output reg raycast_write_enable,
-	  output reg [3:0] raycast_write_select
-);
+     output reg [2:0] memory_offset,
 
+     output reg raycast_write_enable,
+     output reg [3:0] raycast_write_select
+);
+    // Operation code constants, corresponds to the OPCODE field of the instruction
     parameter OPERATION_RTYPE = 4'b0000; //0
     parameter OPERATION_ANDI = 4'b0001; //1
     parameter OPERATION_ORI = 4'b0010; //2
     parameter OPERATION_XORI = 4'b0011; //3
-    // TODO: Name
     parameter OPERATION_MEMORY = 4'b0100; //4
     parameter OPERATION_ADDI = 4'b0101; //5
     parameter OPERATION_ADDUI = 4'b0110; // Unimplemented 6
@@ -42,8 +59,9 @@ module controller
     parameter OPERATION_BCOND = 4'b1100; //12
     parameter OPERATION_MOVI = 4'b1101; //13
     parameter OPERATION_LUI = 4'b1111; //15
-	 parameter OPERATION_RAYCAST = 4'b1110; //14
-
+    parameter OPERATION_RAYCAST = 4'b1110; //14
+    
+    // Operation code extra contstants, corresponds to the OPCODE_EXTRA field of the instruction
     parameter OPERATION_EXTRA_ADD = 4'b0101;
     parameter OPERATION_EXTRA_MUL = 4'b1100;
     parameter OPERATION_EXTRA_SUB = 4'b1001;
@@ -59,15 +77,15 @@ module controller
     parameter OPERATION_EXTRA_STOR = 4'b0100;
     parameter OPERATION_EXTRA_JCOND = 4'b1100;
     parameter OPERATION_EXTRA_JAL = 4'b1000;
-	 parameter OPERATION_EXTRA_COS = 4'b1110; 
-	 parameter OPERATION_EXTRA_SIN = 4'b1111;
-	 
-	 parameter OPERATION_RAYCAST_LODP = 4'b0000;
-	 parameter OPERATION_RAYCAST_LODR = 4'b0001;
-	 parameter OPERATION_RAYCAST_LODW = 4'b0010;
-	 parameter OPERATION_RAYCAST_DIST = 4'b0011;
-	 parameter OPERATION_RAYCAST_TXUV = 4'b0100;
-
+    parameter OPERATION_EXTRA_COS = 4'b1110; 
+    parameter OPERATION_EXTRA_SIN = 4'b1111;
+    parameter OPERATION_RAYCAST_LODP = 4'b0000;
+    parameter OPERATION_RAYCAST_LODR = 4'b0001;
+    parameter OPERATION_RAYCAST_LODW = 4'b0010;
+    parameter OPERATION_RAYCAST_DIST = 4'b0011;
+    parameter OPERATION_RAYCAST_TXUV = 4'b0100;
+    
+    // State constants
     parameter FETCH         = 6'd0;
     parameter DECODE        = 6'd1;
     parameter EXECUTE_ADD   = 6'd2;
@@ -92,50 +110,54 @@ module controller
     parameter EXECUTE_BCOND = 6'd21;
     parameter EXECUTE_JCOND = 6'd22;
     parameter EXECUTE_JAL   = 6'd23;
-	 parameter EXECUTE_SIN   = 6'd24;
-	 parameter EXECUTE_COS   = 6'd25;
-	 parameter EXECUTE_LODP  = 6'd26;
-	 parameter EXECUTE_LODR  = 6'd28;
-	 parameter EXECUTE_LODW1 = 6'd30;
-	 parameter EXECUTE_LODW2 = 6'd31;
-	 parameter EXECUTE_LODW3 = 6'd32;
-	 parameter EXECUTE_LODW4 = 6'd33;
-	 parameter EXECUTE_LODW5 = 6'd34;
-	 parameter EXECUTE_DIST  = 6'd35;
-	 parameter EXECUTE_TXUV  = 6'd36;
-     parameter EXECUTE_MUL   = 6'd37;
-	 
+    parameter EXECUTE_SIN   = 6'd24;
+    parameter EXECUTE_COS   = 6'd25;
+    parameter EXECUTE_LODP  = 6'd26;
+    parameter EXECUTE_LODR  = 6'd28;
+    parameter EXECUTE_LODW1 = 6'd30;
+    parameter EXECUTE_LODW2 = 6'd31;
+    parameter EXECUTE_LODW3 = 6'd32;
+    parameter EXECUTE_LODW4 = 6'd33;
+    parameter EXECUTE_LODW5 = 6'd34;
+    parameter EXECUTE_DIST  = 6'd35;
+    parameter EXECUTE_TXUV  = 6'd36;
+    parameter EXECUTE_MUL   = 6'd37;
+    
+    // ALU `a` input selectors
     parameter ALU_A_PROGRAM_COUNTER = 2'b00;
     parameter ALU_A_SOURCE = 2'b01;
     parameter ALU_A_IMMEDIATE_SIGN_EXTENDED = 2'b10;
     parameter ALU_A_IMMEDIATE_ZERO_EXTENDED = 2'b11;
-
+    
+    // ALU `b` input selectors
     parameter ALU_B_DESTINATION = 2'b00;
     parameter ALU_B_CONSTANT_ONE = 2'b01;
     parameter ALU_B_IMMEDIATE_SIGN_EXTENDED_COND = 2'b10;
-
-    parameter REGISTER_WRITE_ALU_D = 3'b000;
-    parameter REGISTER_WRITE_SOURCE = 3'b001;
-    parameter REGISTER_WRITE_IMMEDIATE_ZERO_EXTENDED = 3'b010;
-    parameter REGISTER_WRITE_IMMEDIATE_UPPER = 3'b011;
-    parameter REGISTER_WRITE_DATA_READ_DATA = 3'b100;
-    parameter REGISTER_WRITE_PROGRAM_COUNTER_NEXT = 3'b101;
-	 parameter REGISTER_WRITE_EXTRA = 3'b111;
-	 
-	 parameter REGISTER_WRITE_EXTRA_SIN = 3'b000;
-	 parameter REGISTER_WRITE_EXTRA_COS = 3'b001;
-	 parameter REGISTER_WRITE_EXTRA_DIST = 3'b010;
-	 parameter REGISTER_WRITE_EXTRA_TXUV = 3'b011;
-
+    
+    // Register write data mux selectors
+    parameter REGISTER_WRITE_ALU_D = 3'd0;
+    parameter REGISTER_WRITE_SOURCE = 3'd1;
+    parameter REGISTER_WRITE_IMMEDIATE_ZERO_EXTENDED = 3'd2;
+    parameter REGISTER_WRITE_IMMEDIATE_UPPER = 3'd3;
+    parameter REGISTER_WRITE_DATA_READ_DATA = 3'd4;
+    parameter REGISTER_WRITE_PROGRAM_COUNTER_NEXT = 3'd5;
+    parameter REGISTER_WRITE_SIN = 3'd6;
+    parameter REGISTER_WRITE_COS = 3'd7;
+    parameter REGISTER_WRITE_DIST = 3'd8;
+    parameter REGISTER_WRITE_TXUV = 3'd9;
+    
+    // Memory address selectors
     parameter MEMORY_ADDRESS_PROGRAM_COUNTER = 2'b00;
     parameter MEMORY_ADDRESS_SOURCE = 2'b01;
-	 parameter MEMORY_ADDRESS_DEST = 2'b10;
-
+    parameter MEMORY_ADDRESS_DEST = 2'b10;
+    
+    // Program counter next selectors
     parameter PROGRAM_COUNTER_INCREMENT = 2'b00;
     parameter PROGRAM_COUNTER_ALU_D = 2'b01;
     parameter PROGRAM_COUNTER_CONDITION = 2'b10;
     parameter PROGRAM_COUNTER_SOURCE = 2'b11;
-
+    
+    // ALU operation selectors
     parameter ADD = 3'b000;
     parameter SUBTRACT = 3'b001;
     parameter COMPARE = 3'b010;
@@ -144,23 +166,14 @@ module controller
     parameter XOR = 3'b101;
     parameter SHIFT = 3'b110;
     parameter MULTIPLY = 3'b111;
-	 
-	 parameter X1 = 3'b110;
-	 parameter Y1 = 3'b110;
-	 parameter X2 = 3'b110;
-	 parameter Y2 = 3'b110;
-	 parameter X3 = 3'b110;
-	 parameter Y3 = 3'b110;
-	 parameter X4 = 3'b110;
-	 parameter Y4 = 3'b110;
 
     reg [5:0] state, state_next;
-
+    
     always @(posedge clock)
         if (~reset) state <= FETCH;
         else state <= state_next;
-
-    // TODO: Next state logic
+    
+    // Next state logic
     always @(*)
         begin
             case (state)
@@ -168,15 +181,15 @@ module controller
                 DECODE:
                     begin
                         case (instruction_operation)
-									 OPERATION_RAYCAST:
-											begin
+			    OPERATION_RAYCAST:
+				begin
                                     case (instruction_operation_extra)
-													OPERATION_RAYCAST_LODP: state_next <= EXECUTE_LODP;
-													OPERATION_RAYCAST_LODR: state_next <= EXECUTE_LODR;
-													OPERATION_RAYCAST_LODW: state_next <= EXECUTE_LODW1;
-													OPERATION_RAYCAST_DIST: state_next <= EXECUTE_DIST;
-													OPERATION_RAYCAST_TXUV: state_next <= EXECUTE_TXUV;
-													default: state_next <= FETCH;
+					OPERATION_RAYCAST_LODP: state_next <= EXECUTE_LODP;
+					OPERATION_RAYCAST_LODR: state_next <= EXECUTE_LODR;
+					OPERATION_RAYCAST_LODW: state_next <= EXECUTE_LODW1;
+					OPERATION_RAYCAST_DIST: state_next <= EXECUTE_DIST;
+					OPERATION_RAYCAST_TXUV: state_next <= EXECUTE_TXUV;
+					default: state_next <= FETCH;
                                     endcase
                                 end
                             OPERATION_RTYPE:
@@ -189,8 +202,8 @@ module controller
                                         OPERATION_EXTRA_OR: state_next <= EXECUTE_OR;
                                         OPERATION_EXTRA_XOR: state_next <= EXECUTE_XOR;
                                         OPERATION_EXTRA_MOV: state_next <= EXECUTE_MOV;
-										OPERATION_EXTRA_SIN: state_next <= EXECUTE_SIN;
-										OPERATION_EXTRA_COS: state_next <= EXECUTE_COS;
+					OPERATION_EXTRA_SIN: state_next <= EXECUTE_SIN;
+					OPERATION_EXTRA_COS: state_next <= EXECUTE_COS;
                                         OPERATION_EXTRA_MUL: state_next <= EXECUTE_MUL;
                                         default: state_next <= FETCH;
                                     endcase
@@ -246,53 +259,49 @@ module controller
                 EXECUTE_JCOND: state_next <= FETCH;
                 EXECUTE_JAL: state_next <= FETCH;
                 EXECUTE_MUL: state_next <= FETCH;
-					 
-					 EXECUTE_LODP: state_next <= FETCH;
-					 
-					 EXECUTE_LODR: state_next <= FETCH;
-					 EXECUTE_DIST: state_next <= FETCH;
-					 EXECUTE_TXUV: state_next <= FETCH;
-					 
-					 EXECUTE_LODW1: state_next <= EXECUTE_LODW2;
-					 EXECUTE_LODW2: state_next <= EXECUTE_LODW3;
-					 EXECUTE_LODW3: state_next <= EXECUTE_LODW4;
-					 EXECUTE_LODW4: state_next <= EXECUTE_LODW5;
-					 EXECUTE_LODW5: state_next <= FETCH;
-					 
+		EXECUTE_LODP: state_next <= FETCH;
+		EXECUTE_LODR: state_next <= FETCH;
+		EXECUTE_DIST: state_next <= FETCH;
+		EXECUTE_TXUV: state_next <= FETCH;
+		EXECUTE_LODW1: state_next <= EXECUTE_LODW2;
+		EXECUTE_LODW2: state_next <= EXECUTE_LODW3;
+		EXECUTE_LODW3: state_next <= EXECUTE_LODW4;
+		EXECUTE_LODW4: state_next <= EXECUTE_LODW5;
+		EXECUTE_LODW5: state_next <= FETCH;
                 default: state_next <= FETCH;
             endcase
         end
-
-    // TODO: Output combinational logic
+    
     always @(*)
         begin
+            // Set defaults here so we don't have to set every signal
+            // explicitly in each state
+
             alu_a_select <= 0;
             alu_b_select <= 0;
             alu_operation <= 0;
-
+            
             // Because most of these are execute stages (where we
             // write to the program counter), you have to set when to
             // /not/ write to the program counter
             program_counter_write_enable <= 1;
             program_counter_select <= PROGRAM_COUNTER_INCREMENT;
-
+            
             status_write_enable <= 0;
-
+            
             instruction_write_enable <= 0;
-
+            
             register_write_enable <= 0;
             register_write_data_select <= REGISTER_WRITE_ALU_D;
-				register_write_data_select_extra <= REGISTER_WRITE_EXTRA_SIN;
-
+            
             memory_write_enable <= 0;
             memory_address_select <= MEMORY_ADDRESS_PROGRAM_COUNTER;
-				
-				memory_offset <= 0;
-				
-				raycast_write_enable <= 1'b0;
-				raycast_write_select <= 3'b000;
-
-
+	    
+	    memory_offset <= 0;
+	    
+	    raycast_write_enable <= 1'b0;
+	    raycast_write_select <= 3'b000;
+            
             case (state)
                 FETCH:
                     begin
@@ -308,7 +317,7 @@ module controller
                         alu_a_select <= ALU_A_SOURCE;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= ADD;
-
+                        
                         register_write_enable <= 1;
                         register_write_data_select <= REGISTER_WRITE_ALU_D;
                         status_write_enable <= 1;
@@ -318,7 +327,7 @@ module controller
                         alu_a_select <= ALU_A_IMMEDIATE_SIGN_EXTENDED;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= ADD;
-
+                        
                         register_write_enable <= 1;
                         register_write_data_select <= REGISTER_WRITE_ALU_D;
                         status_write_enable <= 1;
@@ -328,12 +337,12 @@ module controller
                         alu_a_select <= ALU_A_SOURCE;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= SUBTRACT;
-								register_write_enable <= 1;
+			register_write_enable <= 1;
                         status_write_enable <= 1;
                     end
                 EXECUTE_SUBI:
                     begin
-								register_write_enable <= 1;
+			register_write_enable <= 1;
                         alu_a_select <= ALU_A_IMMEDIATE_SIGN_EXTENDED;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= SUBTRACT;
@@ -344,7 +353,7 @@ module controller
                         alu_a_select <= ALU_A_SOURCE;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= MULTIPLY;
-
+                        
                         register_write_enable <= 1;
                         register_write_data_select <= REGISTER_WRITE_ALU_D;
                     end
@@ -364,43 +373,43 @@ module controller
                     end
                 EXECUTE_AND:
                     begin
-								register_write_enable <= 1;
+			register_write_enable <= 1;
                         alu_a_select <= ALU_A_SOURCE;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= AND;
                     end
                 EXECUTE_ANDI:
                     begin
-								register_write_enable <= 1;
+			register_write_enable <= 1;
                         alu_a_select <= ALU_A_IMMEDIATE_ZERO_EXTENDED;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= AND;
                     end
                 EXECUTE_OR:
                     begin
-								register_write_enable <= 1;
+			register_write_enable <= 1;
                         alu_a_select <= ALU_A_SOURCE;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= OR;
                     end
                 EXECUTE_ORI:
                     begin
-								register_write_enable <= 1;
+			register_write_enable <= 1;
                         alu_a_select <= ALU_A_IMMEDIATE_ZERO_EXTENDED;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= OR;
                     end
                 EXECUTE_XOR:
                     begin
-								register_write_enable <= 1;
+			register_write_enable <= 1;
                         alu_a_select <= ALU_A_SOURCE;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= XOR;
                     end
                 EXECUTE_XORI:
                     begin
-						      register_write_enable <= 1;
-
+			register_write_enable <= 1;
+                        
                         alu_a_select <= ALU_A_IMMEDIATE_ZERO_EXTENDED;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= XOR;
@@ -417,17 +426,15 @@ module controller
                     end
                 EXECUTE_LSH:
                     begin
-                        // TODO: Modify to only accept lower 4 bits?
-                        // See comment in LSH spec
-								register_write_enable <= 1;
-
+			register_write_enable <= 1;
+                        
                         alu_a_select <= ALU_A_SOURCE;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= SHIFT;
                     end
                 EXECUTE_LSHI:
                     begin
-						      register_write_enable <= 1;
+			register_write_enable <= 1;
                         alu_a_select <= ALU_A_IMMEDIATE_ZERO_EXTENDED;
                         alu_b_select <= ALU_B_DESTINATION;
                         alu_operation <= SHIFT;
@@ -440,9 +447,9 @@ module controller
                 EXECUTE_LOAD:
                     begin
                         memory_address_select <= MEMORY_ADDRESS_SOURCE;
-								register_write_data_select <= REGISTER_WRITE_DATA_READ_DATA;
-								register_write_enable <= 1;
-
+			register_write_data_select <= REGISTER_WRITE_DATA_READ_DATA;
+			register_write_enable <= 1;
+                        
                     end
                 EXECUTE_STOR:
                     begin
@@ -463,84 +470,80 @@ module controller
                 EXECUTE_JAL:
                     begin
                         program_counter_select <= PROGRAM_COUNTER_SOURCE;
-
+                        
                         register_write_enable <= 1;
                         register_write_data_select <= REGISTER_WRITE_PROGRAM_COUNTER_NEXT;
                     end
-				    EXECUTE_SIN:
+		EXECUTE_SIN:
                     begin
-								register_write_enable <= 1;
-								register_write_data_select <= REGISTER_WRITE_EXTRA;
-								register_write_data_select_extra <= REGISTER_WRITE_EXTRA_SIN;
-
+			register_write_enable <= 1;
+			register_write_data_select <= REGISTER_WRITE_SIN;
+                        
                     end
-					 EXECUTE_COS:
+		EXECUTE_COS:
                     begin
-								register_write_enable <= 1;
-								register_write_data_select <= REGISTER_WRITE_EXTRA;
-								register_write_data_select_extra <= REGISTER_WRITE_EXTRA_COS;
-
+			register_write_enable <= 1;
+			register_write_data_select <= REGISTER_WRITE_COS;
+                        
                     end
-					 EXECUTE_LODP:
-					     begin
-						      raycast_write_enable <= 1;
-								raycast_write_select <= 0;
-						  end
-					 EXECUTE_LODR:
-					     begin
-						      raycast_write_enable <= 1;
-								raycast_write_select <= 2;
-						  end
-					 EXECUTE_LODW1:
-					     begin
-								raycast_write_enable <= 1;
-								raycast_write_select <= 4;
-								memory_offset <= 0;
-								memory_address_select <= MEMORY_ADDRESS_DEST;
-						  end
-					 EXECUTE_LODW2:
-					     begin
-								raycast_write_enable <= 1;
-								raycast_write_select <= 5;
-								memory_offset <= 1;
-								memory_address_select <= MEMORY_ADDRESS_DEST;
-								program_counter_write_enable <= 0;
-						  end
-				    EXECUTE_LODW3:
-					     begin
-								raycast_write_enable <= 1;
-								raycast_write_select <= 6;
-								memory_offset <= 2;
-								memory_address_select <= MEMORY_ADDRESS_DEST;
-								program_counter_write_enable <= 0;
-						  end
-					 EXECUTE_LODW4:
-					     begin
-								raycast_write_enable <= 1;
-								raycast_write_select <= 7;
-								memory_offset <= 3;
-								memory_address_select <= MEMORY_ADDRESS_DEST;
-								program_counter_write_enable <= 0;
-						  end
-					 EXECUTE_LODW5: // Placeholder for the part of the instruction to laod multiple textures
-					     begin
-						  		raycast_write_enable <= 1;
-								raycast_write_select <= 8;
-								memory_offset <= 4;
-								memory_address_select <= MEMORY_ADDRESS_DEST;
-								program_counter_write_enable <= 0;
-						  end
-					 EXECUTE_DIST:
+		EXECUTE_LODP:
+		    begin
+			raycast_write_enable <= 1;
+			raycast_write_select <= 0;
+		    end
+		EXECUTE_LODR:
+		    begin
+			raycast_write_enable <= 1;
+			raycast_write_select <= 2;
+		    end
+		EXECUTE_LODW1:
+		    begin
+			raycast_write_enable <= 1;
+			raycast_write_select <= 4;
+			memory_offset <= 0;
+			memory_address_select <= MEMORY_ADDRESS_DEST;
+		    end
+		EXECUTE_LODW2:
+		    begin
+			raycast_write_enable <= 1;
+			raycast_write_select <= 5;
+			memory_offset <= 1;
+			memory_address_select <= MEMORY_ADDRESS_DEST;
+			program_counter_write_enable <= 0;
+		    end
+		EXECUTE_LODW3:
+		    begin
+			raycast_write_enable <= 1;
+			raycast_write_select <= 6;
+			memory_offset <= 2;
+			memory_address_select <= MEMORY_ADDRESS_DEST;
+			program_counter_write_enable <= 0;
+		    end
+		EXECUTE_LODW4:
+		    begin
+			raycast_write_enable <= 1;
+			raycast_write_select <= 7;
+			memory_offset <= 3;
+			memory_address_select <= MEMORY_ADDRESS_DEST;
+			program_counter_write_enable <= 0;
+		    end
+		EXECUTE_LODW5:
+		    begin
+			raycast_write_enable <= 1;
+			raycast_write_select <= 8;
+			memory_offset <= 4;
+			memory_address_select <= MEMORY_ADDRESS_DEST;
+			program_counter_write_enable <= 0;
+		    end
+		EXECUTE_DIST:
                     begin
-								register_write_enable <= 1;
-								register_write_data_select <= REGISTER_WRITE_EXTRA;
-								register_write_data_select_extra <= REGISTER_WRITE_EXTRA_DIST;
+			register_write_enable <= 1;
+			register_write_data_select <= REGISTER_WRITE_DIST;
                     end
-					 EXECUTE_TXUV:
+		EXECUTE_TXUV:
                     begin
-								register_write_enable <= 1;
-								register_write_data_select <= REGISTER_WRITE_EXTRA;
-								register_write_data_select_extra <= REGISTER_WRITE_EXTRA_TXUV;
+			register_write_enable <= 1;
+			register_write_data_select <= REGISTER_WRITE_TXUV;
                     end
             endcase
         end

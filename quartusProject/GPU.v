@@ -1,17 +1,72 @@
-/*
- * GPU Module
- * 
- * This module generates VGA-compatible video output for rendering a 3D scene with walls. 
- * It employs 8 `gpuLookup` units in a round-robin pipeline, allowing a slow lookup 
- * process to interleave across multiple columns for efficient parallel computation. 
- * Each pipeline stage processes distance and texture data for a column, updating 
- * active states (`inside_wall`, `above_wall`, UV coordinates) as the VGA scanline progresses.
- * 
- * A `textureROM` provides sampled texture colors based on computed UV coordinates, 
- * while VGA timing (`h_sync`, `v_sync`) and pixel colors (`red`, `green`, `blue`) are 
- * generated to drive the display. The module synchronizes operations using `row` and 
- * `column` signals to maintain proper rendering and output timing.
- */
+/********************************************************************************
+* GPU Module - 3D Graphics Pipeline Implementation
+*
+* This module is a VGA-based graphics processor that renders 3D scenes with textured
+* walls using a raycasting technique. It features a parallel pipeline of 8 lookahead 
+* units to maintain high throughput despite complex per-pixel calculations.
+*
+* Core Features:
+* - 8-stage parallel pipeline for distance/texture processing
+* - VGA-compatible timing and output signals
+* - Texture mapping with multiple texture support
+* - Fixed-point distance calculations
+* - Double-buffered scanline rendering
+*
+* Pipeline Operation:
+* - Each of 8 lookahead stages processes one column segment at a time
+* - Processes walls based on distance and texture information
+* - Computes UV coordinates for texture mapping
+* - Handles wall visibility and sky/floor rendering
+*
+* Signal Flow:
+* 1. Input: Receives distance and texture data per column
+* 2. Processing: 
+*    - Divides screen into 8 parallel segments
+*    - Each segment processes distance to determine wall height
+*    - Computes texture coordinates based on wall distance and position
+* 3. Output:
+*    - Generates RGB color values based on texture sampling
+*    - Produces VGA sync and timing signals
+*    - Controls pixel clock and display timing
+*
+* State Machine:
+* - 8 states (LOOKAHEAD_1 through LOOKAHEAD_8) for pipeline stages
+* - Each state loads new distance/texture data and processes one segment
+* - Round-robin processing ensures continuous pixel output
+*
+* Memory Management:
+* - Maintains arrays for active distances, texture coordinates
+* - Uses texture ROM for wall patterns
+* - Double-buffered processing for smooth display
+*
+* Color Output:
+* - 8-bit RGB channels
+* - Sky color: RGB(48,48,48) above walls
+* - Floor color: RGB(96,96,96) below walls
+* - Wall colors: Sampled from texture based on UV coordinates
+*
+* Timing Control:
+* - VGA clock division for 25MHz pixel clock
+* - Pixel clock division for processing synchronization
+* - Horizontal/Vertical sync generation for display timing
+*
+* Key Parameters:
+* - LOOKAHEAD_COUNT: Number of parallel processing stages (8)
+* - h_front_porch_width: VGA timing parameter (145)
+*
+* Inputs:
+* - clk: System clock input
+* - clr: Reset signal
+* - distance[15:0]: Wall distance data
+* - texture[15:0]: Texture and UV coordinate data
+*
+* Outputs:
+* - h_sync, v_sync: VGA synchronization signals
+* - red[7:0], green[7:0], blue[7:0]: RGB color output
+* - reading_index[8:0]: Memory read address for distance/texture data
+* - vga_clock: Pixel clock output
+* - vga_sync, vga_blank: Additional VGA control signals
+********************************************************************************/
 
 module GPU(
    input wire clk,
