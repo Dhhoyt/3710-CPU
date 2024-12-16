@@ -153,8 +153,6 @@ This guide provides comprehensive instructions on how to set up, program, and op
 6. [FPGA Programming](#fpga-programming)
 7. [Operation and Controls](#operation-and-controls)
 8. [Troubleshooting](#troubleshooting)
-9. [Performance Optimization](#performance-optimization)
-10. [Advanced Features](#advanced-features)
 
 ## Introduction
 
@@ -315,20 +313,3 @@ The Wolfenstein-style 3D renderer is a hardware/software co-designed project tha
 0xFFFE: Joystick Vertical
 0xFFFF: GPU Status Register
 ```
-
-**Suggested Improvements:**
-- Add hardware FIFOs for texture lookups.
-- Consider implementing interrupts to avoid constant polling of GPU status.
-
-## Advanced Features
-
-**Custom Texture Loading:**
-1. Prepare 64x64 8-bit texture images.
-2. Use `texture_convert.py` (if provided) to convert raw images into memory initialization files.
-3. Update the ROM initialization within Quartus.
-
-**Dynamic Lighting or Additional Objects:**
-- Future code versions can integrate lighting calculations or sprite rendering by adding instructions or peripheral mappings.
-
-**Digital Twins or AR Applications:**
-- Adapt the ray intersection logic for other real-time geometric calculations in robotics, AR, or network planning.
