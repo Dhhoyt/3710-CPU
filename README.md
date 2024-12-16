@@ -105,8 +105,6 @@ verilog code.
 
 ## User Guide
 
-# Wolfenstein-Style 2.5D Renderer User Guide
-
 This guide provides comprehensive instructions on how to set up, program, and operate the custom Wolfenstein-style 3D raycasting engine on a DE1-SoC FPGA system with an Arduino-based Nunchuk controller interface. It also covers troubleshooting, performance considerations, and maintenance guidelines.
 
 ## Table of Contents
