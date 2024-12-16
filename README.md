@@ -165,7 +165,7 @@ The Wolfenstein-style 3D renderer is a hardware/software co-designed project tha
      SDA          | A4
      SCL          | A5
      ```
-   - Connect Arduino’s TX pin (D1) to the specified DE1-SoC GPIO pin (refer to project documentation for exact pin assignment).
+   - Connect Arduino’s TX pin (D1) to the specified DE1-SoC GPIO pin (mapped to GPIO_0, on JP2)
    - Confirm all connections are secure and shielded from noise.
 
 ## Software Installation
@@ -191,7 +191,7 @@ The Wolfenstein-style 3D renderer is a hardware/software co-designed project tha
    - Use the `Pin Planner` or `Assignment Editor` to verify all pin assignments match your hardware setup (VGA pins, GPIO for Arduino serial input, etc.).
 
 2. **Arduino Code Upload:**
-   - Open `nunchuk_interface.ino` in the Arduino IDE.
+   - Open `nunchuck.ino` in the Arduino IDE.
    - Select “Arduino Uno” as the board and choose the correct COM port.
    - Upload the sketch. The Arduino will now continuously read Nunchuk input and send data to the FPGA via the specified TX line.
 
