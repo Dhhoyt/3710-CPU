@@ -1,3 +1,55 @@
+// Module: GPUController
+// Description:
+// The GPUController module serves as the control unit for a GPU system,
+// interfacing with memory to load distance and texture data, manage flags,
+// and drive VGA signals for visual output. The module operates as a finite
+// state machine (FSM) that synchronizes with the vertical sync (v_sync) signal
+// to coordinate the loading of graphics data and the writing of status flags.
+//
+// Key Features:
+// - Interfaces with memory to load distance and texture data for rendering.
+// - Implements a finite state machine (FSM) to handle different stages of operation:
+//   1. WAITING: Awaits synchronization with the vertical sync signal.
+//   2. READING_FLAGS: Reads the status flags from memory to determine GPU behavior.
+//   3. READING_DISTANCE: Loads distance data from memory into an internal buffer.
+//   4. READING_TEXTURE: Loads texture data from memory into an internal buffer.
+//   5. DECODE_FLAGS: Decodes the flags to determine next actions.
+//   6. WRITE_FLAGS: Writes updated flags back to memory to signal task completion.
+// - Buffers up to 320 data points for distances and textures, enabling rendering of
+//   a 320-pixel-wide frame.
+// - Synchronizes with VGA signals, including horizontal sync (h_sync) and vertical
+//   sync (v_sync), to ensure proper timing for rendering.
+// - Provides VGA output signals for red, green, and blue color channels.
+//
+// Inputs:
+// - clk: Clock signal for synchronization.
+// - clr: Clear signal to reset the module to its initial state.
+// - read_data: Data input from memory for distance, texture, or flag values.
+//
+// Outputs:
+// - write_enable: Signal to enable writing to memory.
+// - write_data: Data to be written to memory.
+// - read_address: Address to read data from memory.
+// - h_sync: Horizontal synchronization signal for VGA.
+// - v_sync: Vertical synchronization signal for VGA.
+// - red, green, blue: Color channel outputs for VGA display.
+// - vga_clock: Clock signal for VGA synchronization.
+// - vga_sync: Composite sync signal for VGA.
+// - vga_blank: Blank signal for VGA.
+//
+// Internal Details:
+// - The module uses an FSM with multiple states to sequence its operations:
+//   WAITING, READING_FLAGS, READING_DISTANCE, READING_TEXTURE, DECODE_FLAGS, WRITE_FLAGS.
+// - Internal buffers (`distances` and `textures`) store up to 320 entries for rendering.
+// - Flags are used to determine which memory buffer to read/write to and whether to
+//   proceed with certain operations.
+// - The `mux4` and `GPU` modules are instantiated to handle memory address selection
+//   and rendering operations, respectively.
+//
+// Usage Notes:
+// - The FLAG_ADDRESS location in memory is used to signal task completion.
+// - The module is designed for systems with a resolution of 320 pixels wide.
+
 module GPUController(
 	input wire clk,
 	input wire clr,

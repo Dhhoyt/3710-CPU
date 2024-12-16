@@ -1,0 +1,27 @@
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600  1) module gpuLookup #(parameter TEXTURE_SIZE = 64, parameter SCREEN_HEIGHT = 16'b1111000000000000) ( // Screen Height must be in Q8.8 format.
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600  2) 	input wire [15:0] distance,
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600  3) 	input wire [9:0] screen_y,
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600  4) 	output wire [$clog2(TEXTURE_SIZE):0] uv_y,
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600  5) 	output wire inside_wall
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600  6) );
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600  7) 
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600  8) wire [15:0] screen_wall_height;
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600  9) 
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600 10) parameter screen_half_height = SCREEN_HEIGHT / 2;
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600 11) 
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600 12) attemptSubtractDivision screenHeightDiv(.dividend(SCREEN_HEIGHT), .divisor(distance), .quotient(screen_wall_height));
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600 13) 
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600 14) wire [15:0] wall_top_y = screen_half_height - (screen_wall_height / 2); // Q8.8 format wire
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600 15) wire [15:0] wall_bottom_y = screen_half_height + (screen_wall_height / 2); // Q 8.8 format wire
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600 16) 
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600 17) assign inside_wall = (screen_y << 8) > wall_top_y && (screen_y << 8) < wall_bottom_y;
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600 18) 
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600 19) wire [15:0] dist_below_top = (screen_y << 8) - wall_top_y; // shift by 8 to convert to Q8.8
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600 20) wire [15:0] total_wall_height = wall_bottom_y - wall_top_y;
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600 21) 
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600 22) wire [15:0] texture_y_ratio;
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600 23) 
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600 24) attemptSubtractDivision textureRatioDiv(.dividend(dist_below_top), .divisor(total_wall_height), .quotient(texture_y_ratio));
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600 25) 
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600 26) assign uv_y = (texture_y_ratio * TEXTURE_SIZE) >> 8; // TEXTURE_SIZE isn't Q8.8 but rather int so it preserves Q8.8, then shift by 8 to convert to int
+^cb63d19 (Dallin Hoyt 2024-10-15 15:49:09 -0600 27) endmodule

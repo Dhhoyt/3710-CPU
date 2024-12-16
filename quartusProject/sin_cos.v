@@ -1,3 +1,5 @@
+// A simple signed Q8.8 sin/cos module that just uses a lookup. One full circle is 8 units.
+
 module sin_cos(
     input signed [15:0] angle,   // Q8.8 input angle
     output signed [15:0] sine,  // Q8.8 sine output

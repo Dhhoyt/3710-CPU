@@ -1,0 +1,454 @@
+ad7793ee (cabobalot   2024-11-18 21:17:29 -0700   1) # wolfenstyle rendering engine
+ad7793ee (cabobalot   2024-11-18 21:17:29 -0700   2) # written by the Nibble Noshers
+1715040f (cabobalot   2024-11-18 18:49:33 -0700   3) 
+77ac5d4b (cabobalot   2024-11-23 18:16:30 -0700   4) `define COL_COUNT $320
+9b6eee35 (cabobalot   2024-11-27 19:07:33 -0700   5) `define FOV_HALF $$1.25
+9b6eee35 (cabobalot   2024-11-27 19:07:33 -0700   6) # FOV / 320
+9b6eee35 (cabobalot   2024-11-27 19:07:33 -0700   7) `define ANGLE_STEP $$0.00390625
+9b6eee35 (cabobalot   2024-11-27 19:07:33 -0700   8) `define DIST_BUFFER_0_ADDR $63488
+9b6eee35 (cabobalot   2024-11-27 19:07:33 -0700   9) `define DIST_BUFFER_1_ADDR $64512
+9b6eee35 (cabobalot   2024-11-27 19:07:33 -0700  10) `define UV_BUFFER_0_ADDR $64000
+9b6eee35 (cabobalot   2024-11-27 19:07:33 -0700  11) `define UV_BUFFER_1_ADDR $65024
+77ac5d4b (cabobalot   2024-11-23 18:16:30 -0700  12) 
+d416b0e8 (cabobalot   2024-11-26 22:57:10 -0700  13) # these are now all preserved registers
+40b2821b (cabobalot   2024-11-27 09:30:58 -0700  14) `define PLAYER_X_ADDR $16384 # %r8
+40b2821b (cabobalot   2024-11-27 09:30:58 -0700  15) `define PLAYER_Y_ADDR $16385 # %r9
+40b2821b (cabobalot   2024-11-27 09:30:58 -0700  16) `define PLAYER_ANGLE_ADDR $16386 # %r4
+40b2821b (cabobalot   2024-11-27 09:30:58 -0700  17) `define COL_ANGLE_ADDR $16387 # %rB
+40b2821b (cabobalot   2024-11-27 09:30:58 -0700  18) `define COL_ADDR $16388 #r5
+9b6eee35 (cabobalot   2024-11-27 19:07:33 -0700  19) #%r6 is buffer ID
+77ac5d4b (cabobalot   2024-11-23 18:16:30 -0700  20) 
+d416b0e8 (cabobalot   2024-11-26 22:57:10 -0700  21) `define JOYSTICK_X_ADDR $65533
+d416b0e8 (cabobalot   2024-11-26 22:57:10 -0700  22) `define JOYSTICK_Y_ADDR $65534
+d416b0e8 (cabobalot   2024-11-26 22:57:10 -0700  23) `define GPU_FLAG_ADDR $65535
+95ebf1f7 (cabobalot   2024-11-23 15:44:52 -0700  24) 
+269d9fa3 (cabobalot   2024-12-01 16:32:47 -0700  25) `define WALLS_ADDR $8192 #same as RAM_START
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700  26) `define WALLS_COUNT $52
+e9257785 (cabobalot   2024-11-23 14:55:23 -0700  27) `define MAX_FIXED_VAL $32767
+1715040f (cabobalot   2024-11-18 18:49:33 -0700  28) 
+c15ca5a8 (cabobalot   2024-11-23 16:20:07 -0700  29) # FUNCTION main entry point
+c15ca5a8 (cabobalot   2024-11-23 16:20:07 -0700  30) .FUN_MAIN
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  31) 	#init stuff
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  32) 	MOVW $$3 %r4 # player angle
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700  33) 	MOVW $$4 %r8 # player X
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700  34) 	MOVW $$2 %r9 # player Y
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  35) 	MOVI $1  %r6 # Frame buffer ID
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  36) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  37) 	.FRAME_LOOP
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  38) 		# do the player motion before rendering 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  39) 		MOVW `JOYSTICK_X_ADDR %r0
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  40) 		LOAD %r1 %r0 # load joystick delta
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  41) 		SUBI $8 %r1 # 8 - %r1 , invert axis
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  42) 		ADD %r1 %r4 # add to player angle
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  43) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  44) 		MOVW `JOYSTICK_Y_ADDR %r0 # load joystick Y delta
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  45) 		LOAD %r3 %r0
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  46) 		ADDI $-8 %r3
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  47) 		MOV %r4 %r1 # duplicate player angle
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  48) 		MOV %r4 %r2 # duplicate player angle
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  49) 		COS %r1
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  50) 		SIN %r2
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  51) 		MUL %r3 %r1 # multiply cos and sin by the Y delta
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  52) 		MUL %r3 %r2
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  53) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  54) 		ADD %r8 %r1 # move direction vector to player
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  55) 		ADD %r9 %r2
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  56) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  57) 		# Set up collision check by loading player position and movement direction
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  58) 		LODP %r8 %r9          # Load current player position into raycast hardware
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  59) 		LODR %r1 %r2          # Load movement vector into raycast hardware
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  60) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  61) 		# Begin collision check loop for all walls
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  62) 		MOVW `WALLS_ADDR %r0  # Get address of first wall
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  63) 		MOVI $0 %r7           # Initialize wall counter to 0
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  64) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  65) 		.CHECK_WALLS
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  66) 			LODW %r0          # Load current wall data into raycast hardware
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  67) 			BINT .COLLISION_INTERSECTION_FOUND
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  68) 			BUC .COLLISION_NO_INTERSECTION_FOUND
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  69) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  70) 			.COLLISION_INTERSECTION_FOUND
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  71) 			DIST %rE          # Get distance to wall in current movement direction
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  72) 			MOVW $$0.2 %rF
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  73) 			CMP  %rF %rE     # Check if closer than ~0.05 units
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  74) 			BLT .NO_MOVE      # If too close, skip movement update
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  75) 			
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  76) 			.COLLISION_NO_INTERSECTION_FOUND
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  77) 			ADDI $5 %r0       # Move to next wall (walls are 5 words apart)
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  78) 			ADDI $1 %r7       # Increment wall counter
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  79) 			CMPI `WALLS_COUNT %r7  # Check if we've checked all walls
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  80) 			BLT .CHECK_WALLS  # If more walls to check, continue loop
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  81) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  82) 		# No collisions detected, safe to move
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  83) 		MOV %r1 %r8           # Update X position with movement vector
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  84) 		MOV %r2 %r9           # Update Y position with movement vector
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  85) 		# BUC .CONTINUE_GAME    # Continue to rendering
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  86) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  87) 		.NO_MOVE            # Collision detected - don't update position
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  88) 			# Position stays the same, fall through to continue
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  89) 		.CONTINUE_GAME
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  90) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  91) 		#set column angle to the left of screen
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  92) 		MOVW `FOV_HALF %r1
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  93) 		MOV %r4 %rB # reset column angle to be player angle
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  94) 		SUB  %r1 %rB # start on left of FOV
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  95) 		MOVI $0 %r5 # column count = 0
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  96) 		
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  97) 		.COL_LOOP
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  98) 			
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700  99) 			# FUNCTION do the raycast with the hardcoded map of walls
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 100) 			# return distance in %rC, texture UVX in %rD
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 101) 			# input argument registers are preserved
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 102) 			.FUN_RAY_CAST # playerX:%r8, playerY:%r9, angle:%rB
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 103) 				MOV %rB %r0
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 104) 				MOV %rB %r1
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 105) 				SIN %r0 # ray_dx = sin(angle) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 106) 				COS %r1 # ray_dy = cos(angle)
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 107) 				ADD %r8 %r0# move the direction vector to the player position
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 108) 				ADD %r9 %r1
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 109) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 110) 				LODP %r8 %r9 # load player position
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 111) 				LODR %r0 %r1 # load ray position
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 112) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 113) 				MOVW `WALLS_ADDR %r0 # put first wall address in %r0
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 114) 				MOVI $0 %r1  # i = r1 = 0
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 115) 				MOVW `MAX_FIXED_VAL %rC # maxDistance  = (max value)
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 116) 				MOVI $0 %rD # default texture UV
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 117) 				.RAY_CAST_LOOP
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 118) 				LODW %r0 #compute the intersection
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 119) 				BINT .INTERSECTION_FOUND
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 120) 				BUC .CONTINUE_LOOP # invalid intersection
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 121) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 122) 				.INTERSECTION_FOUND
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 123) 				DIST %r2 # get ray distance into %r2
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 124) 				CMP %rC %r2
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 125) 				BGT .CONTINUE_LOOP # do again if rC < r2
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 126) 				# here the wall is closer than the current max distance
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 127) 				MOV %r2 %rC #new closest distance
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 128) 				TXUV %rD # new texture UV
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 129) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 130) 				.CONTINUE_LOOP
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 131) 				ADDI $5 %r0 # add struct size to wall pointer 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 132) 				ADDI $1 %r1 # count up
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 133) 				CMPI `WALLS_COUNT %r1
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 134) 				BLT .RAY_CAST_LOOP #do again if theres more walls to check
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 135) 			.END_RAY_CAST
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 136) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 137) 			CMPI $0 %r6 # pick the right buffer
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 138) 			BNE  .BUFFER_1
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 139) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 140) 			.BUFFER_0
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 141) 				MOVW `DIST_BUFFER_0_ADDR %r0 # save the distance
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 142) 				ADD %r5 %r0 # add the column to the address
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 143) 				STOR %rC %r0
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 144) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 145) 				MOVW `UV_BUFFER_0_ADDR %r0 # save the UVX
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 146) 				ADD %r5 %r0 # add the column to the address
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 147) 				STOR %rD %r0
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 148) 				BUC .CONTINUE_COL_LOOP
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 149) 			
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 150) 			.BUFFER_1
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 151) 				MOVW `DIST_BUFFER_1_ADDR %r0 # save the distance
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 152) 				ADD %r5 %r0 # add the column to the address
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 153) 				STOR %rC %r0
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 154) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 155) 				MOVW `UV_BUFFER_1_ADDR %r0 # save the UVX
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 156) 				ADD %r5 %r0 # add the column to the address
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 157) 				STOR %rD %r0
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 158) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 159) 			.CONTINUE_COL_LOOP
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 160) 			MOVW `ANGLE_STEP %r1
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 161) 			ADD %r1 %rB # add the angle step
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 162) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 163) 			ADDI $1 %r5 # next column
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 164) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 165) 			MOVW `COL_COUNT %r2 // number of columns
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 166) 			CMP %r5 %r2
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 167) 			BGT .COL_LOOP # repeat for every column
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 168) 		.END_COL_LOOP
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 169) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 170) 		MOVW `GPU_FLAG_ADDR %r0 #get flag address
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 171) 		.WAIT_FOR_RENDERING # wait for rendering the previous frame to finish
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 172) 			LOAD %r1 %r0 # load the flag register
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 173) 			ANDI $1 %r1 # mask out the lowest bit
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 174) 			CMPI $0 %r1    # check if lowest bit is set
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 175) 			BEQ .WAIT_FOR_RENDERING # repeat until it is set
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 176) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 177) 		# write to the GPU flag
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 178) 		# write the buffer ID that we just filled
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 179) 		MOV %r6 %r1 # copy frame buffer ID
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 180) 		LSHI $1 %r1 # shift to the second bit
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 181) 		STOR %r1 %r0 # set the flag
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 182) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 183) 		# now switch which one we write to 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 184) 		XORI $1 %r6 # switch frame buffer to write to 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 185) 
+ebd9bca9 (cabobalot   2024-12-05 22:18:28 -0700 186) 		BUC .FRAME_LOOP
+77ac5d4b (cabobalot   2024-11-23 18:16:30 -0700 187) 
+77ac5d4b (cabobalot   2024-11-23 18:16:30 -0700 188) .END_MAIN
+c15ca5a8 (cabobalot   2024-11-23 16:20:07 -0700 189) 
+18a85e98 (cabobalot   2024-11-27 09:06:29 -0700 190) @ #preloaded ram values
+18a85e98 (cabobalot   2024-11-27 09:06:29 -0700 191) IMMEDIATE
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 192) #outer walls, 20 walls
+18a85e98 (cabobalot   2024-11-27 09:06:29 -0700 193) $$1
+18a85e98 (cabobalot   2024-11-27 09:06:29 -0700 194) $$1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 195) $$6
+18a85e98 (cabobalot   2024-11-27 09:06:29 -0700 196) $$1
+18a85e98 (cabobalot   2024-11-27 09:06:29 -0700 197) $0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 198) $$6
+18a85e98 (cabobalot   2024-11-27 09:06:29 -0700 199) $$1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 200) $$7
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 201) $$0
+290b237c (Dallin Hoyt 2024-12-05 20:22:06 -0700 202) $1
+ae07f872 (cabobalot   2024-12-01 16:47:57 -0700 203) $$7
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 204) $$0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 205) $$8
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 206) $$0
+290b237c (Dallin Hoyt 2024-12-05 20:22:06 -0700 207) $2
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 208) $$8
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 209) $$0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 210) $$9
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 211) $$1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 212) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 213) $$9
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 214) $$1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 215) $$14
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 216) $$1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 217) $0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 218) $$1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 219) $$14
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 220) $$6
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 221) $$14
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 222) $0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 223) $$6
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 224) $$14
+ae07f872 (cabobalot   2024-12-01 16:47:57 -0700 225) $$7
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 226) $$15
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 227) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 228) $$7
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 229) $$15
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 230) $$8
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 231) $$15
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 232) $2
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 233) $$8
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 234) $$15
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 235) $$9
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 236) $$14
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 237) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 238) $$9
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 239) $$14
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 240) $$14
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 241) $$14
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 242) $0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 243) $$1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 244) $$1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 245) $$1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 246) $$6
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 247) $0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 248) $$1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 249) $$6
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 250) $$0
+ae07f872 (cabobalot   2024-12-01 16:47:57 -0700 251) $$7
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 252) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 253) $$0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 254) $$7
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 255) $$0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 256) $$8
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 257) $2
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 258) $$0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 259) $$8
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 260) $$1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 261) $$9
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 262) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 263) $$1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 264) $$9
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 265) $$1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 266) $$14
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 267) $0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 268) $$14
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 269) $$1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 270) $$14
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 271) $$6
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 272) $0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 273) $$14
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 274) $$6
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 275) $$15
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 276) $$7
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 277) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 278) $$15
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 279) $$7
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 280) $$15
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 281) $$8
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 282) $2
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 283) $$15
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 284) $$8
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 285) $$14
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 286) $$9
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 287) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 288) $$14
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 289) $$9
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 290) $$14
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 291) $$14
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 292) $0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 293) # labyrinth, 16 walls
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 294) $$4
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 295) $$4
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 296) $$9
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 297) $$4
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 298) $0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 299) $$9
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 300) $$4
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 301) $$9
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 302) $$9
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 303) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 304) $$9
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 305) $$9
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 306) $$8
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 307) $$9
+290b237c (Dallin Hoyt 2024-12-05 20:22:06 -0700 308) $3
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 309) $$8
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 310) $$9
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 311) $$8
+18a85e98 (cabobalot   2024-11-27 09:06:29 -0700 312) $$5
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 313) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 314) $$8
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 315) $$5
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 316) $$5
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 317) $$5
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 318) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 319) $$5
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 320) $$5
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 321) $$5
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 322) $$11
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 323) $1
+ae07f872 (cabobalot   2024-12-01 16:47:57 -0700 324) $$5
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 325) $$11
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 326) $$4
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 327) $$11
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 328) $0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 329) $$4
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 330) $$11
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 331) $$4
+ae07f872 (cabobalot   2024-12-01 16:47:57 -0700 332) $$4
+18a85e98 (cabobalot   2024-11-27 09:06:29 -0700 333) $0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 334) $$11
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 335) $$11
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 336) $$6
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 337) $$11
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 338) $0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 339) $$6
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 340) $$11
+ae07f872 (cabobalot   2024-12-01 16:47:57 -0700 341) $$6
+ae07f872 (cabobalot   2024-12-01 16:47:57 -0700 342) $$6
+290b237c (Dallin Hoyt 2024-12-05 20:22:06 -0700 343) $1
+ae07f872 (cabobalot   2024-12-01 16:47:57 -0700 344) $$6
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 345) $$6
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 346) $$7
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 347) $$6
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 348) $3
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 349) $$7
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 350) $$6
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 351) $$7
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 352) $$10
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 353) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 354) $$7
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 355) $$10
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 356) $$10
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 357) $$10
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 358) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 359) $$10
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 360) $$10
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 361) $$10
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 362) $$4
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 363) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 364) $$10
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 365) $$4
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 366) $$11
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 367) $$4
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 368) $0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 369) $$11
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 370) $$4
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 371) $$11
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 372) $$11
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 373) $0
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 374) # columns, 16 walls
+ae07f872 (cabobalot   2024-12-01 16:47:57 -0700 375) $$2
+ae07f872 (cabobalot   2024-12-01 16:47:57 -0700 376) $$2
+ae07f872 (cabobalot   2024-12-01 16:47:57 -0700 377) $$2
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 378) $$3
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 379) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 380) $$2
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 381) $$3
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 382) $$3
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 383) $$3
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 384) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 385) $$3
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 386) $$3
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 387) $$3
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 388) $$2
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 389) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 390) $$3
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 391) $$2
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 392) $$2
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 393) $$2
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 394) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 395) $$2
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 396) $$12
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 397) $$2
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 398) $$13
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 399) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 400) $$2
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 401) $$13
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 402) $$3
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 403) $$13
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 404) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 405) $$3
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 406) $$13
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 407) $$3
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 408) $$12
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 409) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 410) $$3
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 411) $$12
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 412) $$2
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 413) $$12
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 414) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 415) $$12
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 416) $$2
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 417) $$12
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 418) $$3
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 419) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 420) $$12
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 421) $$3
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 422) $$13
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 423) $$3
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 424) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 425) $$13
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 426) $$3
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 427) $$13
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 428) $$2
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 429) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 430) $$13
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 431) $$2
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 432) $$12
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 433) $$2
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 434) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 435) $$12
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 436) $$12
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 437) $$12
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 438) $$13
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 439) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 440) $$12
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 441) $$13
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 442) $$13
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 443) $$13
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 444) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 445) $$13
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 446) $$13
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 447) $$13
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 448) $$12
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 449) $1
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 450) $$13
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 451) $$12
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 452) $$12
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 453) $$12
+17dd74f9 (cabobalot   2024-12-06 00:04:48 -0700 454) $1

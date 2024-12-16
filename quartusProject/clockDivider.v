@@ -1,6 +1,6 @@
 module clockDivider #(parameter DIVISIONS = 1, parameter INITIAL_VALUE = 0)(
     input wire clk,
-	 input wire clr,
+	input wire clr,
     output wire divided_clk
 );
 

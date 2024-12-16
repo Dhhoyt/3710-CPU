@@ -17,12 +17,8 @@ module memory
                 begin
                     ram[address_a] <= write_data_a;
                     // below is pass through logic that was in the template
-                    read_data_a <= write_data_a;
                 end
-            else
-                begin
-                    read_data_a <= ram[address_a];
-                end
+            read_data_a <= ram[address_a];
         end
 
     // Port B	

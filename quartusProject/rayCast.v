@@ -10,10 +10,10 @@ module rayCast(
     input wire signed [15:0] y3, // Wall point 1 y-coordinate (Q8.8)
     input wire signed [15:0] x4, // Wall point 2 x-coordinate (Q8.8)
     input wire signed [15:0] y4, // Wall point 2 y-coordinate (Q8.8)
-	 input wire [15:0] texture_id,
+	input wire [15:0] texture_id, // Which texture the wall displays
     output wire intersection, // Goes high if the intersection is valid
     output wire signed [15:0] ray_distance, // Distance the ray travels to intersection (Q8.8)
-    output wire signed [15:0] uv_x // How far along the wall for texture sampling (Normal Int 0-64)
+    output wire signed [15:0] uv_x // How far along the wall for texture sampling (Normal Int 0-64) with tid embedded
 );
 
 	
