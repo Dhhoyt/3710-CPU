@@ -155,8 +155,6 @@ This guide provides comprehensive instructions on how to set up, program, and op
 8. [Troubleshooting](#troubleshooting)
 9. [Performance Optimization](#performance-optimization)
 10. [Advanced Features](#advanced-features)
-11. [Safety and Maintenance](#safety-and-maintenance)
-12. [Support and Contact](#support-and-contact)
 
 ## Introduction
 
