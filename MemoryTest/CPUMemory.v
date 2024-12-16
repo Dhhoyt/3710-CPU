@@ -1,3 +1,7 @@
+/*
+Top level module to demo the memory module. It is a basic state machine to read and write to some addresses.
+*/
+
 module CPUMemory(input clk, nextButton, resetButton, 
 				output [9:0] leds, 
 				output [6:0] hexA,

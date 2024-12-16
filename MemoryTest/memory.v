@@ -1,4 +1,6 @@
-
+/*
+initial memory prototype
+*/
 
 
 

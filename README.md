@@ -122,11 +122,11 @@ verilog code.
 - [ ] Comment `gpuLookup.v`
 - [ ] Comment `textureROM.v`
 - [ ] Comment `vgaContoller.v`
-- [ ] Comment `uartrx.v`
-- [ ] Comment `memory.v`
-- [ ] Comment `memoryMappedIO.v`
-- [ ] Comment `MemoryTest/CPUMemory.v`
-- [ ] Comment `MemoryTest/memory.v`
+- [x] Comment `uartrx.v`
+- [x] Comment `memory.v`
+- [x] Comment `memoryMappedIO.v`
+- [x] Comment `MemoryTest/CPUMemory.v`
+- [x] Comment `MemoryTest/memory.v`
 - [ ] Paste abstract from report at the top
 - [x] Document `assembler` directory.
 - [x] `docs` directory
