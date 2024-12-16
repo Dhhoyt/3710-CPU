@@ -1,4 +1,4 @@
-# ECE 3710 Project -- Wolfenstein-style 2.5d renderer
+# ECE 3710 Project -- Wolfenstein-Style 2.5D Renderer
 
 TODO: Copy paste abstract here.
 
