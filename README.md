@@ -119,7 +119,7 @@ verilog code.
 - [ ] Comment `sqrt32to16.v`
 - [ ] Comment `GPU.v`
 - [ ] Comment `GPUController.v`
-- [ ] Comment `gpuLookup.v`
+- [x] Comment `gpuLookup.v`
 - [ ] Comment `textureROM.v`
 - [ ] Comment `vgaContoller.v`
 - [x] Comment `uartrx.v`
